@@ -40,4 +40,4 @@ Persistence of data → login on start
 
 ## App Mock-Up:
 
-![Mock-Up](https://github.com/anneguo3/budget-buddy/blob/master/436I_App_Draft.jpg?raw=true)
+![Mock-Up](https://github.com/anneguo3/budget-buddy/blob/master/_mocks_/436I_App_Draft.jpg?raw=true)
