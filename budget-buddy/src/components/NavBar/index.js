@@ -30,23 +30,6 @@ export default function ButtonAppBar() {
           <Button href="#" color="inherit">
             Overview
           </Button>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-}
-
-export function ButtonAppBar2() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Budget Buddy
-          </Typography>
           <Button href="#" color="inherit">
             My Data
           </Button>
