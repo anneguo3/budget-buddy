@@ -5,7 +5,7 @@ export default class Error extends Component {
   render() {
     return (
       <div>
-        <Alert severity="error">{this.props.errormessage}</Alert>
+        <Alert severity="error">{this.props.errormessage}Hello</Alert>
       </div>
     );
   }
