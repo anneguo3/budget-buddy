@@ -11,13 +11,30 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
+import moment from "moment";
 
 export default class AddMessage extends React.Component {
-  componentDidMount() {
-    //
+  constructor(props) {
+    super(props);
+    this.state = {
+      entryType: "",
+      transaction: "",
+      amout: "",
+      date: moment().format().substring(0, 10),
+    };
   }
 
+  handleEntryType = (event, entryType) => {
+    this.setState({ entryType });
+  };
+
+  handleDate = (event, date) => {
+    this.setState({ date });
+  };
   render() {
+    console.log(this.state.date);
+    const { entryType } = this.state;
+
     return (
       <div>
         <Box
@@ -28,17 +45,21 @@ export default class AddMessage extends React.Component {
           flexDirection="row"
           justifyContent="space-evenly"
         >
-          <ToggleButtonGroup className="addFormItem">
-            <ToggleButton>Expense</ToggleButton>
-            <ToggleButton>Income</ToggleButton>
+          <ToggleButtonGroup
+            value={entryType}
+            exclusive
+            onChange={this.handleEntryType}
+          >
+            <ToggleButton value="Expense">Expense</ToggleButton>
+            <ToggleButton value="Income">Income</ToggleButton>
           </ToggleButtonGroup>
 
-          <FormControl className="addFormItem">
-            <InputLabel>Name</InputLabel>
+          <FormControl>
+            <InputLabel>Transaction</InputLabel>
             <Input />
           </FormControl>
 
-          <FormControl className="addFormItem">
+          <FormControl>
             <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
             <Input
               id="standard-adornment-amount"
@@ -51,11 +72,11 @@ export default class AddMessage extends React.Component {
             id="date"
             label="Purchase Date"
             type="date"
-            defaultValue="2020-05-24"
+            defaultValue={this.state.date}
+            onChange={this.handleDate}
             InputLabelProps={{
               shrink: true,
             }}
-            className="addFormItem"
           />
           <Button variant="outlined">Submit Entry</Button>
         </Box>
