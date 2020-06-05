@@ -7,8 +7,8 @@ import Textbox from "./components/Textbox";
 function App() {
   return (
     <div>
-      <AddMessage />,
-      <EntryList/>,
+      <AddMessage />
+      <EntryList/>
       <Textbox/>
     </div>
     
