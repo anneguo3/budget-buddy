@@ -1,38 +1,23 @@
-import React from "react";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectList } from './reducer';
 import "./EntryList.css"
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { ListItemSecondaryAction, Typography } from "@material-ui/core";
-import IconButton from '@material-ui/core/IconButton';
-import TodayIcon from '@material-ui/icons/Today';
+import SimpleList from './../SimpleList/index.js';
 
 
-export default class EntryList extends React.Component {
-    render() {
-        return (
-            <div className = "entryList">
-                <List component="nav" aria-label = "list of entries">
-                    <ListItem button>
-                        <Typography id="date" variant="body1">
-                            06/15/2
-                        </Typography>
 
-                        <ListItemText id="item" primary="Purchased Item" secondary="$10.00"/>
-                        
-
-                        <IconButton aria-label="edit">
-                            <EditIcon/>
-                        </IconButton>
-
-                        <IconButton edge="end" aria-label="delete">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </ListItem>
-                </List>
-            </div>
-        );   
-    }
+export function EntryList() {
+    
+    const listMaster = useSelector(selectList);
+    //const dispatch = useDispatch(); // For future steps
+    //const [addItem, setAddItem] = useState(''); // For future steps
+    const listComp = <SimpleList listProp={listMaster}/>
+    return (
+        <div className = "entryList">
+            <List component="nav" aria-label = "list of entries">
+                {listComp}
+            </List>
+        </div>
+    );   
 }
