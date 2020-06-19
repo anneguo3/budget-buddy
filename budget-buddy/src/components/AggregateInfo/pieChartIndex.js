@@ -1,5 +1,6 @@
 import React from 'react';
 import {  PieChart, Pie, Cell } from 'recharts';
+import { useSelector } from 'react-redux';
 
 export function PieChartIndex() {
       const aggregate = useSelector((state) => state.aggregate);  
