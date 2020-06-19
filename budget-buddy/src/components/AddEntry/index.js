@@ -14,6 +14,10 @@ import {
 import moment from "moment";
 import uuid from "uuid";
 import { addItem } from "../../app/listReducer";
+import { updateTotalInflow, updateTotalOutflow, aggregate } from "../../app/aggregateReducer";
+
+import { useSelector } from "react-redux";
+
 
 export function AddEntry() {
   const [date, setDate] = useState(moment().format().substring(0, 10));
@@ -31,6 +35,7 @@ export function AddEntry() {
       isMoneyIncrease: isMoneyIncrease,
     };
     dispatch(addItem(entry));
+    (isMoneyIncrease) ? dispatch(updateTotalInflow(entry.amount)) : dispatch(updateTotalOutflow(entry.amount));
   };
 
   return (
