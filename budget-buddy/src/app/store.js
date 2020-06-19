@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import listReducer from '../components/EntryList/reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import { listReducer } from "./listReducer";
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     list: listReducer,
   },
