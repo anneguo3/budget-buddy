@@ -2,23 +2,17 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 // or should i be importing selectList???
-import selectList from './../ucer.js';
+// import selectList from './../ucer.js';
+import PieChartIndex from './pieChartIndex.js';
 
 export function AggregateInfo() {
-      const listMaster = useSelector((state) => state.list);
-      let name = 'Walmart';
-      let totalInflow = 0;
-      ;
+      const aggregate = useSelector((state) => state.aggregate);
+      const chart = <PieChartIndex />;
 
-      populateMaxUsed() {
-            for (item in listMaster) {
-                  if (!item.isMoneyIncrease) {
-                        totalInflow += item.price;
-                  }
-            }
 
-            this.props.dispatch(actions.updateTotalInflow())
-      }
-      
-      return();
+      return(
+            <div className="aggregateInfo">
+                  {chart}
+            </div>
+      );
 }
