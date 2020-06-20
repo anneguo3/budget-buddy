@@ -16,9 +16,6 @@ import uuid from "uuid";
 import { addItem } from "../../app/listReducer";
 import { updateTotalInflow, updateTotalOutflow, aggregate } from "../../app/aggregateReducer";
 
-import { useSelector } from "react-redux";
-
-
 export function AddEntry() {
   const [date, setDate] = useState(moment().format().substring(0, 10));
   const [name, setName] = useState("");
