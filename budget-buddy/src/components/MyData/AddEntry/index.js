@@ -13,8 +13,8 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 import uuid from "uuid";
-import { addItem } from "../../app/listReducer";
-import { updateTotalInflow, updateTotalOutflow, aggregate } from "../../app/aggregateReducer";
+import { addItem } from "../../../app/listReducer";
+import { updateTotalInflow, updateTotalOutflow, aggregate } from "../../../app/aggregateReducer";
 
 export function AddEntry() {
   const [date, setDate] = useState(moment().format().substring(0, 10));

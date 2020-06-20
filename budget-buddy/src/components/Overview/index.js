@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Textbox from './Textbox'
+import {Textbox} from './Textbox'
 
 export default class Overview extends Component {
     render() {
