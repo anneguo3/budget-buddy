@@ -7,7 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteItem } from "../../app/listReducer";
+import { deleteItem } from "../../../app/listReducer";
 
 export function EntryList() {
   const list = useSelector((state) => state.list);

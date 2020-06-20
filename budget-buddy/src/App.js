@@ -1,19 +1,22 @@
 import React from "react";
 import "./App.css";
-import { AddEntry } from "./components/AddEntry/index";
-import { EntryList } from "./components/EntryList/index";
-import { Textbox } from "./components/Textbox";
-import NavBar from "./components/NavBar";
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import NavBar from './components/NavBar';
+import Mydata from './components/MyData'
+import Overview from './components/Overview'
+import SignIn from './components/SignInPage'
 
 function App() {
   return (
-    <div>
-      <NavBar />
-      <AddEntry />
-      <EntryList />
-      <Textbox />
-    </div>
-  );
+      <Router>
+          <NavBar/>
+          <Switch>
+              <Route exact path='/' component={SignIn} />
+              <Route path='/data' component={Mydata} />
+              <Route path='/overview' component={Overview} />
+          </Switch>
+      </Router>
+    );
 }
 
 export default App;

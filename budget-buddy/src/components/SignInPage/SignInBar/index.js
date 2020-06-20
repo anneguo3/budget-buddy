@@ -1,3 +1,4 @@
+
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -5,9 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
 import InputBase from '@material-ui/core/InputBase';
 import { fade} from '@material-ui/core/styles';
 
@@ -37,21 +35,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar(props) {
   const classes = useStyles();
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              Budget Buddy
-            </Typography>
-            <Link to={'/data'} style={{ textDecoration: 'none', color: "white"}}><Button color="inherit">My Data</Button></Link>
-            <Link to={'/overview'} style={{ textDecoration: 'none', color: "white"}}><Button color="inherit">Overview</Button></Link>
-            <IconButton
-              color="inherit">
-                <Link to={'/'} style={{ textDecoration: 'none', color: "white"}}><AccountCircle/></Link>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        </div>
+      return (
+        <div className={classes.root}>
+          <AppBar position="absolute">
+            <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                Budget Buddy
+              </Typography>
+            <div className={classes.input}>
+            <InputBase
+              placeholder="Username"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+          <div className={classes.input}>
+            <InputBase
+              type="password"
+              placeholder="Password"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+          <Link to={'/data'} style={{ textDecoration: 'none', color: "white"}}><Button color="inherit">Login</Button></Link>
+            </Toolbar>
+          </AppBar>
+          </div>
       );
 }
