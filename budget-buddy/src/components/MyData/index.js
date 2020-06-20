@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import AddMessage from './Add/index'
-import {EntryList} from "./EntryList/index";
+import React, { Component } from "react";
+import { AddEntry } from "./AddEntry/index";
+import { EntryList } from "./EntryList/index";
 
 export default class Mydata extends Component {
-    render() {
-        return (
-            <div>
-                <AddMessage/>
-                <EntryList/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <AddEntry />
+        <EntryList />
+      </div>
+    );
+  }
 }
