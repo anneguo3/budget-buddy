@@ -12,12 +12,13 @@ export function Textbox() {
             <Card className="textbox">
                 <CardContent>
                     <Typography variant="h5">
-                        Recent Spending
+                        Your Budget Overview
                     </Typography>
 
                     <Typography variant="body1">
-                        Looks like you've spent the most money at Walmart this month.
+                        Here is a comparison of your overall spending and saving habits.
                     </Typography>
+                    {aggregateInfo}
                     {aggregateInfo}
                 </CardContent>
             </Card>

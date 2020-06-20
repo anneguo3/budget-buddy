@@ -32,7 +32,6 @@ export default class SummaryPage extends React.Component {
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
             <Textbox/>
-            <Textbox/>
           </CardContent>
         </Card>
       </div>
