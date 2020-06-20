@@ -1,15 +1,20 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { useSelector } from "react-redux";
+import { aggregateReducer } from "../../../app/aggregateReducer";
 
 export function PieChartIndex() {
   const aggregate = useSelector((state) => state.aggregate);
+  let inflow = Number(aggregate.value.totalInflow);
+  let outflow = Number(aggregate.value.totalOutflow);
+
+  console.log("inflow is" + inflow);
   const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
+    { name: "Inflow", value: inflow },
+    { name: "Outflow", value: outflow },
   ];
 
-  const COLORS = ["#008000", "#FF0000"];
+  const COLORS = ["#b8ffc9", "#ff9999"];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -29,7 +34,7 @@ export function PieChartIndex() {
       <text
         x={x}
         y={y}
-        fill="white"
+        fill="black"
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
       >
