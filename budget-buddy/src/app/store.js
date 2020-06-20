@@ -1,8 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
-import listReducer from '../components/EntryList/reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import { listReducer } from "./listReducer";
+import { aggregateReducer } from './aggregateReducer';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     list: listReducer,
+    aggregate: aggregateReducer,
   },
 });
