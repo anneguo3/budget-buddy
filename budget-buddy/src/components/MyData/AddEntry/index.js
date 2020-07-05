@@ -35,7 +35,7 @@ export function AddEntry() {
   const [date, setDate] = useState(moment().format().substring(0, 10));
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [isMoneyIncrease, setIsMoneyIncrease] = useState(false);
+  const [isMoneyIncrease, setIsMoneyIncrease] = useState("true");
   const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
@@ -55,32 +55,15 @@ export function AddEntry() {
         : dispatch(updateTotalOutflow(entry.amount));
     }
   };
-  const renderCategories = () => {
-    let categories;
-    if (isMoneyIncrease) {
-      categories = incomeCategories;
-    } else {
-      categories = expenseCategories;
-    }
-
-    return (
-      <FormControl>
-        <InputLabel id="category">Category</InputLabel>
-        <Select
-          id="selected-category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          {/* incomeCategories.map((category) => (
-          <MenuItem value={category}>{category}</MenuItem>
-          )); */}
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    );
-  };
+  const categories = isMoneyIncrease ? incomeCategories : expenseCategories;
+  // {
+  //   if (isMoneyIncrease === "true") {
+  //     console.log(incomeCategories);
+  //     incomeCategories;
+  //   } else {
+  //     console.log(incomeCategories);
+  //     expenseCategories;
+  //   }
 
   return (
     <div>
@@ -110,19 +93,20 @@ export function AddEntry() {
             Income
           </ToggleButton>
         </ToggleButtonGroup>
-        {/* <FormControl>
-          <InputLabel id="label">Age</InputLabel>
-          <Select labelId="label" id="select" value="20">
-            <MenuItem value="10">Ten</MenuItem>
-            <MenuItem value="20">Twenty</MenuItem>
-          </Select>
+        <FormControl>
           <InputLabel id="category">Category</InputLabel>
           <Select
             id="selected-category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          ></Select>
-        </FormControl> */}
+          >
+            {categories.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <FormControl>
           <InputLabel>Transaction</InputLabel>
           <Input onChange={(e) => setName(e.target.value)} />
