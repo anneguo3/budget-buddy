@@ -10,17 +10,33 @@ import {
   FormControl,
   Box,
   Button,
+  MenuItem,
+  Select,
 } from "@material-ui/core";
 import moment from "moment";
 import uuid from "uuid";
 import { addItem } from "../../../app/listReducer";
-import { updateTotalInflow, updateTotalOutflow, aggregate } from "../../../app/aggregateReducer";
+import {
+  updateTotalInflow,
+  updateTotalOutflow,
+  aggregate,
+} from "../../../app/aggregateReducer";
+
+const incomeCategories = ["Chequing", "Savings"];
+
+const expenseCategories = [
+  "Entertainment",
+  "Groceries",
+  "Restaurants",
+  "Housing",
+];
 
 export function AddEntry() {
   const [date, setDate] = useState(moment().format().substring(0, 10));
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [isMoneyIncrease, setIsMoneyIncrease] = useState("false");
+  const [isMoneyIncrease, setIsMoneyIncrease] = useState(false);
+  const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
   const submitForm = () => {
@@ -31,8 +47,39 @@ export function AddEntry() {
       amount: amount,
       isMoneyIncrease: isMoneyIncrease,
     };
-    dispatch(addItem(entry));
-    (isMoneyIncrease) ? dispatch(updateTotalInflow(entry.amount)) : dispatch(updateTotalOutflow(entry.amount));
+    var regex = /^[0-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
+    if (!(name === "" || amount === "") && regex.test(amount)) {
+      dispatch(addItem(entry));
+      isMoneyIncrease
+        ? dispatch(updateTotalInflow(entry.amount))
+        : dispatch(updateTotalOutflow(entry.amount));
+    }
+  };
+  const renderCategories = () => {
+    let categories;
+    if (isMoneyIncrease) {
+      categories = incomeCategories;
+    } else {
+      categories = expenseCategories;
+    }
+
+    return (
+      <FormControl>
+        <InputLabel id="category">Category</InputLabel>
+        <Select
+          id="selected-category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          {/* incomeCategories.map((category) => (
+          <MenuItem value={category}>{category}</MenuItem>
+          )); */}
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+    );
   };
 
   return (
@@ -50,9 +97,32 @@ export function AddEntry() {
           exclusive
           onChange={(e) => setIsMoneyIncrease(e.target.value)}
         >
-          <ToggleButton value="false">Expense</ToggleButton>
-          <ToggleButton value="true">Income</ToggleButton>
+          <ToggleButton
+            value="false"
+            onChange={(e) => setIsMoneyIncrease(e.target.value)}
+          >
+            Expense
+          </ToggleButton>
+          <ToggleButton
+            value="true"
+            onChange={(e) => setIsMoneyIncrease(e.target.value)}
+          >
+            Income
+          </ToggleButton>
         </ToggleButtonGroup>
+        {/* <FormControl>
+          <InputLabel id="label">Age</InputLabel>
+          <Select labelId="label" id="select" value="20">
+            <MenuItem value="10">Ten</MenuItem>
+            <MenuItem value="20">Twenty</MenuItem>
+          </Select>
+          <InputLabel id="category">Category</InputLabel>
+          <Select
+            id="selected-category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          ></Select>
+        </FormControl> */}
         <FormControl>
           <InputLabel>Transaction</InputLabel>
           <Input onChange={(e) => setName(e.target.value)} />

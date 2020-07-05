@@ -13,7 +13,7 @@ export function EntryList() {
   const list = useSelector((state) => state.list);
 
   const colorDecide = (flagInc) => {
-    if (flagInc) {
+    if (flagInc === "true") {
       return "rgb(184, 255, 201)";
     } else {
       return "rgb(255, 153, 153)";
