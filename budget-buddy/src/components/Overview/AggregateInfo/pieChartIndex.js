@@ -2,7 +2,7 @@ import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { useSelector } from "react-redux";
 import { aggregateReducer } from "../../../app/aggregateReducer";
-
+// REFACTOR TODO !!!
 export function PieChartIndex() {
   const aggregate = useSelector((state) => state.aggregate);
   let inflow = Number(aggregate.value.totalInflow);

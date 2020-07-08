@@ -6,7 +6,7 @@ export default class Overview extends Component {
     render() {
         return (
             <div>
-                <SummaryPage/>
+                <SummaryPage totalInflow={this.props.totalInflow} totalOutflow={this.props.totalOutflow}/>
             </div>
         )
     }
