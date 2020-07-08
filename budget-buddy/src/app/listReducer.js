@@ -1,3 +1,6 @@
+// ============================= DEPRECATED ==========================
+
+/*
 import { createSlice } from "@reduxjs/toolkit";
 
 export const listSlice = createSlice({
@@ -45,3 +48,4 @@ export const listSlice = createSlice({
 export const listReducer = listSlice.reducer;
 
 export const { addItem, deleteItem } = listSlice.actions;
+*/

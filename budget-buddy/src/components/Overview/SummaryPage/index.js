@@ -3,9 +3,13 @@ import logo from './../../../images/bank.png';
 import './SummaryPage.css';
 import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
-import {Textbox} from './../Textbox'
+import Textbox from './../Textbox'
+import { connect } from 'react-redux';
 
-export default class SummaryPage extends React.Component {
+class SummaryPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div style={{ display : 'inline-flex'}}>
@@ -31,7 +35,7 @@ export default class SummaryPage extends React.Component {
         </Card>
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
-            <Textbox/>
+            <Textbox totalInflow={this.props.totalInflow} totalOutflow={this.props.totalOutflow}  />
           </CardContent>
         </Card>
       </div>
@@ -39,4 +43,12 @@ export default class SummaryPage extends React.Component {
   }
 }
 
-// Box component MaterialUI
+
+const mapStateToProps = (state) => {
+  return {
+    totalOutflow: state.totalOutflow,
+    totalInflow: state.totalInflow
+  };
+};
+// Just need to connect the props and state of the two inflows
+export default connect(mapStateToProps)(SummaryPage);

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import PieChartIndex from './pieChartIndex.js';
-
+// REFACTOR TODO !!!
 export function AggregateInfo() {
       const placeholder = <p>You have no data to display.</p>
       
