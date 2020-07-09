@@ -1,15 +1,20 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { useSelector } from "react-redux";
-
+import { aggregateReducer } from "../../../app/aggregateReducer";
+// REFACTOR TODO !!!
 export function PieChartIndex() {
   const aggregate = useSelector((state) => state.aggregate);
+  let inflow = Number(aggregate.value.totalInflow);
+  let outflow = Number(aggregate.value.totalOutflow);
+
+  console.log("inflow is" + inflow);
   const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
+    { name: "Inflow", value: inflow },
+    { name: "Outflow", value: outflow },
   ];
 
-  const COLORS = ["#008000", "#FF0000"];
+  const COLORS = ["#b8ffc9", "#ff9999"];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -29,7 +34,7 @@ export function PieChartIndex() {
       <text
         x={x}
         y={y}
-        fill="white"
+        fill="black"
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
       >
@@ -39,22 +44,26 @@ export function PieChartIndex() {
   };
 
   return (
-    <PieChart width={400} height={400}>
-      <Pie
-        data={data}
-        cx={200}
-        cy={200}
-        labelLine={false}
-        label={renderCustomizedLabel}
-        outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-    </PieChart>
+    <div>
+      <p>You have saved ${inflow} and spent ${outflow} this month.</p>
+      <PieChart width={400} height={400}>
+        <Pie
+          data={data}
+          cx={200}
+          cy={200}
+          labelLine={false}
+          label={renderCustomizedLabel}
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    </div>
+    
   );
 }
 

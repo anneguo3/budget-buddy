@@ -1,3 +1,6 @@
+// ======================= DEPRECATED ========================
+
+/*
 import { createSlice } from '@reduxjs/toolkit';
 
 export const aggregate = createSlice({
@@ -22,3 +25,4 @@ export const aggregate = createSlice({
 export const aggregateReducer = aggregate.reducer;
 
 export const { updateTotalInflow, updateTotalOutflow } = aggregate.actions;
+*/ 
