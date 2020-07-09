@@ -1,0 +1,13 @@
+.signInPage{
+    height: 80vh;
+    width: 100vw;
+}
+.signInPage img{
+    height: 80vh;
+    width: auto;
+    margin-left: 60px;
+}
+
+.navbar-main{
+    display: none !important;
+}
