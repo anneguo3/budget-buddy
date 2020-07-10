@@ -4,9 +4,11 @@ const initialState = {
     totalInflow: 0, 
     totalOutflow: 0,
     isMoneyIncrease: null,
+    filterIsIncome: 0,
     transName: '',
     amount: '',
-    date: ''
+    date: '',
+    transactionsFiltered: []
 };
 
 /*
@@ -22,6 +24,7 @@ const initialState = {
 export default function messageReducer(state = initialState, action) {
     switch (action.type) {
         case 'ITEMS_GET_SUCCESS':
+            // ADD IN HERE TODO ========================================
             return {
                 ...state,
                 transactions: JSON.parse(action.payload)
@@ -68,6 +71,33 @@ export default function messageReducer(state = initialState, action) {
                 ...state,
                 hasError: true
             };
+
+        case 'FILTER_CHANGE':
+            console.log("filterChange")
+            console.log(action.payload)
+            if (action.payload === "all") {
+                return { 
+                    ...state,
+                    transactionsFiltered: [...state.transactions]
+                };
+            } else if (action.payload === "exp") {
+                const filteredTrans = state.transactions.filter(function(el) {
+                    return el.isMoneyIncrease == false;
+                })
+                return { 
+                    ...state,
+                    transactionsFiltered: filteredTrans
+                };
+            } else {
+                const filteredTrans = state.transactions.filter(function(el) {
+                    return el.isMoneyIncrease == true;
+                })
+                return { 
+                    ...state,
+                    transactionsFiltered: filteredTrans
+                };
+            }
+
         default:
             return state;
     }
