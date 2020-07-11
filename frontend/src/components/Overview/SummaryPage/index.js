@@ -10,17 +10,6 @@ import aggregateReducer from '../../../reducers/aggregateReducer';
 class SummaryPage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-            inflow: 0,
-            outflow: 0
-    };
-
-    aggregateReducer.subscribe(() => {
-        this.setState({
-            inflow: aggregateReducer.getState().totalInflow,
-            outflow: aggregateReducer.getState().totalOutflow
-        })
-    }) 
 }
   render() {
     return (
@@ -47,7 +36,7 @@ class SummaryPage extends React.Component {
         </Card>
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
-            <Textbox totalInflow={this.state.totalInflow} totalOutflow={this.state.totalOutflow}  />
+            <Textbox totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}  />
           </CardContent>
         </Card>
       </div>
@@ -55,12 +44,10 @@ class SummaryPage extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state) => {
-  return {
-    totalOutflow: state.totalOutflow,
-    totalInflow: state.totalInflow
+  return { 
+      aggregateReducer: state.aggregateReducer
   };
 };
-// Just need to connect the props and state of the two inflows
+
 export default connect(mapStateToProps)(SummaryPage);
