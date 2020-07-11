@@ -141,7 +141,11 @@ class AddEntry extends React.Component {
               // trigger add action when clicked, scraping values from this.state
               var regex = /^[0-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
               if (
-                !(this.state.transName === "" || this.state.amount === "") &&
+                !(
+                  this.state.transName === "" ||
+                  this.state.amount === "" ||
+                  this.state.category === ""
+                ) &&
                 regex.test(this.state.amount)
               ) {
                 this.props.addTransaction(

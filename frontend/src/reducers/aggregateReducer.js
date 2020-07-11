@@ -6,7 +6,6 @@ const initialState = {
 export default function aggregateReducer(state = initialState, action) {
       switch(action.type) {
             case 'INIT_TOTALS':
-
                   if (action.payload.isMoneyIncrease) {
                         return {
                               ...state,

@@ -40,6 +40,13 @@ export function transactionPostFailure() {
   };
 }
 
+export function filterChange(stringFilt) {
+  return {
+      type: 'FILTER_CHANGE',
+      payload: stringFilt
+  };
+}
+
 export function itemsFetchData() {
   return (dispatch) => {
     axios
