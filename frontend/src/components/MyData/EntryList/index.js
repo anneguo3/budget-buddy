@@ -46,7 +46,6 @@ class EntryList extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const self = this;
     if (this.props.reducer.hasError) {
       return (
@@ -119,15 +118,15 @@ class EntryList extends React.Component {
   }
 }
 
-EntryList.propTypes = {
-  fetchData: PropTypes.func.isRequired,
-  delTrans: PropTypes.func.isRequired,
-  filterIsIncome: PropTypes.number.isRequired,
-  transactions: PropTypes.array.isRequired,
-  hasError: PropTypes.bool.isRequired,
-  filterChangeTrigger: PropTypes.func.isRequired,
-  transactionsFiltered: PropTypes.array.isRequired,
-};
+// EntryList.propTypes = {
+//   fetchData: PropTypes.func.isRequired,
+//   delTrans: PropTypes.func.isRequired,
+//   filterIsIncome: PropTypes.number.isRequired,
+//   transactions: PropTypes.array.isRequired,
+//   hasError: PropTypes.bool.isRequired,
+//   filterChangeTrigger: PropTypes.func.isRequired,
+//   transactionsFiltered: PropTypes.array.isRequired,
+// };
 
 const mapStateToProps = (state) => {
   return {
