@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import GoogleBtn from './GoogleBtn';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -82,9 +82,10 @@ export default function CenteredGrid() {
                         align="righ"
                     />
                     <Button variant="contained" color="primary"
-                    style={{ margin: 8}}>
+                    style={{ margin: 8, marginBottom: "30px"}}>
                         Sign Up
                     </Button>
+                    <GoogleBtn/>
             </form>
         </Grid>
       </Grid>
