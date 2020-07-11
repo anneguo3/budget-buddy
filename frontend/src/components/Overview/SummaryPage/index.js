@@ -14,8 +14,8 @@ class SummaryPage extends React.Component {
   render() {
     const netAmt = Number(this.props.aggregateReducer.totalInflow) - Number(this.props.aggregateReducer.totalOutflow);
     return (
-      <div style={{ display : 'inline-flex'}}>
-        <Card className="textbox" style={{ width: '50%', float: 'left'}}>
+      <div style={{ display : 'inline-flex'}} className="overViewContainer">
+        {/* <Card className="textbox" style={{ width: '50%', float: 'left'}}>
           <CardContent>
             <div className="SummaryPage" style={{ backgroundColor: '#616ca5' }}>
               <header className="App-header" style={{ backgroundColor: '#616ca5' }}> 
@@ -36,9 +36,16 @@ class SummaryPage extends React.Component {
 
             </div>
           </CardContent>
+        </Card> */}
+        <Card className="textbox" style={{ width: '50%' }}>
+          <CardContent>
+          <Typography variant="h5" align='center'>This Month</Typography>
+            <Textbox totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}  />
+          </CardContent>
         </Card>
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
+            <Typography variant="h5" align='center'>Year to Date</Typography>
             <Textbox totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}  />
           </CardContent>
         </Card>
