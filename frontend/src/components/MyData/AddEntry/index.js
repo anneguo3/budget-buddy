@@ -16,16 +16,8 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 import uuid from "uuid";
-
+import "./AddEntry.css";
 import { addTransactionItem } from "../../../actions/action";
-
-/* DEPRECATED
-import { addItem } from "../../../app/listReducer";
-import {
-  updateTotalInflow,
-  updateTotalOutflow,
-  aggregate,
-} from "../../../app/aggregateReducer";
 
 const incomeCategories = ["Chequing", "Savings"];
 
@@ -34,16 +26,8 @@ const expenseCategories = [
   "Groceries",
   "Restaurants",
   "Housing",
+  "Miscellaneous",
 ];
-
-export function AddEntry() {
-  const [date, setDate] = useState(moment().format().substring(0, 10));
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
-  const [isMoneyIncrease, setIsMoneyIncrease] = useState("true");
-  const [category, setCategory] = useState("");
-import { updateTotalInflow, updateTotalOutflow, aggregate } from "../../../app/aggregateReducer";
-*/
 
 class AddEntry extends React.Component {
   constructor(props) {
@@ -54,29 +38,15 @@ class AddEntry extends React.Component {
       amount: "",
       isMoneyIncrease: false,
       date: moment().format().substring(0, 10),
+      category: "",
+      categories: expenseCategories,
     };
-    //   var regex = /^[0-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
-    //   if (!(name === "" || amount === "") && regex.test(amount)) {
-    //     dispatch(addItem(entry));
-    //     isMoneyIncrease
-    //       ? dispatch(updateTotalInflow(entry.amount))
-    //       : dispatch(updateTotalOutflow(entry.amount));
-    //   }
-    // };
-    // const categories = isMoneyIncrease ? incomeCategories : expenseCategories;
-    // // {
-    // //   if (isMoneyIncrease === "true") {
-    // //     console.log(incomeCategories);
-    // //     incomeCategories;
-    // //   } else {
-    // //     console.log(incomeCategories);
-    // //     expenseCategories;
-    // //   }
 
     this.handleName = this.handleName.bind(this);
     this.handleIncrease = this.handleIncrease.bind(this);
     this.handleDate = this.handleDate.bind(this);
     this.handleAmount = this.handleAmount.bind(this);
+    this.handleCategory = this.handleCategory.bind(this);
   }
 
   // Handle all event triggers
@@ -84,10 +54,17 @@ class AddEntry extends React.Component {
     this.setState({ transName: event.target.value });
   }
   handleIncrease(event) {
-    console.log(event.target.value === "false" ? false : true);
-    this.setState({
-      isMoneyIncrease: event.target.value === "false" ? false : true,
-    });
+    if (event.target.value === "false") {
+      this.setState({
+        isMoneyIncrease: false,
+        categories: expenseCategories,
+      });
+    } else {
+      this.setState({
+        isMoneyIncrease: true,
+        categories: incomeCategories,
+      });
+    }
   }
   handleDate(event) {
     this.setState({ date: event.target.value });
@@ -95,6 +72,10 @@ class AddEntry extends React.Component {
   handleAmount(event) {
     this.setState({ amount: event.target.value });
   }
+  handleCategory(event) {
+    this.setState({ category: event.target.value });
+  }
+
   render() {
     const self = this;
     return (
@@ -115,6 +96,21 @@ class AddEntry extends React.Component {
             <ToggleButton value="false">Expense</ToggleButton>
             <ToggleButton value="true">Income</ToggleButton>
           </ToggleButtonGroup>
+          <FormControl>
+            <InputLabel>Category</InputLabel>
+            <Select
+              className="categories"
+              onChange={this.handleCategory}
+              value={this.state.category}
+              labelWidth={50}
+            >
+              {this.state.categories.map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl>
             <InputLabel>Transaction</InputLabel>
             <Input onChange={this.handleName} />
@@ -143,13 +139,20 @@ class AddEntry extends React.Component {
             variant="outlined"
             onClick={() => {
               // trigger add action when clicked, scraping values from this.state
-              this.props.addTransaction(
-                uuid.v4(),
-                this.state.transName,
-                this.state.amount,
-                this.state.isMoneyIncrease,
-                this.state.date
-              );
+              var regex = /^[0-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
+              if (
+                !(this.state.transName === "" || this.state.amount === "") &&
+                regex.test(this.state.amount)
+              ) {
+                this.props.addTransaction(
+                  uuid.v4(),
+                  this.state.transName,
+                  this.state.amount,
+                  this.state.isMoneyIncrease,
+                  this.state.category,
+                  this.state.date
+                );
+              }
             }}
           >
             Submit Entry
@@ -160,15 +163,16 @@ class AddEntry extends React.Component {
   }
 }
 
-AddEntry.propTypes = {
-  addTransaction: PropTypes.func.isRequired,
-  transactions: PropTypes.array.isRequired,
-  hasError: PropTypes.bool.isRequired,
-  transName: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
-  isMoneyIncrease: PropTypes.bool.isRequired,
-  date: PropTypes.string.isRequired,
-};
+// AddEntry.propTypes = {
+//   addTransaction: PropTypes.func.isRequired,
+//   transactions: PropTypes.array.isRequired,
+//   hasError: PropTypes.bool.isRequired,
+//   transName: PropTypes.string.isRequired,
+//   amount: PropTypes.string.isRequired,
+//   isMoneyIncrease: PropTypes.bool.isRequired,
+//   date: PropTypes.string.isRequired,
+//   category: PropTypes.string.isRequired,
+// };
 
 const mapStateToProps = (state) => {
   return {
@@ -178,13 +182,14 @@ const mapStateToProps = (state) => {
     amount: state.amount,
     isMoneyIncrease: state.isMoneyIncrease,
     date: state.date,
+    category: state.category,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addTransaction: (id, name, amount, isInc, date) =>
-      dispatch(addTransactionItem(id, name, amount, isInc, date)),
+    addTransaction: (id, name, amount, isInc, category, date) =>
+      dispatch(addTransactionItem(id, name, amount, isInc, category, date)),
   };
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import List from "@material-ui/core/List";
-import "../EntryList/EntryList.css";
+import "./EntryList.css";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -62,7 +62,7 @@ class EntryList extends React.Component {
                   <ListItemText
                     id="item"
                     primary={item.name}
-                    secondary={`$ ${item.amount}`}
+                    secondary={`$ ${item.amount} | ${item.category}`}
                   />
                   <IconButton
                     value={item}
@@ -92,8 +92,8 @@ EntryList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    transactions: state.transactions,
-    hasError: state.hasError,
+    transactions: state.messageReducer.transactions,
+    hasError: state.messageReducer.hasError,
   };
 };
 
