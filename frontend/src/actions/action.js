@@ -4,6 +4,7 @@ export function itemsGetSuccess(itemData) {
   return {
     type: "ITEMS_GET_SUCCESS",
     payload: itemData,
+    // TODO pass itemData into aggregateReducer
   };
 }
 
@@ -50,6 +51,7 @@ export function itemsFetchData() {
         return response;
       })
       .then((responseFinal) => dispatch(itemsGetSuccess(responseFinal.data)))
+      .then((responseTotals) => dispatch(initializeTotals(responseTotals.data)))
       .catch((err) => {
         dispatch(itemGetFailure());
       });

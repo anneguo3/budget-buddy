@@ -9,8 +9,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 
-import { itemsFetchData, deleteTransaction } from "../../../actions/action";
-import { initializeTotals } from "../../../actions/aggregateAction";
+import { itemsFetchData, deleteTransaction, filterChange } from '../../../actions/action';
+import { handleDelete } from './../../../actions/aggregateAction';
 
 class EntryList extends React.Component {
   constructor(props) {
@@ -43,9 +43,9 @@ class EntryList extends React.Component {
       );
     }
 
-    this.props.reducer.transactions.map((item) => (
-      this.props.initializeTotals(item)
-    ))
+    // this.props.reducer.transactions.map((item) => (
+    //   this.props.initializeTotals(item)
+    // ))
     return (
       <div className="entryList">
         <List component="nav" aria-label="list of entries">
@@ -104,7 +104,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => dispatch(itemsFetchData()),
     delTrans: (id) => dispatch(deleteTransaction(id)),
-    initializeTotals: (item) => dispatch(initializeTotals(item))
+    // initializeTotals: (item) => dispatch(initializeTotals(item)),
+    filterChangeTrigger: (filtID) => dispatch(filterChange(filtID)),
+    handleDelete: (item) => dispatch(handleDelete(item))
   };
 };
 

@@ -28,6 +28,18 @@ export default function aggregateReducer(state = initialState, action) {
                         ...state,
                         totalOutflow: state.totalOutflow + Number(action.payload.amount)
                     };
+            case 'HANDLE_DELETE':
+                  if (action.payload.isMoneyIncrease) {
+                        return {
+                              ...state,
+                              totalInflow: state.totalInflow - Number(action.payload.amount),
+                        };
+                  } else {                  
+                        return {
+                              ...state,
+                              totalOutflow: state.totalOutflow - Number(action.payload.amount)
+                        };
+                  }
             default:
                   return state;
       }
