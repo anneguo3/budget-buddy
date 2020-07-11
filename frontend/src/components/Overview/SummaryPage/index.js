@@ -12,6 +12,7 @@ class SummaryPage extends React.Component {
     super(props)
 }
   render() {
+    const netAmt = Number(this.props.aggregateReducer.totalInflow) - Number(this.props.aggregateReducer.totalOutflow);
     return (
       <div style={{ display : 'inline-flex'}}>
         <Card className="textbox" style={{ width: '50%', float: 'left'}}>
@@ -25,9 +26,11 @@ class SummaryPage extends React.Component {
                   <p style={{ marginRight: '50px' }}>Net Amount</p>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <p style={{ fontSize: '200%', marginRight: '50px' }}>$480</p>
-                  <p style={{ fontSize: '200%', marginRight: '50px' }}>$120</p>
-                  <p style={{ fontSize: '200%', marginRight: '50px' }}>$360</p>
+                  <p style={{ fontSize: '200%', marginRight: '50px' }}>${this.props.aggregateReducer.totalInflow}</p>
+                  <p style={{ fontSize: '200%', marginRight: '50px' }}>${this.props.aggregateReducer.totalOutflow}</p>
+                  <p style={{ fontSize: '200%', marginRight: '50px' }}>
+                    ${netAmt.toFixed(2)}
+                  </p>
                 </div>
               </header>
 
