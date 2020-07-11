@@ -31,8 +31,6 @@ class EntryList extends React.Component {
     }
   }
 
-  //const dispatch = useDispatch();
-
   render() {
     const self = this;
     if (this.props.hasError) {
@@ -93,8 +91,8 @@ EntryList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    transactions: state.messageReducer.transactions,
-    hasError: state.messageReducer.hasError,
+    transactions: state.reducer.transactions,
+    hasError: state.reducer.hasError,
   };
 };
 
