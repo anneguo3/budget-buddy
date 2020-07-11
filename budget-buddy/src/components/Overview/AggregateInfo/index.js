@@ -6,27 +6,13 @@ import PieChartIndex from './pieChartIndex.js';
 
 class AggregateInfo extends React.Component {
       constructor(props) {
-            super(props);
-
-            this.state = {
-                  inflow: 0,
-                  outflow: 0
-            };
-
-            aggregateReducer.subscribe(() => {
-                  this.setState({
-                        inflow: aggregateReducer.getState().totalInflow,
-                        outflow: aggregateReducer.getState().totalOutflow
-                  })
-            })            
+            super(props)           
       }
       
       render() {                
             const placeholder = <p>You have no data to display.</p>
-            console.log("in" + this.state.inflow)
-            console.log( "out" + this.state.outflow)
-            const dataExists = (this.state.inflow !== 0 || this.state.outflow !== 0);
-            let display = dataExists ? <PieChartIndex inflow={this.state.inflow} outflow={this.state.outflow}/> : placeholder;
+            const dataExists = (this.props.aggregateReducer.totalInflow !== 0 || this.props.aggregateReducer.totalOutflow !== 0);
+            let display = dataExists ? <PieChartIndex inflow={this.props.aggregateReducer.totalInflow} outflow={this.props.aggregateReducer.totalOutflow}/> : placeholder;
 
             return(
                   <div className="aggregateInfo">
@@ -35,4 +21,11 @@ class AggregateInfo extends React.Component {
             )
       } 
 }
-export default AggregateInfo;
+
+const mapStateToProps = (state) => {
+      return { 
+          aggregateReducer: state.aggregateReducer
+      };
+  };
+  
+  export default connect(mapStateToProps)(AggregateInfo);
