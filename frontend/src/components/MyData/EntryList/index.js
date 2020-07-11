@@ -33,7 +33,7 @@ class EntryList extends React.Component {
 
   render() {
     const self = this;
-    if (this.props.hasError) {
+    if (this.props.reducer.hasError) {
       return (
         <p>
           Sorry! There was an error loading the transactions list. Please
@@ -46,7 +46,7 @@ class EntryList extends React.Component {
       <div className="entryList">
         <List component="nav" aria-label="list of entries">
           <div>
-            {this.props.transactions.map((item) => (
+            {this.props.reducer.transactions.map((item) => (
               <div
                 key={item.id}
                 style={{
@@ -91,8 +91,9 @@ EntryList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    transactions: state.reducer.transactions,
-    hasError: state.reducer.hasError,
+    reducer: state.reducer
+    // transactions: state.reducer.transactions,
+    // hasError: state.reducer.hasError,
   };
 };
 

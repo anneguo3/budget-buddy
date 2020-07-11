@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import aggregateReducer from '../../../reducers/aggregateReducer';
 import PieChartIndex from './pieChartIndex.js';
 
 class AggregateInfo extends React.Component {
