@@ -12,6 +12,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import { itemsFetchData, deleteTransaction, filterChange } from '../../../actions/action';
+import { initializeTotals } from './../../../actions/aggregateAction';
 
 class EntryList extends React.Component {
   constructor(props) {
