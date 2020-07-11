@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     delTrans: (id) => dispatch(deleteTransaction(id)),
     filterChangeTrigger: (filtID) => dispatch(filterChange(filtID)),
     handleDelete: (item) => dispatch(handleDelete(item)),
-    initializeTotals: (item) => dispatch(initializeTotals(item))
+    // initializeTotals: (item) => dispatch(initializeTotals(item))
   };
 };
 
