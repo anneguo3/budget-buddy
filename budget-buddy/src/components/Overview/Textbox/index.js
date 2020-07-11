@@ -2,7 +2,7 @@ import React from "react";
 import "./Textbox.css"
 import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
-import { AggregateInfo } from "../AggregateInfo";
+import AggregateInfo from '../AggregateInfo/index';
 
 export default class TextBox extends React.Component {
     constructor(props) {

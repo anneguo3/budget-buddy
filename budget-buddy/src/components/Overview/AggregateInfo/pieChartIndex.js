@@ -1,17 +1,14 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { useSelector } from "react-redux";
-import { aggregateReducer } from "../../../app/aggregateReducer";
-// REFACTOR TODO !!!
-export function PieChartIndex() {
-  const aggregate = useSelector((state) => state.aggregate);
-  let inflow = Number(aggregate.value.totalInflow);
-  let outflow = Number(aggregate.value.totalOutflow);
 
-  console.log("inflow is" + inflow);
+// REFACTOR TODO !!!
+const PieChartIndex = (props) => {
+  const aggregate = useSelector((state) => state.aggregate);
+
   const data = [
-    { name: "Inflow", value: inflow },
-    { name: "Outflow", value: outflow },
+    { name: "Inflow", value: props.inflow },
+    { name: "Outflow", value: props.outflow },
   ];
 
   const COLORS = ["#b8ffc9", "#ff9999"];
@@ -45,7 +42,7 @@ export function PieChartIndex() {
 
   return (
     <div>
-      <p>You have saved ${inflow} and spent ${outflow} this month.</p>
+      <p>You have saved ${props.inflow} and spent ${props.outflow} this month.</p>
       <PieChart width={400} height={400}>
         <Pie
           data={data}

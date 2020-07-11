@@ -16,6 +16,7 @@ import moment from "moment";
 import uuid from "uuid";
 
 import { addTransactionItem } from '../../../actions/action';
+import { increaseInflow, increaseOutflow } from '../../../actions/aggregateAction';
 
 /* DEPRECATED
 import { addItem } from "../../../app/listReducer";
@@ -31,7 +32,9 @@ class AddEntry extends React.Component {
       amount: '',
       isMoneyIncrease: false,
       date: moment().format().substring(0, 10)
-
+      // ,
+      // totalInflow: 0,
+      // totalOutflow: 0
     };
 
     this.handleName = this.handleName.bind(this);
@@ -53,7 +56,15 @@ class AddEntry extends React.Component {
     this.setState({ date: event.target.value });
   }
   handleAmount(event) {
-    this.setState({ amount: event.target.value });
+    const currAmt = event.target.value;
+    this.setState({ amount: currAmt });
+
+    if (this.isMoneyIncrease) {
+      this.props.inflow(currAmt);
+    } else {
+      this.props.outflow(currAmt);
+    }
+
   }
   render() {
     const self = this;
@@ -117,6 +128,8 @@ AddEntry.propTypes = {
   amount: PropTypes.string.isRequired,
   isMoneyIncrease: PropTypes.bool.isRequired,
   date: PropTypes.string.isRequired,
+  inflow: PropTypes.func.isRequired,
+  outflow: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -132,7 +145,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addTransaction: (id, name, amount, isInc, date) => dispatch(addTransactionItem(id, name, amount, isInc, date))
+    addTransaction: (id, name, amount, isInc, date) => dispatch(addTransactionItem(id, name, amount, isInc, date)),
+    inflow: amount =>  dispatch(increaseInflow(amount)),
+    outflow: amount => dispatch(increaseOutflow(amount))  
   };
 };
 
