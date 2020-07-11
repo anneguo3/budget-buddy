@@ -82,11 +82,11 @@ export default function CenteredGrid() {
                         align="righ"
                     />
                     <Button variant="contained" color="primary"
-                    style={{ margin: 8}}>
+                    style={{ margin: 8, marginBottom: "30px"}}>
                         Sign Up
                     </Button>
+                    <GoogleBtn/>
             </form>
-            <GoogleBtn/>
         </Grid>
       </Grid>
     </div>
