@@ -1,20 +1,38 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import aggregateReducer from '../../../reducers/aggregateReducer';
 import PieChartIndex from './pieChartIndex.js';
-// REFACTOR TODO !!!
-export function AggregateInfo() {
-      const placeholder = <p>You have no data to display.</p>
-      
-      const aggregate = useSelector((state) => state.aggregate);
-      let dataExists = ((aggregate.value.totalInflow != 0) || (aggregate.value.totalOutflow != 0));
-      let display = dataExists ? <PieChartIndex /> : placeholder;
 
-      
+class AggregateInfo extends React.Component {
+      constructor(props) {
+            super(props);
 
-      return(
-            <div className="aggregateInfo">
-                  {display}
-            </div>
-      );
+            this.state = {
+                  inflow: 0,
+                  outflow: 0
+            };
+
+            aggregateReducer.subscribe(() => {
+                  this.setState({
+                        inflow: aggregateReducer.getState().totalInflow,
+                        outflow: aggregateReducer.getState().totalOutflow
+                  })
+            })            
+      }
+      
+      render() {                
+            const placeholder = <p>You have no data to display.</p>
+            console.log("in" + this.state.inflow)
+            console.log( "out" + this.state.outflow)
+            const dataExists = (this.state.inflow !== 0 || this.state.outflow !== 0);
+            let display = dataExists ? <PieChartIndex inflow={this.state.inflow} outflow={this.state.outflow}/> : placeholder;
+
+            return(
+                  <div className="aggregateInfo">
+                        {display}
+                  </div>
+            )
+      } 
 }
+export default AggregateInfo;

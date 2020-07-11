@@ -47,8 +47,8 @@ router.post("/transactions", (req, res, next) => {
   trans
     .save()
     .then((result) => {
-      console.log("res" + result);
-      console.log("post sucess");
+      console.log(result);
+      console.log("post success");
       res.status(201).json({
         message: "Handling POST requests to /transactions",
         createdMessage: result,
