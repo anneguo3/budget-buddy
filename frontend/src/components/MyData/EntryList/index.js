@@ -57,7 +57,7 @@ class EntryList extends React.Component {
   render() {
     console.log(this.props)
     const self = this;
-    if (this.props.hasError) {
+    if (this.props.reducer.hasError) {
       return (
         <p>
           Sorry! There was an error loading the transactions list. Please
@@ -66,11 +66,15 @@ class EntryList extends React.Component {
       );
     }
 
+    this.props.reducer.transactions.map((item) => (
+      this.props.initializeTotals(item)
+    ))
+    
     let transView = []
-    if (this.props.transactionsFiltered.length === 0) {
-      transView = this.props.transactions;
+    if (this.props.reducer.transactionsFiltered.length === 0) {
+      transView = this.props.reducer.transactions;
     } else {
-      transView = this.props.transactionsFiltered;
+      transView = this.props.reducer.transactionsFiltered;
     }
 
     return (
@@ -140,10 +144,8 @@ EntryList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    transactions: state.transactions,
-    transactionsFiltered: state.transactionsFiltered,
-    hasError: state.hasError,
-    filterIsIncome: state.filterIsIncome
+    reducer: state.reducer,
+    aggregateReducer: state.aggegateReducer
   };
 };
 
@@ -151,6 +153,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => dispatch(itemsFetchData()),
     delTrans: (id) => dispatch(deleteTransaction(id)),
+    initializeTotals: (item) => dispatch(initializeTotals(item)),
     filterChangeTrigger: (filtID) => dispatch(filterChange(filtID))
   };
 };

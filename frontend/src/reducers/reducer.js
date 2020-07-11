@@ -29,23 +29,18 @@ export default function messageReducer(state = initialState, action) {
                 ...state,
                 transactions: filteredTrans
             };
-        // this logic moved to aggregateReducer
-        // case 'TRANS_POST_SUCCESS':
-        //     // aggregateReducer is usurped here with the branching logic of totalInflow and totalOutflow
-        //     if (action.payload.isMoneyIncrease) {
-        //         return { 
-        //             ...state,
-        //             transactions: [...state.transactions, action.payload],
-        //             totalInflow: state.totalInflow + Number(action.payload.amount)
-        //         };
-        //     } else {
-        //         return { 
-        //             ...state,
-        //             transactions: [...state.transactions, action.payload],
-        //             totalOutflow: state.totalOutflow + Number(action.payload.amount)
-        //         };
-        //     }
-
+        case 'TRANS_POST_SUCCESS':
+            if (action.payload.isMoneyIncrease) {
+                return { 
+                    ...state,
+                    transactions: [...state.transactions, action.payload],
+                };
+            } else {
+                return { 
+                    ...state,
+                    transactions: [...state.transactions, action.payload],
+                };
+            }
         case 'ITEMS_GET_FAILURE':
             return {
                 ...state,
