@@ -5,11 +5,12 @@ import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
 import Textbox from './../Textbox'
 import { connect } from 'react-redux';
+import aggregateReducer from '../../../reducers/aggregateReducer';
 
 class SummaryPage extends React.Component {
   constructor(props) {
-    super(props);
-  }
+    super(props)
+}
   render() {
     return (
       <div style={{ display : 'inline-flex'}}>
@@ -35,7 +36,7 @@ class SummaryPage extends React.Component {
         </Card>
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
-            <Textbox totalInflow={this.props.totalInflow} totalOutflow={this.props.totalOutflow}  />
+            <Textbox totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}  />
           </CardContent>
         </Card>
       </div>
@@ -43,12 +44,10 @@ class SummaryPage extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state) => {
-  return {
-    totalOutflow: state.totalOutflow,
-    totalInflow: state.totalInflow
+  return { 
+      aggregateReducer: state.aggregateReducer
   };
 };
-// Just need to connect the props and state of the two inflows
+
 export default connect(mapStateToProps)(SummaryPage);

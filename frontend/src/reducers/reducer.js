@@ -11,16 +11,6 @@ const initialState = {
     transactionsFiltered: []
 };
 
-/*
- updateTotalInflow: (state, action) => {
-                  state.value.totalInflow += Number(action.payload);
-            },
-            updateTotalOutflow: (state, action) => {
-                  state.value.totalOutflow += Number(action.payload);
-            },
-            */
-
-
 export default function messageReducer(state = initialState, action) {
     switch (action.type) {
         case 'ITEMS_GET_SUCCESS':
@@ -39,21 +29,22 @@ export default function messageReducer(state = initialState, action) {
                 ...state,
                 transactions: filteredTrans
             };
-        case 'TRANS_POST_SUCCESS':
-            // aggregateReducer is usurped here with the branching logic of totalInflow and totalOutflow
-            if (action.payload.isMoneyIncrease) {
-                return { 
-                    ...state,
-                    transactions: [...state.transactions, action.payload],
-                    totalInflow: state.totalInflow + Number(action.payload.amount)
-                };
-            } else {
-                return { 
-                    ...state,
-                    transactions: [...state.transactions, action.payload],
-                    totalOutflow: state.totalOutflow + Number(action.payload.amount)
-                };
-            }
+        // this logic moved to aggregateReducer
+        // case 'TRANS_POST_SUCCESS':
+        //     // aggregateReducer is usurped here with the branching logic of totalInflow and totalOutflow
+        //     if (action.payload.isMoneyIncrease) {
+        //         return { 
+        //             ...state,
+        //             transactions: [...state.transactions, action.payload],
+        //             totalInflow: state.totalInflow + Number(action.payload.amount)
+        //         };
+        //     } else {
+        //         return { 
+        //             ...state,
+        //             transactions: [...state.transactions, action.payload],
+        //             totalOutflow: state.totalOutflow + Number(action.payload.amount)
+        //         };
+        //     }
 
         case 'ITEMS_GET_FAILURE':
             return {
@@ -73,8 +64,6 @@ export default function messageReducer(state = initialState, action) {
             };
 
         case 'FILTER_CHANGE':
-            console.log("filterChange")
-            console.log(action.payload)
             if (action.payload === "all") {
                 return { 
                     ...state,

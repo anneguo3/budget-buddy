@@ -2,18 +2,18 @@ import React from "react";
 import "./Textbox.css"
 import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
-import { AggregateInfo } from "../AggregateInfo";
+import AggregateInfo from '../AggregateInfo/index';
+import { connect } from "react-redux";
 
-export default class TextBox extends React.Component {
+class TextBox extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            totalInflow: this.props.totalInflow,
-            totalOutflow: this.props.totalOutflow
-        };
     }
     render() {
-        const aggregateInfo = <AggregateInfo inflow={this.props.totalInflow} outflow={this.props.totalOutflow} />
+        const aggregateInfo = <AggregateInfo 
+            inflow={this.props.aggregateReducer.totalInflow} 
+            outflow={this.props.aggregateReducer.totalOutflow}
+            />
         return (
             <div>
                 <Card className="textbox">
@@ -34,3 +34,11 @@ export default class TextBox extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return { 
+        aggregateReducer: state.aggregateReducer
+    };
+};
+
+export default connect(mapStateToProps)(TextBox);

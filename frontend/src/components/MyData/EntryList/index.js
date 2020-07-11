@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import List from "@material-ui/core/List";
-import "../EntryList/EntryList.css";
+import "./EntryList.css";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -25,6 +25,7 @@ class EntryList extends React.Component {
   componentDidMount() {
     // axios call to get transactions
     this.props.fetchData();
+    // TODO sum for aggregation action to initialize
   }
 
   colorDecide(flagInc) {
@@ -52,14 +53,19 @@ class EntryList extends React.Component {
     }
   }
 
-  //const dispatch = useDispatch();
 
   render() {
     console.log(this.props)
     const self = this;
     if (this.props.hasError) {
-      return <p>Sorry! There was an error loading the transactions list. Please refresh the page!</p>;
+      return (
+        <p>
+          Sorry! There was an error loading the transactions list. Please
+          refresh the page!
+        </p>
+      );
     }
+
     let transView = []
     if (this.props.transactionsFiltered.length === 0) {
       transView = this.props.transactions;
@@ -102,7 +108,7 @@ class EntryList extends React.Component {
                   <ListItemText
                     id="item"
                     primary={item.name}
-                    secondary={`$ ${item.amount}`}
+                    secondary={`$ ${item.amount} | ${item.category}`}
                   />
                   <IconButton
                     value={item}
@@ -118,8 +124,8 @@ class EntryList extends React.Component {
           </div>
         </List>
       </div>
-    )
-  };
+    );
+  }
 }
 
 EntryList.propTypes = {
