@@ -12,3 +12,8 @@ export const increaseOutflow = amount => ({
       type: 'INCREASE_OUTFLOW',
       amount
 })
+
+export const handleDelete = transaction => ({
+      type: 'HANDLE_DELETE',
+      payload: transaction
+})

@@ -10,7 +10,10 @@ class AggregateInfo extends React.Component {
       render() {                
             const placeholder = <p>You have no data to display.</p>
             const dataExists = (this.props.aggregateReducer.totalInflow !== 0 || this.props.aggregateReducer.totalOutflow !== 0);
-            let display = dataExists ? <PieChartIndex inflow={this.props.aggregateReducer.totalInflow} outflow={this.props.aggregateReducer.totalOutflow}/> : placeholder;
+            let display = dataExists ? 
+                  <PieChartIndex inflow={this.props.aggregateReducer.totalInflow} 
+                        outflow={this.props.aggregateReducer.totalOutflow}/>
+                  : placeholder;
 
             return(
                   <div className="aggregateInfo">

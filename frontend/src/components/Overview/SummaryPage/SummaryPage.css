@@ -33,4 +33,11 @@
       transform: translateY(0px)
     }
   }
+
+  .overViewContainer {
+    width: 100%;
+  }
   
+  .textBox {
+    text-align: center;
+  }

@@ -16,7 +16,7 @@ import {
   deleteTransaction,
   filterChange,
 } from "../../../actions/action";
-import { initializeTotals } from "./../../../actions/aggregateAction";
+import { handleDelete } from "./../../../actions/aggregateAction";
 
 class EntryList extends React.Component {
   constructor(props) {
@@ -55,10 +55,6 @@ class EntryList extends React.Component {
         </p>
       );
     }
-
-    this.props.reducer.transactions.map((item) =>
-      this.props.initializeTotals(item)
-    );
 
     let transView = [];
     if (this.props.reducer.transactionsFiltered.length === 0) {
@@ -143,8 +139,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => dispatch(itemsFetchData()),
     delTrans: (id) => dispatch(deleteTransaction(id)),
-    initializeTotals: (item) => dispatch(initializeTotals(item)),
     filterChangeTrigger: (filtID) => dispatch(filterChange(filtID)),
+    handleDelete: (item) => dispatch(handleDelete(item)),
+    // initializeTotals: (item) => dispatch(initializeTotals(item))
   };
 };
 
