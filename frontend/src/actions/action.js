@@ -1,5 +1,5 @@
 import axios from "axios";
-import { initializeTotals } from './aggregateAction';
+import { initializeTotals } from "./aggregateAction";
 
 export function itemsGetSuccess(itemData) {
   return {
@@ -41,10 +41,10 @@ export function transactionPostFailure() {
   };
 }
 
-export function filterChange(stringFilt) {
+export function filterChange(filterState) {
   return {
-      type: 'FILTER_CHANGE',
-      payload: stringFilt
+    type: "FILTER_CHANGE",
+    payload: filterState,
   };
 }
 
@@ -60,12 +60,12 @@ export function itemsFetchData() {
       })
       .then((responseFinal) => dispatch(itemsGetSuccess(responseFinal.data)))
       .then((responseTotals) => {
-        console.log("responseTotals")
-        console.log(responseTotals)
+        console.log("responseTotals");
+        console.log(responseTotals);
         // map each item in response totals
         JSON.parse(responseTotals.payload).map((item) => {
-          dispatch(initializeTotals(item))
-        })
+          dispatch(initializeTotals(item));
+        });
       })
       .catch((err) => {
         dispatch(itemGetFailure());
