@@ -53,7 +53,7 @@ export default function ButtonAppBar(props) {
             <Button color="inherit">Overview</Button>
           </Link>
           <IconButton color="inherit">
-            <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
+            <Link to={"/profile"} style={{ textDecoration: "none", color: "white" }}>
               <AccountCircle />
             </Link>
           </IconButton>

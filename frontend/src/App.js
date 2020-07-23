@@ -5,6 +5,7 @@ import NavBar from './components/NavBar';
 import Mydata from './components/MyData'
 import Overview from './components/Overview'
 import SignIn from './components/SignInPage'
+import Profile from './components/ProfilePage/index'
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
           <Switch>
               <Route exact path='/' component={SignIn} />
               <Route path='/data' component={Mydata} />
-              <Route path='/overview' component={Overview} />
+              <Route path='/overview' component={Overview}/>
+              <Route path='/profile' component={Profile}/>
           </Switch>
       </Router>
     );
