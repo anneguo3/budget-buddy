@@ -16,7 +16,7 @@ import {
   deleteTransaction,
   filterChange,
 } from "../../../actions/action";
-import { handleDelete } from "./../../../actions/aggregateAction";
+import { initializeTotals, handleDelete } from "./../../../actions/aggregateAction";
 
 class EntryList extends React.Component {
   constructor(props) {
@@ -29,7 +29,6 @@ class EntryList extends React.Component {
   componentDidMount() {
     // axios call to get transactions
     this.props.fetchData();
-    // TODO sum for aggregation action to initialize
   }
 
   colorDecide(flagInc) {
@@ -63,6 +62,13 @@ class EntryList extends React.Component {
       transView = this.props.reducer.transactionsFiltered;
     }
 
+    if (this.props.aggregateReducer.totalInflow == 0 && this.props.aggregateReducer.totalOutflow == 0) {
+      console.log("in" + this.props.aggregateReducer.totalInflow)
+          this.props.reducer.transactions.map((item) => {
+            console.log(item)
+            this.props.initializeTotals(item)
+          })
+        }
     return (
       <div className="entryList">
         <Box
@@ -131,7 +137,7 @@ class EntryList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     reducer: state.reducer,
-    aggregateReducer: state.aggegateReducer,
+    aggregateReducer: state.aggregateReducer,
   };
 };
 
@@ -141,7 +147,7 @@ const mapDispatchToProps = (dispatch) => {
     delTrans: (id) => dispatch(deleteTransaction(id)),
     filterChangeTrigger: (filtID) => dispatch(filterChange(filtID)),
     handleDelete: (item) => dispatch(handleDelete(item)),
-    // initializeTotals: (item) => dispatch(initializeTotals(item))
+    initializeTotals: (item) => dispatch(initializeTotals(item))
   };
 };
 
