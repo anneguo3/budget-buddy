@@ -3,6 +3,8 @@ import "./Textbox.css"
 import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
 import AggregateInfo from '../AggregateInfo/index';
+import CategoriesBarChart from '../AggregateInfo/categoriesBarChart';
+import TimeLineGraph from '../AggregateInfo/timeLineGraph';
 import { connect } from "react-redux";
 
 class TextBox extends React.Component {
@@ -14,6 +16,8 @@ class TextBox extends React.Component {
             inflow={this.props.aggregateReducer.totalInflow} 
             outflow={this.props.aggregateReducer.totalOutflow}
             />
+        // const
+
         return (
             <div>
                 <Card className="textbox">
@@ -21,12 +25,25 @@ class TextBox extends React.Component {
                         <Typography variant="h5">
                             Your Budget Overview
                         </Typography>
-
                         <Typography variant="body1">
                             Here is a comparison of your overall spending and saving habits.
                         </Typography>
-                        {aggregateInfo}
-                        {aggregateInfo}
+                        <div>
+                            <Typography variant="h6" className = "subtitle">
+                                Spending vs Saving
+                            </Typography>
+                            {aggregateInfo}
+                        </div>
+                        <div>
+                            <CategoriesBarChart/>
+                        </div>
+                        <div>
+                            <Typography variant="h6" className = "subtitle">
+                                Your Budget Timeline
+                            </Typography>
+                            <TimeLineGraph />
+                        </div>
+                        
                     </CardContent>
                 </Card>
                 

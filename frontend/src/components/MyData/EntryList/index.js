@@ -6,15 +6,24 @@ import "./EntryList.css";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Typography } from "@material-ui/core";
+import { Typography, Box } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-import { itemsFetchData, deleteTransaction } from "../../../actions/action";
+import {
+  itemsFetchData,
+  deleteTransaction,
+  filterChange,
+} from "../../../actions/action";
+import { handleDelete } from "./../../../actions/aggregateAction";
 
 class EntryList extends React.Component {
   constructor(props) {
     super(props);
-    //this.state = { addValue: '' };
+    this.state = { filterType: "all" };
+
+    this.handleFilter = this.handleFilter.bind(this);
   }
 
   componentDidMount() {
@@ -31,9 +40,14 @@ class EntryList extends React.Component {
     }
   }
 
+  handleFilter(event) {
+    this.setState({ filterType: event.target.value });
+    this.props.filterChangeTrigger(event.target.value);
+  }
+
   render() {
     const self = this;
-    if (this.props.hasError) {
+    if (this.props.reducer.hasError) {
       return (
         <p>
           Sorry! There was an error loading the transactions list. Please
@@ -41,12 +55,35 @@ class EntryList extends React.Component {
         </p>
       );
     }
-    console.log(this.props);
+
+    let transView = [];
+    if (this.props.reducer.transactionsFiltered.length === 0) {
+      transView = this.props.reducer.transactions;
+    } else {
+      transView = this.props.reducer.transactionsFiltered;
+    }
+
     return (
       <div className="entryList">
+        <Box
+          p={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-evenly"
+        >
+          <ToggleButtonGroup
+            value={this.state.filterType}
+            exclusive
+            onChange={this.handleFilter}
+          >
+            <ToggleButton value="all">All</ToggleButton>
+            <ToggleButton value="exp">Expense</ToggleButton>
+            <ToggleButton value="inc">Income</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
         <List component="nav" aria-label="list of entries">
           <div>
-            {this.props.transactions.map((item) => (
+            {transView.map((item) => (
               <div
                 key={item.id}
                 style={{
@@ -81,18 +118,20 @@ class EntryList extends React.Component {
   }
 }
 
-EntryList.propTypes = {
-  fetchData: PropTypes.func.isRequired,
-  delTrans: PropTypes.func.isRequired,
-  //addMessage: PropTypes.func.isRequired,
-  transactions: PropTypes.array.isRequired,
-  hasError: PropTypes.bool.isRequired,
-};
+// EntryList.propTypes = {
+//   fetchData: PropTypes.func.isRequired,
+//   delTrans: PropTypes.func.isRequired,
+//   filterIsIncome: PropTypes.number.isRequired,
+//   transactions: PropTypes.array.isRequired,
+//   hasError: PropTypes.bool.isRequired,
+//   filterChangeTrigger: PropTypes.func.isRequired,
+//   transactionsFiltered: PropTypes.array.isRequired,
+// };
 
 const mapStateToProps = (state) => {
   return {
-    transactions: state.reducer.transactions,
-    hasError: state.reducer.hasError,
+    reducer: state.reducer,
+    aggregateReducer: state.aggegateReducer,
   };
 };
 
@@ -100,6 +139,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: () => dispatch(itemsFetchData()),
     delTrans: (id) => dispatch(deleteTransaction(id)),
+    filterChangeTrigger: (filtID) => dispatch(filterChange(filtID)),
+    handleDelete: (item) => dispatch(handleDelete(item)),
+    // initializeTotals: (item) => dispatch(initializeTotals(item))
   };
 };
 
