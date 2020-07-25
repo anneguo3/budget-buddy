@@ -117,6 +117,5 @@ export default class Index extends Component {
         </Box>
       </div>
     );
-    // return incomeCategories;
   }
 }
