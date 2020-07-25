@@ -37,7 +37,7 @@ export default function categoryReducer(state = initialState, action) {
                                     ...state,
                                     totalRestaurants: state.totalRestaurants + Number(action.payload.amount)
                               }
-                        case 'Housing':
+                        case 'Housing':   
                               return {
                                     ...state,
                                     totalHousing: state.totalHousing + Number(action.payload.amount)
@@ -89,4 +89,8 @@ export default function categoryReducer(state = initialState, action) {
                               }
                         default:
                               return state;
+                  }
+            default:
+                  return state;
+      }
 }

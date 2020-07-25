@@ -1,36 +1,87 @@
 import React from 'react';
-
+import { connect } from "react-redux";
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine,
 } from 'recharts';
 
-const data = [
-  {
-    name: 'Entertainment', Expense: -4000, amt: 2400,
-  },
-  {
-    name: 'Groceries', Expense: -1398, amt: 2210,
-  },
-  {
-    name: 'Restaurants', Expense: -9800, amt: 2290,
-  },
-  {
-    name: 'Housing', Expense: -3908, amt: 2000,
-  },
-  {
-    name: 'Miscellaneous', Expense: -4800, amt: 2181,
-  },
-  {
-    name: 'Chequing', Income: 2390, amt: 2500,
-  },
-  {
-    name: 'Savings', Income: 3490, amt: 2100,
-  },
-];
+import { addToCat } from '../../../actions/categoryAction';
+import categoryReducer from '../../../reducers/categoryReducer';
+
+
 
 class CategoryBars extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      totalChequing: 0,
+      totalSavings: 0,
+      totalEntertainment: 0,
+      totalGroceries: 0,
+      totalRestaurants: 0,
+      totalHousing: 0,
+      totalMiscellaneous: 0,
+    }
+  }
 
+  componentDidMount() {
+    this.props.reducer.transactions.map((item) => {
+      switch (item.category) {
+        case 'Chequing':
+          this.setState({
+            totalChequing: this.state.totalChequing + item.amount
+          });
+        case 'Savings':
+          this.setState({
+            totalSavings: this.state.totalSavings + item.amount
+          });
+        case "Entertainment":
+          this.setState({
+            totalEntertainment: this.state.totalEntertainment - item.amount
+          });
+        case "Groceries":
+          this.setState({
+            totalGroceries: this.state.totalGroceries - item.amount
+          });
+        case "Restaurants":
+          this.setState({
+            totalRestaurants: this.state.totalRestaurants - item.amount
+          });
+        case "Housing":
+          this.setState({
+            totalHousing: this.state.totalHousing - item.amount
+          });
+        case "Miscellaneous":
+          this.setState({
+            totalMiscellaneous: this.state.totalMiscellaneous - item.amount
+          });
+      }
+    })
+  }
+  
   render() {
+    let data = [
+      {
+        name: 'Entertainment', Expense: this.state.totalEntertainment, amt: 2400,
+      },
+      {
+        name: 'Groceries', Expense: this.state.totalGroceries, amt: 2210,
+      },
+      {
+        name: 'Restaurants', Expense: this.state.totalRestaurants, amt: 2290,
+      },
+      {
+        name: 'Housing', Expense: this.state.totalHousing, amt: 2000,
+      },
+      {
+        name: 'Miscellaneous', Expense: this.state.totalMiscellaneous, amt: 2181,
+      },
+      {
+        name: 'Chequing', Income: this.state.totalChequing, amt: 2500,
+      },
+      {
+        name: 'Savings', Income: this.state.totalSavings, amt: 2100,
+      },
+    ];
     return (
       <div>
         <p>A quick look at your overall spending and saving categories.</p>
@@ -58,11 +109,18 @@ class CategoryBars extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//       return {
-//         reducer: state.reducer,
-//         aggregateReducer: state.aggegateReducer,
-//       };
-// };
+const mapStateToProps = (state) => {
+      return {
+        reducer: state.reducer,
+        categoryReducer: state.categoryReducer
+      };
+};
 
-export default CategoryBars;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToCat: (item) => dispatch(addToCat(item)),
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryBars);
