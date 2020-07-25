@@ -48,6 +48,22 @@ export function filterChange(filterState) {
   };
 }
 
+export function login(token, id) {
+  return {
+    type: 'LOGIN',
+    payload: {
+      token: token,
+      googleID: id
+    }
+  }
+}
+
+export function logout() {
+  return {
+    type: 'LOGOUT'
+  }
+}
+
 export function itemsFetchData() {
   return (dispatch) => {
     axios

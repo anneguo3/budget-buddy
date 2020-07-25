@@ -173,7 +173,7 @@ const mapStateToProps = (state) => {
     amount: state.amount,
     isMoneyIncrease: state.isMoneyIncrease,
     date: state.date,
-    category: state.category,
+    category: state.category
   };
 };
 

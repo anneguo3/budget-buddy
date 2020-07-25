@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-
+import { connect } from "react-redux";
 const incomeCategories = ["Chequing", "Savings"];
 
 const expenseCategories = [
@@ -17,7 +17,7 @@ const expenseCategories = [
   "Miscellaneous",
 ];
 
-export default class Index extends Component {
+class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -119,3 +119,11 @@ export default class Index extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    aggregateReducer: state.aggregateReducer,
+    user: state.reducer.user,
+  };
+};
+
+export default connect(mapStateToProps)(ProfilePage);
