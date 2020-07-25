@@ -50,13 +50,13 @@ export default function messageReducer(state = initialState, action) {
         return {
           ...state,
           transactions: [...state.transactions, action.payload],
-          transactionsFiltered: JSON.parse(action.payload),
+          transactionsFiltered: [...state.transactions, action.payload],
         };
       } else {
         return {
           ...state,
           transactions: [...state.transactions, action.payload],
-          transactionsFiltered: JSON.parse(action.payload),
+          transactionsFiltered: [...state.transactions, action.payload],
         };
       }
     case "ITEMS_GET_FAILURE":
