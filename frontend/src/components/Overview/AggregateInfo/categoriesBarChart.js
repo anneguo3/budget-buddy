@@ -28,31 +28,31 @@ class CategoryBars extends React.Component {
       switch (item.category) {
         case 'Chequing':
           this.setState({
-            totalChequing: this.state.totalChequing + item.amount
+            totalChequing: this.state.totalChequing + Number(item.amount)
           });
         case 'Savings':
           this.setState({
-            totalSavings: this.state.totalSavings + item.amount
+            totalSavings: this.state.totalSavings + Number(item.amount)
           });
         case "Entertainment":
           this.setState({
-            totalEntertainment: this.state.totalEntertainment - item.amount
+            totalEntertainment: this.state.totalEntertainment - Number(item.amount)
           });
         case "Groceries":
           this.setState({
-            totalGroceries: this.state.totalGroceries - item.amount
+            totalGroceries: this.state.totalGroceries - Number(item.amount)
           });
         case "Restaurants":
           this.setState({
-            totalRestaurants: this.state.totalRestaurants - item.amount
+            totalRestaurants: this.state.totalRestaurants - Number(item.amount)
           });
         case "Housing":
           this.setState({
-            totalHousing: this.state.totalHousing - item.amount
+            totalHousing: this.state.totalHousing - Number(item.amount)
           });
         case "Miscellaneous":
           this.setState({
-            totalMiscellaneous: this.state.totalMiscellaneous - item.amount
+            totalMiscellaneous: this.state.totalMiscellaneous - Number(item.amount)
           });
       }
     })

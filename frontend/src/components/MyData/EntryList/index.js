@@ -153,6 +153,14 @@ class EntryList extends React.Component {
       renderList = <p>No entries available for the selected options!</p>;
     }
 
+    if (this.props.aggregateReducer.totalInflow == 0 && this.props.aggregateReducer.totalOutflow == 0) {
+      console.log("in" + this.props.aggregateReducer.totalInflow)
+          this.props.reducer.transactions.map((item) => {
+            console.log(item)
+            this.props.initializeTotals(item)
+          })
+        }
+
     return (
       <div className="entryList">
         <Box
@@ -210,7 +218,7 @@ class EntryList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     reducer: state.reducer,
-    aggregateReducer: state.aggegateReducer,
+    aggregateReducer: state.aggregateReducer,
     googleID: state.reducer.user.googleID
   };
 };
