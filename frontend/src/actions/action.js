@@ -1,9 +1,10 @@
 import axios from "axios";
+import { initializeTotals } from "./aggregateAction";
 
 export function itemsGetSuccess(itemData) {
   return {
     type: "ITEMS_GET_SUCCESS",
-    payload: itemData
+    payload: itemData,
   };
 }
 
@@ -39,27 +40,27 @@ export function transactionPostFailure() {
   };
 }
 
-export function filterChange(stringFilt) {
+export function filterChange(filterState) {
   return {
-      type: 'FILTER_CHANGE',
-      payload: stringFilt
+    type: "FILTER_CHANGE",
+    payload: filterState,
   };
 }
 
 export function login(token, id) {
   return {
-    type: 'LOGIN',
+    type: "LOGIN",
     payload: {
       token: token,
-      googleID: id
-    }
-  }
+      googleID: id,
+    },
+  };
 }
 
 export function logout() {
   return {
-    type: 'LOGOUT'
-  }
+    type: "LOGOUT",
+  };
 }
 
 export function itemsFetchData() {

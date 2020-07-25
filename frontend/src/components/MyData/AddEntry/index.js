@@ -1,7 +1,6 @@
 import React from "react";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   TextField,
@@ -102,7 +101,6 @@ class AddEntry extends React.Component {
               className="categories"
               onChange={this.handleCategory}
               value={this.state.category}
-              labelWidth={50}
             >
               {this.state.categories.map((category) => (
                 <MenuItem key={category} value={category}>
@@ -166,17 +164,6 @@ class AddEntry extends React.Component {
     );
   }
 }
-
-// AddEntry.propTypes = {
-//   addTransaction: PropTypes.func.isRequired,
-//   transactions: PropTypes.array.isRequired,
-//   hasError: PropTypes.bool.isRequired,
-//   transName: PropTypes.string.isRequired,
-//   amount: PropTypes.string.isRequired,
-//   isMoneyIncrease: PropTypes.bool.isRequired,
-//   date: PropTypes.string.isRequired,
-//   category: PropTypes.string.isRequired,
-// };
 
 const mapStateToProps = (state) => {
   return {
