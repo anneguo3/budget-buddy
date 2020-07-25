@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CenteredGrid(props) {
 
   const goOverview = function() {
-    props.history.push('/overview');
+    props.history.push('/data');
   }
 
   const classes = useStyles();
