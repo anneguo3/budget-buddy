@@ -5,6 +5,6 @@ import reducer from "./reducer";
 
 export default combineReducers({
   aggregateReducer,
-  // categoryReducer,
+//   categoryReducer,
   reducer,
 });

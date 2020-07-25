@@ -3,13 +3,11 @@ var router = express.Router();
 var cors = require("cors");
 var mongoose = require("mongoose");
 const Transaction = require("../models/transaction");
-var passw = require("./pass");
+const passw = require('./pass')
 
 router.use(cors());
 var connectionString =
-  "mongodb+srv://" +
-  passw.pass +
-  "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
+  "mongodb+srv://" + passw.pass + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
 
 mongoose.connect(connectionString);
 
