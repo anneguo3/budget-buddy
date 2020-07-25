@@ -25,8 +25,8 @@ class AggregateInfo extends React.Component {
 
 const mapStateToProps = (state) => {
       return { 
-          aggregateReducer: state.aggregateReducer
+            aggregateReducer: state.aggregateReducer
       };
-  };
+};
   
-  export default connect(mapStateToProps)(AggregateInfo);
+export default connect(mapStateToProps)(AggregateInfo);

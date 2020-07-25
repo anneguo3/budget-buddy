@@ -5,7 +5,6 @@ export function itemsGetSuccess(itemData) {
   return {
     type: "ITEMS_GET_SUCCESS",
     payload: itemData,
-    // TODO pass itemData into aggregateReducer
   };
 }
 
@@ -50,18 +49,18 @@ export function filterChange(filterState) {
 
 export function login(token, id) {
   return {
-    type: 'LOGIN',
+    type: "LOGIN",
     payload: {
       token: token,
-      googleID: id
-    }
-  }
+      googleID: id,
+    },
+  };
 }
 
 export function logout() {
   return {
-    type: 'LOGOUT'
-  }
+    type: "LOGOUT",
+  };
 }
 
 export function itemsFetchData() {
@@ -75,14 +74,6 @@ export function itemsFetchData() {
         return response;
       })
       .then((responseFinal) => dispatch(itemsGetSuccess(responseFinal.data)))
-      .then((responseTotals) => {
-        console.log("responseTotals");
-        console.log(responseTotals);
-        // map each item in response totals
-        JSON.parse(responseTotals.payload).map((item) => {
-          dispatch(initializeTotals(item));
-        });
-      })
       .catch((err) => {
         dispatch(itemGetFailure());
       });

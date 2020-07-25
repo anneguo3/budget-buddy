@@ -23,7 +23,10 @@ import {
   deleteTransaction,
   filterChange,
 } from "../../../actions/action";
-import { handleDelete } from "./../../../actions/aggregateAction";
+import {
+  initializeTotals,
+  handleDelete,
+} from "./../../../actions/aggregateAction";
 
 const months = [
   "All",
@@ -56,7 +59,6 @@ class EntryList extends React.Component {
   componentDidMount() {
     // axios call to get transactions
     this.props.fetchData();
-    // TODO sum for aggregation action to initialize
   }
 
   colorDecide(flagInc) {
@@ -205,7 +207,7 @@ class EntryList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     reducer: state.reducer,
-    aggregateReducer: state.aggegateReducer,
+    aggregateReducer: state.aggregateReducer,
   };
 };
 
@@ -215,7 +217,7 @@ const mapDispatchToProps = (dispatch) => {
     delTrans: (id) => dispatch(deleteTransaction(id)),
     filterChangeTrigger: (filter) => dispatch(filterChange(filter)),
     handleDelete: (item) => dispatch(handleDelete(item)),
-    // initializeTotals: (item) => dispatch(initializeTotals(item))
+    initializeTotals: (item) => dispatch(initializeTotals(item)),
   };
 };
 

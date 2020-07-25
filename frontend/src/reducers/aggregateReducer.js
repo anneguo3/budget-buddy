@@ -1,7 +1,6 @@
 const initialState = {
       totalInflow: 0,
       totalOutflow: 0,
-      
 }
 
 export default function aggregateReducer(state = initialState, action) {
