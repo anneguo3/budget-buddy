@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import aggregateReducer from "./aggregateReducer";
-import entriesReducer from "./entriesReducer";
+import reducer from "./reducer";
 import profileReducer from "./profileReducer";
 
 export default combineReducers({
   aggregateReducer,
-  entriesReducer,
+  reducer,
   profileReducer,
 });

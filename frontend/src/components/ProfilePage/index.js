@@ -7,6 +7,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
+import aggregateReducer from "../../reducers/aggregateReducer";
+import reducer from "../../reducers/reducer";
+
 const incomeCategories = ["Chequing", "Savings"];
 
 const expenseCategories = [
@@ -17,7 +20,7 @@ const expenseCategories = [
   "Miscellaneous",
 ];
 
-class ProfilePage extends Component {
+export default class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -119,11 +122,11 @@ class ProfilePage extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    aggregateReducer: state.aggregateReducer,
-    user: state.reducer.user,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     aggregateReducer: state.aggregateReducer,
+//     user: state.reducer.user,
+//   };
+// };
 
-export default connect(mapStateToProps)(ProfilePage);
+// export default connect(mapStateToProps)(ProfilePage);
