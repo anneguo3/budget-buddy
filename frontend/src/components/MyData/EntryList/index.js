@@ -58,7 +58,8 @@ class EntryList extends React.Component {
 
   componentDidMount() {
     // axios call to get transactions
-    this.props.fetchData();
+    this.props.fetchData(this.props.googleID);
+    // TODO sum for aggregation action to initialize
   }
 
   colorDecide(flagInc) {
@@ -207,7 +208,8 @@ class EntryList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     reducer: state.reducer,
-    aggregateReducer: state.aggregateReducer,
+    aggregateReducer: state.aggegateReducer,
+    googleID: state.reducer.user.googleID
   };
 };
 

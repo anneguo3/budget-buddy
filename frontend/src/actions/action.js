@@ -63,10 +63,10 @@ export function logout() {
   };
 }
 
-export function itemsFetchData() {
+export function itemsFetchData(googleID) {
   return (dispatch) => {
     axios
-      .get("http://localhost:9000/transactions")
+      .get("http://localhost:9000/transactions/"+googleID)
       .then((response) => {
         if (response.status !== 200 && response.status !== 304) {
           throw Error(response.statusText);
@@ -96,10 +96,11 @@ export function deleteTransaction(id) {
   };
 }
 
-export function addTransactionItem(id, name, amount, isInc, category, date) {
+export function addTransactionItem(id, name, amount, isInc, category, date, userID) {
   let postObject = {
     id: id,
     name: name,
+    userID: userID,
     amount: amount,
     isMoneyIncrease: isInc,
     category: category,
@@ -108,12 +109,11 @@ export function addTransactionItem(id, name, amount, isInc, category, date) {
 
   return (dispatch) => {
     axios
-      .post("http://localhost:9000/transactions", postObject)
+      .post("http://localhost:9000/transactions/", postObject)
       .then((response) => {
         if (response.status !== 201) {
           throw Error(response.statusText);
         }
-
         return response;
       })
       .then((response) => console.log(response))

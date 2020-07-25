@@ -36,7 +36,7 @@ router.get("/transactions/:id", function (req, res, next) {
 
 /* POST request */
 
-router.post("/transactions/:id", (req, res, next) => {
+router.post("/transactions", (req, res, next) => {
   console.log(req.body);
   const trans = new Transaction({
     _id: new mongoose.Types.ObjectId(),
