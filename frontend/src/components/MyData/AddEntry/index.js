@@ -181,8 +181,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addTransaction: (id, name, amount, isInc, category, date) =>
-      dispatch(addTransactionItem(id, name, amount, isInc, category, date)),
+    addTransaction: (id, name, amount, isInc, category, date, googleID) =>
+      dispatch(addTransactionItem(id, name, amount, isInc, category, date, googleID)),
   };
 };
 
