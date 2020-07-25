@@ -1,11 +1,9 @@
 import axios from "axios";
-import { initializeTotals } from './aggregateAction';
 
 export function itemsGetSuccess(itemData) {
   return {
     type: "ITEMS_GET_SUCCESS",
-    payload: itemData,
-    // TODO pass itemData into aggregateReducer
+    payload: itemData
   };
 }
 
@@ -75,14 +73,6 @@ export function itemsFetchData() {
         return response;
       })
       .then((responseFinal) => dispatch(itemsGetSuccess(responseFinal.data)))
-      .then((responseTotals) => {
-        console.log("responseTotals")
-        console.log(responseTotals)
-        // map each item in response totals
-        JSON.parse(responseTotals.payload).map((item) => {
-          dispatch(initializeTotals(item))
-        })
-      })
       .catch((err) => {
         dispatch(itemGetFailure());
       });
