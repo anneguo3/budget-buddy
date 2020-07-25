@@ -3,10 +3,11 @@ var router = express.Router();
 var cors = require("cors");
 var mongoose = require("mongoose");
 const Transaction = require("../models/transaction");
+const passw = require('./pass')
 
 router.use(cors());
 var connectionString =
-  "mongodb+srv://m001-student:m001-mongodb-basics@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
+  "mongodb+srv://"+passw.pass+"@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
 
 mongoose.connect(connectionString);
 
@@ -33,7 +34,7 @@ router.get("/transactions/:id", function (req, res, next) {
 
 /* POST request */
 
-router.post("/transactions/:id", (req, res, next) => {
+router.post("/transactions", (req, res, next) => {
   console.log(req.body);
   const trans = new Transaction({
     _id: new mongoose.Types.ObjectId(),
