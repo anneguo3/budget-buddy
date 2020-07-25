@@ -1,12 +1,21 @@
 .signInPage{
-    height: 80vh;
-    width: 100vw;
+    height: 92vh;
+    background-image: linear-gradient(#00000090,#00000082), url('./Background.jpg');
+    background-position: center;
+    background-size: cover;
 }
-.signInPage img{
-    height: 80vh;
-    width: auto;
-    margin-left: 60px;
-}
+
+.main-text-box {
+    position: absolute;
+    width: 1140px;
+    top: 50%;
+    left: 45%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: 200 !important;
+  }
+
 
 .navbar-main{
     display: none !important;

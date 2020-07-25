@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { login } from "../../../actions/action";
+import { connect } from "react-redux";
 import axios from "axios";
+import {history} from 'react-router-dom'
 
 const CLIENT_ID =
   "851822540683-n3koid7ih90omslsla3nf9fo9kfig8u5.apps.googleusercontent.com";
 
-export default class GoogleBtn extends Component {
+class GoogleBtn extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,10 +29,17 @@ export default class GoogleBtn extends Component {
         isLogined: true,
         accessToken: response.accessToken,
       }));
-      axios
-        .put(`http://localhost:9000/users/${response.googleId}`)
-        .then((response) => {
-          console.log(response);
+      let res = response.profileObj;
+      axios.put(
+        `http://localhost:9000/users/new`,
+        {
+          googleID: res.googleId,
+          name: res.name,
+          email: res.email,
+          image: res.imageUrl
+        }).then(() => {
+          this.props.login(response.accessToken, res.googleId)
+          this.props.push();
         });
     }
   }
@@ -73,3 +83,18 @@ export default class GoogleBtn extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (token, id) =>
+      dispatch(login(token, id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleBtn);

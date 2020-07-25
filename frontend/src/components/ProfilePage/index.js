@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 
-export default class index extends Component {
+class ProfilePage extends Component {
     render() {
+        if (!this.props.user){
+            this.props.history.push('/')
+          }
         return (
             <div>
                 profile page homies
@@ -9,3 +13,13 @@ export default class index extends Component {
         )
     }
 }
+
+
+const mapStateToProps = (state) => {
+    return { 
+        aggregateReducer: state.aggregateReducer,
+        user: state.reducer.user
+    };
+};
+
+export default connect(mapStateToProps)(ProfilePage);

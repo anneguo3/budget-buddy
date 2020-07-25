@@ -10,6 +10,9 @@ class Overview extends Component {
     }
 
     render() {
+        if (!this.props.user){
+            this.props.history.push('/')
+        }
         return (
             <div>
                 <SummaryPage totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}/>
@@ -20,7 +23,8 @@ class Overview extends Component {
 
 const mapStateToProps = (state) => {
     return { 
-        aggregateReducer: state.aggregateReducer
+        aggregateReducer: state.aggregateReducer,
+        user: state.reducer.user
     };
 };
 

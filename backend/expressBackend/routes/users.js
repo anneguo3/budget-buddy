@@ -6,25 +6,27 @@ router.use(cors())
 var connectionString = 'mongodb+srv://m001-student:m001-mongodb-basics@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority'
 mongoose.connect(connectionString);
 var conn = mongoose.connection;
-const userTransactionSchema = require("../models/userTransaction");
+const User = require('../models/user');
 
-router.put('/:id', function(req, res) {
-  let id = req.params.id;
-  conn.createCollection(id).then(response =>{
-    res.send('Login Success');
+router.put('/new', function(req, res) {
+  req = req.body;
+  console.log(req)
+  User.updateOne(
+    {googleID: req.googleID},
+    {googleID: req.googleID,
+      name: req.name,
+      email: req.email,
+      image: req.image
+    },
+    {upsert: true})
+  .then(response =>{
+    console.log('Stored user succesfully in users collection')
+    res.sendStatus(200)
   }).catch(err => {
     console.log(err);
+    res.sendStatus(500)
   })
 });
 
-router.get('/:id/transactions', (req, res) => {
-  let id = req.params.id;
-  conn.db.collection(id, function(err, collection){
-    collection.find({}).toArray(function(err, data){
-      let transactionData = JSON.stringify(data)
-      res.json(transactionData)
-    })
-  });
-});
 
 module.exports = router;
