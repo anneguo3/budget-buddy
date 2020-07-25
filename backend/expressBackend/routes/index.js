@@ -3,11 +3,13 @@ var router = express.Router();
 var cors = require("cors");
 var mongoose = require("mongoose");
 const Transaction = require("../models/transaction");
-var passw = require ("./pass");
+var passw = require("./pass");
 
 router.use(cors());
 var connectionString =
-  "mongodb+srv://" + passw + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
+  "mongodb+srv://" +
+  passw.pass +
+  "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
 
 mongoose.connect(connectionString);
 
@@ -25,7 +27,7 @@ conn.once("open", function () {
 /* GET home page. */
 router.get("/transactions/:id", function (req, res, next) {
   conn.db.collection("transactions", function (err, collection) {
-    collection.find({userID: req.params.id}).toArray(function (err, data) {
+    collection.find({ userID: req.params.id }).toArray(function (err, data) {
       transactionData = JSON.stringify(data);
     });
   });
