@@ -66,7 +66,7 @@ export function logout() {
 export function itemsFetchData(googleID) {
   return (dispatch) => {
     axios
-      .get(`https://budgetbuddy.herokuapp.com/transactions/${googleID}`)
+      .get(`https://budgetbuddy4.herokuapp.com/transactions/${googleID}`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 304) {
           throw Error(response.statusText);
@@ -84,7 +84,7 @@ export function itemsFetchData(googleID) {
 export function deleteTransaction(id) {
   return (dispatch) => {
     axios
-      .delete("https://budgetbuddy.herokuapp.com/transactions", { data: { id: id } })
+      .delete("https://budgetbuddy4.herokuapp.com/transactions", { data: { id: id } })
       .then((response) => {
         if (response.status !== 200) {
           throw Error(response.statusText);
@@ -111,7 +111,7 @@ export function addTransactionItem(id, name, amount, isInc, category, date, user
 
   return (dispatch) => {
     axios
-      .post("https://budgetbuddy.herokuapp.com/transactions/", postObject)
+      .post("https://budgetbuddy4.herokuapp.com/transactions/", postObject)
       .then((response) => {
         if (response.status !== 201) {
           throw Error(response.statusText);
