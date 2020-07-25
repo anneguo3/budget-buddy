@@ -8,7 +8,8 @@ const initialState = {
     transName: '',
     amount: '',
     date: '',
-    transactionsFiltered: []
+    transactionsFiltered: [],
+    user: null
 };
 
 export default function messageReducer(state = initialState, action) {
@@ -81,6 +82,17 @@ export default function messageReducer(state = initialState, action) {
                     transactionsFiltered: filteredTrans
                 };
             }
+
+        case 'LOGIN':
+            return {
+                ...state,
+                user: action.payload
+            }
+    
+        case 'LOGOUT':
+            let copy = Object.assign({},state);
+            copy.user = null;
+            return copy;
 
         default:
             return state;

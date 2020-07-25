@@ -1,8 +1,18 @@
 .entryList {
   margin: 10px;
-  background-color: white
+  background-color: white;
 }
 
 #date {
   margin-right: 15px;
+}
+
+.months {
+  width: 110px;
+  margin: 3px;
+}
+
+.years {
+  width: 70px;
+  margin: 3px;
 }

@@ -1,11 +1,11 @@
 const initialState = {
-      totalChequing: 0,
-      totalSavings: 0,
-      totalEntertainment: 0,
-      totalGroceries: 0,
-      totalRestaurants: 0,
-      totalHousing: 0,
-      totalMiscellaneous: 0
+  totalChequing: 0,
+  totalSavings: 0,
+  totalEntertainment: 0,
+  totalGroceries: 0,
+  totalRestaurants: 0,
+  totalHousing: 0,
+  totalMiscellaneous: 0,
 };
 
 export default function categoryReducer(state = initialState, action) {

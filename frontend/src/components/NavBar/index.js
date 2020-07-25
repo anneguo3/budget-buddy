@@ -7,8 +7,9 @@ import Button from "@material-ui/core/Button";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
-
+import { connect } from 'react-redux';
 import { fade } from "@material-ui/core/styles";
+import {logout} from '../../actions/action';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar(props) {
+let ButtonAppBar = ({dispatch}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -53,12 +54,17 @@ export default function ButtonAppBar(props) {
             <Button color="inherit">Overview</Button>
           </Link>
           <IconButton color="inherit">
-            <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
+            <Link to={"/profile"} style={{ textDecoration: "none", color: "white" }}>
               <AccountCircle />
             </Link>
           </IconButton>
+          <Button color="inherit" onClick={() => {dispatch(logout())}}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+ButtonAppBar = connect()(ButtonAppBar);
+
+export default ButtonAppBar;

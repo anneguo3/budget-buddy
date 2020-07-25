@@ -1,9 +1,10 @@
 import axios from "axios";
+import { initializeTotals } from "./aggregateAction";
 
 export function itemsGetSuccess(itemData) {
   return {
     type: "ITEMS_GET_SUCCESS",
-    payload: itemData
+    payload: itemData,
   };
 }
 
@@ -39,21 +40,38 @@ export function transactionPostFailure() {
   };
 }
 
-export function filterChange(stringFilt) {
+export function filterChange(filterState) {
   return {
-      type: 'FILTER_CHANGE',
-      payload: stringFilt
+    type: "FILTER_CHANGE",
+    payload: filterState,
   };
 }
 
-export function itemsFetchData() {
+export function login(token, id) {
+  return {
+    type: "LOGIN",
+    payload: {
+      token: token,
+      googleID: id,
+    },
+  };
+}
+
+export function logout() {
+  return {
+    type: "LOGOUT",
+  };
+}
+
+export function itemsFetchData(googleID) {
   return (dispatch) => {
     axios
-      .get("http://localhost:9000/transactions")
+      .get(`https://budgetbuddy.herokuapp.com/transactions/${googleID}`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 304) {
           throw Error(response.statusText);
         }
+        console.log(response)
         return response;
       })
       .then((responseFinal) => dispatch(itemsGetSuccess(responseFinal.data)))
@@ -66,7 +84,7 @@ export function itemsFetchData() {
 export function deleteTransaction(id) {
   return (dispatch) => {
     axios
-      .delete("http://localhost:9000/transactions", { data: { id: id } })
+      .delete("https://budgetbuddy.herokuapp.com/transactions", { data: { id: id } })
       .then((response) => {
         if (response.status !== 200) {
           throw Error(response.statusText);
@@ -79,10 +97,12 @@ export function deleteTransaction(id) {
   };
 }
 
-export function addTransactionItem(id, name, amount, isInc, category, date) {
+export function addTransactionItem(id, name, amount, isInc, category, date, userID) {
+  console.log(userID)
   let postObject = {
     id: id,
     name: name,
+    userID: userID,
     amount: amount,
     isMoneyIncrease: isInc,
     category: category,
@@ -91,12 +111,11 @@ export function addTransactionItem(id, name, amount, isInc, category, date) {
 
   return (dispatch) => {
     axios
-      .post("http://localhost:9000/transactions", postObject)
+      .post("https://budgetbuddy.herokuapp.com/transactions/", postObject)
       .then((response) => {
         if (response.status !== 201) {
           throw Error(response.statusText);
         }
-
         return response;
       })
       .then((response) => console.log(response))

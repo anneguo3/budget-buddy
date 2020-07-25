@@ -23,9 +23,10 @@ conn.once("open", function () {
 });
 
 /* GET home page. */
-router.get("/transactions", function (req, res, next) {
+router.get("/transactions/:id", function (req, res, next) {
+  console.log(req.params.id)
   conn.db.collection("transactions", function (err, collection) {
-    collection.find({}).toArray(function (err, data) {
+    collection.find({ userID: req.params.id.toString() }).toArray(function (err, data) {
       transactionData = JSON.stringify(data);
     });
   });
@@ -39,6 +40,7 @@ router.post("/transactions", (req, res, next) => {
   const trans = new Transaction({
     _id: new mongoose.Types.ObjectId(),
     id: req.body.id,
+    userID: req.body.userID,
     date: req.body.date,
     name: req.body.name,
     amount: req.body.amount,

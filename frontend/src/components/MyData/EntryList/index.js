@@ -6,29 +6,61 @@ import "./EntryList.css";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Typography, Box } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import {
+  InputLabel,
+  FormControl,
+  Box,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
 
 import {
   itemsFetchData,
   deleteTransaction,
   filterChange,
 } from "../../../actions/action";
-import { initializeTotals, handleDelete } from "./../../../actions/aggregateAction";
+import {
+  initializeTotals,
+  handleDelete,
+} from "./../../../actions/aggregateAction";
+
+const months = [
+  "All",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const years = ["All", 2020, 2019, 2018];
 
 class EntryList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { filterType: "all" };
+    this.state = { filterType: "all", month: "", year: "" };
 
     this.handleFilter = this.handleFilter.bind(this);
+    this.handleMonth = this.handleMonth.bind(this);
+    this.handleYear = this.handleYear.bind(this);
   }
 
   componentDidMount() {
     // axios call to get transactions
-    this.props.fetchData();
+    this.props.fetchData(this.props.googleID);
+    console.log(this.props.reducer.transactions)
+    // TODO sum for aggregation action to initialize
   }
 
   colorDecide(flagInc) {
@@ -41,11 +73,37 @@ class EntryList extends React.Component {
 
   handleFilter(event) {
     this.setState({ filterType: event.target.value });
-    this.props.filterChangeTrigger(event.target.value);
+    let updatedState = {
+      filterType: event.target.value,
+      month: this.state.month,
+      year: this.state.year,
+    };
+    this.props.filterChangeTrigger(updatedState);
+  }
+
+  handleMonth(event) {
+    this.setState({ month: event.target.value });
+    let updatedState = {
+      filterType: this.state.filterType,
+      month: event.target.value,
+      year: this.state.year,
+    };
+    this.props.filterChangeTrigger(updatedState);
+  }
+
+  handleYear(event) {
+    this.setState({ year: event.target.value });
+    let updatedState = {
+      filterType: this.state.filterType,
+      month: this.state.month,
+      year: event.target.value,
+    };
+    this.props.filterChangeTrigger(updatedState);
   }
 
   render() {
     const self = this;
+    console.log(this.props);
     if (this.props.reducer.hasError) {
       return (
         <p>
@@ -55,41 +113,12 @@ class EntryList extends React.Component {
       );
     }
 
-    let transView = [];
-    if (this.props.reducer.transactionsFiltered.length === 0) {
-      transView = this.props.reducer.transactions;
-    } else {
-      transView = this.props.reducer.transactionsFiltered;
-    }
-
-    if (this.props.aggregateReducer.totalInflow == 0 && this.props.aggregateReducer.totalOutflow == 0) {
-      console.log("in" + this.props.aggregateReducer.totalInflow)
-          this.props.reducer.transactions.map((item) => {
-            console.log(item)
-            this.props.initializeTotals(item)
-          })
-        }
-    return (
-      <div className="entryList">
-        <Box
-          p={1}
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-evenly"
-        >
-          <ToggleButtonGroup
-            value={this.state.filterType}
-            exclusive
-            onChange={this.handleFilter}
-          >
-            <ToggleButton value="all">All</ToggleButton>
-            <ToggleButton value="exp">Expense</ToggleButton>
-            <ToggleButton value="inc">Income</ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
+    let renderList;
+    if (this.props.reducer.transactionsFiltered.length > 0) {
+      renderList = (
         <List component="nav" aria-label="list of entries">
           <div>
-            {transView.map((item) => (
+            {this.props.reducer.transactionsFiltered.map((item) => (
               <div
                 key={item.id}
                 style={{
@@ -119,35 +148,80 @@ class EntryList extends React.Component {
             ))}
           </div>
         </List>
+      );
+    } else {
+      renderList = <p>No entries available for the selected options!</p>;
+    }
+
+    return (
+      <div className="entryList">
+        <Box
+          p={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-evenly"
+        >
+          <ToggleButtonGroup
+            value={this.state.filterType}
+            exclusive
+            onChange={this.handleFilter}
+          >
+            <ToggleButton value="all">All</ToggleButton>
+            <ToggleButton value="exp">Expense</ToggleButton>
+            <ToggleButton value="inc">Income</ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
+        <Box display="flex" justifyContent="flex-end">
+          <FormControl>
+            <InputLabel>Month</InputLabel>
+            <Select
+              className="months"
+              onChange={this.handleMonth}
+              value={this.state.month}
+            >
+              {months.map((month) => (
+                <MenuItem key={month} value={month}>
+                  {month}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel>Year</InputLabel>
+            <Select
+              className="years"
+              onChange={this.handleYear}
+              value={this.state.year}
+            >
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        {renderList}
       </div>
     );
   }
 }
 
-// EntryList.propTypes = {
-//   fetchData: PropTypes.func.isRequired,
-//   delTrans: PropTypes.func.isRequired,
-//   filterIsIncome: PropTypes.number.isRequired,
-//   transactions: PropTypes.array.isRequired,
-//   hasError: PropTypes.bool.isRequired,
-//   filterChangeTrigger: PropTypes.func.isRequired,
-//   transactionsFiltered: PropTypes.array.isRequired,
-// };
-
 const mapStateToProps = (state) => {
   return {
     reducer: state.reducer,
-    aggregateReducer: state.aggregateReducer,
+    aggregateReducer: state.aggegateReducer,
+    googleID: state.reducer.user.googleID
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: () => dispatch(itemsFetchData()),
+    fetchData: (googleID) => dispatch(itemsFetchData(googleID)),
     delTrans: (id) => dispatch(deleteTransaction(id)),
-    filterChangeTrigger: (filtID) => dispatch(filterChange(filtID)),
+    filterChangeTrigger: (filter) => dispatch(filterChange(filter)),
     handleDelete: (item) => dispatch(handleDelete(item)),
-    initializeTotals: (item) => dispatch(initializeTotals(item))
+    initializeTotals: (item) => dispatch(initializeTotals(item)),
   };
 };
 

@@ -42,20 +42,6 @@ export default function ButtonAppBar(props) {
               <Typography variant="h6" className={classes.title}>
                 Budget Buddy
               </Typography>
-            <div className={classes.input}>
-            <InputBase
-              placeholder="Username"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-          <div className={classes.input}>
-            <InputBase
-              type="password"
-              placeholder="Password"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-          <Link to={'/data'} style={{ textDecoration: 'none', color: "white"}}><Button color="inherit">Login</Button></Link>
             </Toolbar>
           </AppBar>
           </div>
