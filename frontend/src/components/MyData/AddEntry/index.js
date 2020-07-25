@@ -152,7 +152,8 @@ class AddEntry extends React.Component {
                   this.state.amount,
                   this.state.isMoneyIncrease,
                   this.state.category,
-                  this.state.date
+                  this.state.date,
+                  this.props.userID
                 );
               }
             }}
@@ -173,14 +174,15 @@ const mapStateToProps = (state) => {
     amount: state.amount,
     isMoneyIncrease: state.isMoneyIncrease,
     date: state.date,
-    category: state.category
+    category: state.category,
+    userID: state.reducer.user.googleID
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addTransaction: (id, name, amount, isInc, category, date) =>
-      dispatch(addTransactionItem(id, name, amount, isInc, category, date)),
+    addTransaction: (id, name, amount, isInc, category, date, googleID) =>
+      dispatch(addTransactionItem(id, name, amount, isInc, category, date, googleID)),
   };
 };
 
