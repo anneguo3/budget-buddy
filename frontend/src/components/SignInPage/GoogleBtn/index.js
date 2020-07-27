@@ -31,7 +31,7 @@ class GoogleBtn extends React.Component {
       }));
       let res = response.profileObj;
       axios.put(
-        `http://localhost:9000/users/new`,
+        `https://budgetbuddy4.herokuapp.com/users/new`,
         {
           googleID: res.googleId,
           name: res.name,
@@ -52,6 +52,7 @@ class GoogleBtn extends React.Component {
   }
 
   handleLoginFailure(response) {
+    console.log(response)
     alert("Failed to log in");
   }
 
