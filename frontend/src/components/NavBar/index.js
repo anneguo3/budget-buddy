@@ -58,7 +58,10 @@ let ButtonAppBar = ({dispatch}) => {
               <AccountCircle />
             </Link>
           </IconButton>
-          <Button color="inherit" onClick={() => {dispatch(logout())}}>Logout</Button>
+          <Button color="inherit" onClick={() => {
+            dispatch(logout());
+            window.location.replace('/');
+            }}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>
