@@ -31,7 +31,7 @@ class GoogleBtn extends React.Component {
       }));
       let res = response.profileObj;
       axios.put(
-        `https://budgetbuddy4.herokuapp.com/users/new`,
+        `http://localhost:9000/users/new`,
         {
           googleID: res.googleId,
           name: res.name,

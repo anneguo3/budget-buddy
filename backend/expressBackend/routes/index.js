@@ -5,7 +5,7 @@ router.use(cors());
 const mongoose = require("mongoose");
 const Transaction = require("../models/transaction");
 const passw = require('./pass')
-const connectionString = "mongodb+srv://" + passw.pass + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://" + passw + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
 mongoose.connect(connectionString);
 
 /* GET home page. */
