@@ -66,14 +66,15 @@ export function logout() {
 export function itemsFetchData(googleID) {
   return (dispatch) => {
     axios
-      .get(`http://localhost:9000/transactions/${googleID}`)
+      .get(`/transactions/${googleID}`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 304) {
           throw Error(response.statusText);
         }
         dispatch(itemsGetSuccess(response.data));
-      }).catch((err) => {
-        console.log(err)
+      })
+      .catch((err) => {
+        console.log(err);
         dispatch(itemGetFailure());
       });
   };
@@ -82,20 +83,29 @@ export function itemsFetchData(googleID) {
 export function deleteTransaction(id) {
   return (dispatch) => {
     axios
-      .delete("http://localhost:9000/transactions", { data: { id: id } })
+      .delete("/transactions", { data: { id: id } })
       .then((response) => {
         if (response.status !== 200) {
           throw Error(response.statusText);
         }
         dispatch(deleteTransactionSuccess(id));
-      }).catch(() => {
-        dispatch(deleteTransactionFailure())
+      })
+      .catch(() => {
+        dispatch(deleteTransactionFailure());
       });
   };
 }
 
-export function addTransactionItem(id, name, amount, isInc, category, date, userID) {
-  console.log(userID)
+export function addTransactionItem(
+  id,
+  name,
+  amount,
+  isInc,
+  category,
+  date,
+  userID
+) {
+  console.log(userID);
   let postObject = {
     id: id,
     name: name,
@@ -106,13 +116,15 @@ export function addTransactionItem(id, name, amount, isInc, category, date, user
     date: date,
   };
   return (dispatch) => {
-    axios.post("http://localhost:9000/transactions/", postObject)
-    .then((response) => {
+    axios
+      .post("/transactions/", postObject)
+      .then((response) => {
         if (response === 500) {
           throw Error(response.statusText);
         }
         dispatch(transactionPostSuccess(response));
-      }).catch((err) => {
+      })
+      .catch((err) => {
         dispatch(transactionPostFailure());
       });
   };
