@@ -10,6 +10,14 @@ const initialState = {
   date: "",
   transactionsFiltered: [],
   user: null,
+  expenseCategories:[
+    "Entertainment",
+    "Groceries",
+    "Restaurants",
+    "Housing",
+    "Miscellaneous",
+  ],
+  incomeCategories: ["Chequing", "Savings"] 
 };
 
 const monthMapping = new Map([
@@ -30,6 +38,18 @@ const monthMapping = new Map([
 
 export default function messageReducer(state = initialState, action) {
   switch (action.type) {
+
+    case "USER_SUCCESS":
+      return {
+        ...state,
+        expenseCategories: [...state.expenseCategories, ...action.payload.expenses],
+        incomeCategories: [...state.incomeCategories, ...action.payload.incomes],
+        user: {
+          ...state.user,
+          name: action.payload.name,
+          url: action.payload.url
+        }
+    };
     case "ITEMS_GET_SUCCESS":
       // ADD IN HERE TODO ========================================
       return {
@@ -59,6 +79,17 @@ export default function messageReducer(state = initialState, action) {
           transactionsFiltered: [...state.transactions, action.payload],
         };
       }
+    case "ADD_EXPENSE_SUCCESS":
+      return {
+        ...state,
+        expenseCategories: [...state.expenseCategories, action.payload]
+      }
+
+      case "ADD_INCOME_SUCCESS":
+        return {
+          ...state,
+          incomeCategories: [...state.incomeCategories, action.payload]
+        }
     case "ITEMS_GET_FAILURE":
       return {
         ...state,
@@ -75,7 +106,21 @@ export default function messageReducer(state = initialState, action) {
         ...state,
         hasError: true,
       };
-
+    case "ADD_EXPENSE_FAILURE":
+      return {
+        ...state,
+        hasError: true
+      }
+    case "ADD_INCOME_FAILURE":
+      return {
+        ...state,
+        hasError: true
+      }
+    case "USER_FAILURE":
+      return {
+        ...state,
+        hasError:true
+      }  
     case "FILTER_CHANGE":
       const type = action.payload.filterType;
       const month =

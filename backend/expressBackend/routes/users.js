@@ -5,7 +5,7 @@ var cors = require('cors');
 router.use(cors())
 const passw = require('./pass')
 const connectionString = "mongodb+srv://" + passw + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
-mongoose.connect(connectionString);
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
 const User = require('../models/user');
 
 router.put('/new', function(req, res) {
@@ -15,9 +15,7 @@ router.put('/new', function(req, res) {
     {googleID: req.googleID,
       name: req.name,
       email: req.email,
-      image: req.image,
-      income: [],
-      expenses: [],
+      image: req.image
     },
     {upsert: true})
   .then(response => {
@@ -29,11 +27,11 @@ router.put('/new', function(req, res) {
   })
 });
 
-router.get('/', (req, res) => {
-  User.find({googleID: req.body.googleID})
+router.get('/:id', (req, res) => {
+  User.findOne({googleID: req.params.id})
   .then(result => {
-    console.log(result[0])
-    res.send(result[0]);
+    console.log(result)
+    res.send(result);
   })
   .catch(err => {
     console.log(err)
@@ -41,70 +39,24 @@ router.get('/', (req, res) => {
   })
 })
 
-
-router.put('/expenses', (req, res) => {
-  User.find({googleID: req.body.googleID})
+router.put('/category', (req, res) => {
+  User.findOne({googleID: req.body.googleID})
   .then(result => {
-    let list = result.categories ? result.categories : [];
-    list.includes(categories) ? null : list.push(req.body.category);
-    User.updateOne({googleID: req.body.googleID},
-      {categories: list})
-    .then(result => {
-      res.sendStatus(200);
-    })
-  }).catch(err => {
-    console.log(err);
-    res.sendStatus(500);
-  });
-});
-
-router.put('/income', (req, res) => {
-  User.find({googleID: req.body.googleID})
-  .then(result => {
-    let list = result.categories ? result.categories : [];
-    list.includes(categories) ? null : list.push(req.body.category);
-    User.updateOne({googleID: req.body.googleID},
-      {categories: list})
-    .then(result => {
-      res.sendStatus(200);
-    })
-  }).catch(err => {
-    console.log(err);
-    res.sendStatus(500);
-  });
-});
-
-router.delete('/expense', (req, res) => {
-  User.find({googleID: req.body.googleID})
-  .then(result => {
-    let list = result.categories;
-    list.filter(category !== req.body.category);
-    User.updateOne({googleID: req.body.googleID},
-      {categories: list})
-    .then(result => {
-      res.sendStatus(200);
-    })
-  }).catch(err => {
+    let income = req.body.income
+    let expense = req.body.expense
+    let expenses = result["expenses"]
+    let incomes = result["incomes"]
+    expense && !expenses.includes(expense) ? expenses.push(expense) : null
+    income && !incomes.includes(income) ? incomes.push(income) : null
+    result.save();
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch(err => {
     console.log(err);
     res.sendStatus(500);
   })
-})
-
-router.delete('/income', (req, res) => {
-  User.find({googleID: req.body.googleID})
-  .then(result => {
-    let list = result.categories;
-    list.filter(category !== req.body.category);
-    User.updateOne({googleID: req.body.googleID},
-      {categories: list})
-    .then(result => {
-      res.sendStatus(200);
-    })
-  }).catch(err => {
-    console.log(err);
-    res.sendStatus(500);
-  })
-})
-
+});
 
 module.exports = router;

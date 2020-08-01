@@ -1,6 +1,24 @@
 import axios from "axios";
 import { initializeTotals } from "./aggregateAction";
 
+export function getUserSuccess(user) {
+  return {
+    type: "USER_SUCCESS",
+    payload: {
+      name: user.name,
+      url: user.image,
+      expenses: user.expenses,
+      incomes: user.incomes
+    }
+  };
+}
+
+export function getUserFailure() {
+  return {
+    type: "USER_FAILURE",
+  };
+}
+
 export function itemsGetSuccess(itemData) {
   return {
     type: "ITEMS_GET_SUCCESS",
@@ -60,6 +78,93 @@ export function login(token, id) {
 export function logout() {
   return {
     type: "LOGOUT",
+  };
+}
+
+export function addExpenseSuccess(expense) {
+  return {
+    type: 'ADD_EXPENSE_SUCCESS',
+    payload: expense
+  }
+}
+
+export function addExpenseFailure() {
+  return {
+    type: 'ADD_EXPENSE_FAILURE',
+  }
+}
+
+export function addIncomeSuccess(income) {
+  return {
+    type: 'ADD_INCOME_SUCCESS',
+    payload: income
+  }
+}
+
+export function addIncomeFailure() {
+  return {
+    type: 'ADD_INCOME_FAILURE',
+  }
+}
+
+
+export function addIncomeCategory(income, googleID){
+  return (dispatch) => {
+    axios
+      .put(
+        `http://localhost:9000/users/category`,
+        {
+          income: income,
+          googleID: googleID
+        }
+      )
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error();
+        }
+        dispatch(addIncomeSuccess(income));
+      }).catch((err) => {
+        console.log(err)
+        dispatch(addIncomeFailure());
+      });
+  };
+}
+
+export function addExpenseCategory(expense, googleID){
+  return (dispatch) => {
+    axios
+      .put(
+        `http://localhost:9000/users/category`,
+        {
+          expense: expense,
+          googleID: googleID
+        }
+      )
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error();
+        }
+        dispatch(addExpenseSuccess(expense));
+      }).catch((err) => {
+        console.log(err)
+        dispatch(addExpenseFailure());
+      });
+  };
+}
+
+export function fetchUserData(googleID) {
+  return (dispatch) => {
+    axios
+      .get(`http://localhost:9000/users/${googleID}`)
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 304) {
+          throw Error(response.statusText);
+        }
+        dispatch(getUserSuccess(response.data));
+      }).catch((err) => {
+        console.log(err)
+        dispatch(getUserFailure());
+      });
   };
 }
 

@@ -3,30 +3,35 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
-import aggregateReducer from "../../reducers/aggregateReducer";
-import reducer from "../../reducers/reducer";
+import {addExpenseCategory, addIncomeCategory} from '../../actions/action'
 
-const incomeCategories = ["Chequing", "Savings"];
+class ProfilePage extends Component {
 
-const expenseCategories = [
-  "Entertainment",
-  "Groceries",
-  "Restaurants",
-  "Housing",
-  "Miscellaneous",
-];
-
-export default class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      incomeCategories: incomeCategories,
-      expenseCategories: expenseCategories,
-    };
+    }
+  }
+
+  addExpense = () => {
+    if (this.props) {
+      let expense = document.querySelector('#add_expense').value;
+      let googleID = this.props.user.googleID;
+      if (expense && googleID) this.props.addExpense(expense, googleID);
+      else alert('Please enter a value that is not null.');
+    }
+  }
+
+  addIncome = () => {
+    if (this.props) {
+      let income = document.querySelector('#add_income').value;
+      let googleID = this.props.user.googleID;
+      if (income && googleID) this.props.addIncome(income, googleID);
+      else alert('Please enter a value that is not null.');
+    }
   }
 
   render() {
@@ -35,12 +40,11 @@ export default class ProfilePage extends Component {
         <Typography variant="h6">Current Income Categories</Typography>
         <List component="nav" aria-label="list of income categories">
           <div>
-            {this.state.incomeCategories.map((category) => (
+            {this.props.incomeCategories.map((category) => (
               <div style={{ backgroundColor: "rgb(184, 255, 201)" }}>
                 <ListItem button>
                   <ListItemText id="category" primary={category}></ListItemText>
                   <IconButton value={category} edge="end" aria-label="delete">
-                    <DeleteIcon />
                   </IconButton>
                 </ListItem>
               </div>
@@ -54,10 +58,10 @@ export default class ProfilePage extends Component {
       <Box display="flex" flexDirection="column" justifyContent="centre">
         <FormControl>
           <InputLabel>Income Category</InputLabel>
-          <Input />
+          <Input id="add_income"/>
         </FormControl>
         <Box m={2}>
-          <Button variant="outlined"> Add Income Category</Button>
+          <Button variant="outlined" onClick={this.addIncome}> Add Income Category</Button>
         </Box>
       </Box>
     );
@@ -71,12 +75,11 @@ export default class ProfilePage extends Component {
           aria-label="list of income categories"
         >
           <div>
-            {this.state.expenseCategories.map((category) => (
+            {this.props.expenseCategories.map((category) => (
               <div style={{ backgroundColor: "rgb(255, 153, 153)" }}>
                 <ListItem button>
                   <ListItemText id="category" primary={category}></ListItemText>
                   <IconButton value={category} edge="end" aria-label="delete">
-                    <DeleteIcon />
                   </IconButton>
                 </ListItem>
               </div>
@@ -90,10 +93,10 @@ export default class ProfilePage extends Component {
       <Box display="flex" flexDirection="column" justifyContent="centre">
         <FormControl>
           <InputLabel>Expense Category</InputLabel>
-          <Input />
+          <Input id="add_expense"/>
         </FormControl>
         <Box m={2}>
-          <Button variant="outlined"> Add Expense Category</Button>
+          <Button variant="outlined" onClick={this.addExpense}> Add Expense Category</Button>
         </Box>
       </Box>
     );
@@ -122,11 +125,20 @@ export default class ProfilePage extends Component {
     );
   }
 }
-// const mapStateToProps = (state) => {
-//   return {
-//     aggregateReducer: state.aggregateReducer,
-//     user: state.reducer.user,
-//   };
-// };
 
-// export default connect(mapStateToProps)(ProfilePage);
+const mapStateToProps = (state) => {
+  return {
+    aggregateReducer: state.aggregateReducer,
+    user: state.reducer.user,
+    expenseCategories: state.reducer.expenseCategories,
+    incomeCategories: state.reducer.incomeCategories
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addExpense: (expense, googleID) => {dispatch(addExpenseCategory(expense, googleID))},
+    addIncome: (income, googleID) => {dispatch(addIncomeCategory(income, googleID))}
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

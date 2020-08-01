@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { login } from "../../../actions/action";
+import { login, fetchUserData } from "../../../actions/action";
 import { connect } from "react-redux";
 import axios from "axios";
 import {history} from 'react-router-dom'
@@ -16,14 +16,9 @@ class GoogleBtn extends React.Component {
       isLogined: false,
       accessToken: "",
     };
-
-    this.login = this.login.bind(this);
-    this.handleLoginFailure = this.handleLoginFailure.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
 
-  login(response) {
+  login = (response) => {
     if (response.accessToken) {
       this.setState((state) => ({
         isLogined: true,
@@ -39,24 +34,25 @@ class GoogleBtn extends React.Component {
           image: res.imageUrl
         }).then(() => {
           this.props.login(response.accessToken, res.googleId)
-          this.props.push();
+          this.props.getUser(res.googleId)
+          setTimeout(this.props.push, 1000)
         });
     }
   }
 
-  logout(response) {
+  logout = (response) => {
     this.setState((state) => ({
       isLogined: false,
       accessToken: "",
     }));
   }
 
-  handleLoginFailure(response) {
+  handleLoginFailure = (response) => {
     console.log(response)
     alert("Failed to log in");
   }
 
-  handleLogoutFailure(response) {
+  handleLogoutFailure = (response) => {
     alert("Failed to log out");
   }
 
@@ -93,8 +89,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (token, id) =>
-      dispatch(login(token, id)),
+    login: (token, id) => dispatch(login(token, id)),
+    getUser: (id) => dispatch(fetchUserData(id))
   };
 };
 
