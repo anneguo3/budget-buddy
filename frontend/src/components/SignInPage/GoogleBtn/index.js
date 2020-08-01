@@ -3,7 +3,7 @@ import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { login } from "../../../actions/action";
 import { connect } from "react-redux";
 import axios from "axios";
-import {history} from 'react-router-dom'
+import { history } from "react-router-dom";
 
 const CLIENT_ID =
   "851822540683-n3koid7ih90omslsla3nf9fo9kfig8u5.apps.googleusercontent.com";
@@ -30,15 +30,15 @@ class GoogleBtn extends React.Component {
         accessToken: response.accessToken,
       }));
       let res = response.profileObj;
-      axios.put(
-        `http://localhost:9000/users/new`,
-        {
+      axios
+        .put(`/users/new`, {
           googleID: res.googleId,
           name: res.name,
           email: res.email,
-          image: res.imageUrl
-        }).then(() => {
-          this.props.login(response.accessToken, res.googleId)
+          image: res.imageUrl,
+        })
+        .then(() => {
+          this.props.login(response.accessToken, res.googleId);
           this.props.push();
         });
     }
@@ -52,6 +52,7 @@ class GoogleBtn extends React.Component {
   }
 
   handleLoginFailure(response) {
+    console.log(response);
     alert("Failed to log in");
   }
 
@@ -86,14 +87,13 @@ class GoogleBtn extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (token, id) =>
-      dispatch(login(token, id)),
+    login: (token, id) => dispatch(login(token, id)),
   };
 };
 

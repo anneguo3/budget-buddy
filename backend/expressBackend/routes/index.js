@@ -1,42 +1,30 @@
-var express = require("express");
-var router = express.Router();
-var cors = require("cors");
-var mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
+const cors = require("cors");
+router.use(cors());
+const mongoose = require("mongoose");
 const Transaction = require("../models/transaction");
 const passw = require('./pass')
-
-router.use(cors());
-var connectionString =
-  "mongodb+srv://" + passw.pass + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
-
+const connectionString = "mongodb+srv://" + passw + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
 mongoose.connect(connectionString);
 
-var conn = mongoose.connection;
-var transactionData = "";
-conn.on("error", console.error.bind(console, "connection error:"));
-conn.once("open", function () {
-  conn.db.collection("transactions", function (err, collection) {
-    collection.find({}).toArray(function (err, data) {
-      transactionData = JSON.stringify(data);
-    });
-  });
-});
-
 /* GET home page. */
-router.get("/transactions/:id", function (req, res, next) {
-  console.log(req.params.id)
-  conn.db.collection("transactions", function (err, collection) {
-    collection.find({ userID: req.params.id.toString() }).toArray(function (err, data) {
-      transactionData = JSON.stringify(data);
+router.get("/transactions/:id", function (req, res) {
+  Transaction.find(
+    {userID: req.params.id},
+    (err, data) => {
+      if (err) {
+        res.sendStatus(500);
+        console.log(`GET error for user #${req.params.id}: ${err}`)
+        return;
+      }
+      console.log(`Succesful GET for user #${req.params.id}`)
+      res.json(JSON.stringify(data));
     });
-  });
-  res.json(transactionData);
 });
 
 /* POST request */
-
-router.post("/transactions", (req, res, next) => {
-  console.log(req.body);
+router.post("/transactions", (req, res) => {
   const trans = new Transaction({
     _id: new mongoose.Types.ObjectId(),
     id: req.body.id,
@@ -47,40 +35,37 @@ router.post("/transactions", (req, res, next) => {
     isMoneyIncrease: req.body.isMoneyIncrease,
     category: req.body.category,
   });
-  trans
-    .save()
-    .then((result) => {
-      console.log(result);
-      console.log("post success");
-      res.status(201).json({
-        message: "Handling POST requests to /transactions",
-        createdMessage: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+  trans.save({},(err, result) => {
+    if (err) {
+      console.log(`POST Error for user #${req.body.userID}: ${err}`)
       res.status(500).json({
         error: err,
       });
+      return;
+    }
+    console.log(`Succesful POST for user #${req.body.userID}`)
+    res.status(201).json({
+      message: "Handling POST requests to /transactions",
+      createdMessage: result,
     });
+  });
 });
 
 /* DELETE Request */
-
 router.delete("/transactions", (req, res, next) => {
   const idPassed = req.body.id;
-  console.log(idPassed);
-  Transaction.remove({ id: idPassed })
-    .exec()
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((err) => {
-      console.log(err);
+  Transaction.deleteOne(
+    { id: idPassed },
+    (err) => {
+    if (err) {
+      console.log(`DELETE Error for entry #${idPassed}: ${err}`);
       res.status(500).json({
         error: err,
       });
-    });
+    }
+    console.log(`DELETE success for entry #${idPassed}`);
+    res.send(idPassed)
+  });
 });
 
 module.exports = router;

@@ -23,6 +23,7 @@
     "recharts": "^1.8.5",
     "xlsx": "^0.16.4"
   },
+  "proxy": "http://localhost:9000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

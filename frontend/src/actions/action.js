@@ -66,16 +66,15 @@ export function logout() {
 export function itemsFetchData(googleID) {
   return (dispatch) => {
     axios
-      .get(`https://budgetbuddy4.herokuapp.com/transactions/${googleID}`)
+      .get(`/transactions/${googleID}`)
       .then((response) => {
         if (response.status !== 200 && response.status !== 304) {
           throw Error(response.statusText);
         }
-        console.log(response)
-        return response;
+        dispatch(itemsGetSuccess(response.data));
       })
-      .then((responseFinal) => dispatch(itemsGetSuccess(responseFinal.data)))
       .catch((err) => {
+        console.log(err);
         dispatch(itemGetFailure());
       });
   };
@@ -84,21 +83,29 @@ export function itemsFetchData(googleID) {
 export function deleteTransaction(id) {
   return (dispatch) => {
     axios
-      .delete("https://budgetbuddy4.herokuapp.com/transactions", { data: { id: id } })
+      .delete("/transactions", { data: { id: id } })
       .then((response) => {
         if (response.status !== 200) {
           throw Error(response.statusText);
         }
-
-        return response;
+        dispatch(deleteTransactionSuccess(id));
       })
-      .then((response) => dispatch(deleteTransactionSuccess(id)))
-      .catch(() => dispatch(deleteTransactionFailure()));
+      .catch(() => {
+        dispatch(deleteTransactionFailure());
+      });
   };
 }
 
-export function addTransactionItem(id, name, amount, isInc, category, date, userID) {
-  console.log(userID)
+export function addTransactionItem(
+  id,
+  name,
+  amount,
+  isInc,
+  category,
+  date,
+  userID
+) {
+  console.log(userID);
   let postObject = {
     id: id,
     name: name,
@@ -108,18 +115,17 @@ export function addTransactionItem(id, name, amount, isInc, category, date, user
     category: category,
     date: date,
   };
-
   return (dispatch) => {
     axios
-      .post("https://budgetbuddy4.herokuapp.com/transactions/", postObject)
+      .post("/transactions/", postObject)
       .then((response) => {
-        if (response.status !== 201) {
+        if (response === 500) {
           throw Error(response.statusText);
         }
-        return response;
+        dispatch(transactionPostSuccess(response));
       })
-      .then((response) => console.log(response))
-      .then((response) => dispatch(transactionPostSuccess(postObject)))
-      .catch(() => dispatch(transactionPostFailure()));
+      .catch((err) => {
+        dispatch(transactionPostFailure());
+      });
   };
 }
