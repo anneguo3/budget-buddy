@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import aggregateReducer from "../../reducers/aggregateReducer";
 import reducer from "../../reducers/reducer";
+import XLSX from "xlsx";
 
 const incomeCategories = ["Chequing", "Savings"];
 
@@ -26,8 +27,24 @@ export default class ProfilePage extends Component {
     this.state = {
       incomeCategories: incomeCategories,
       expenseCategories: expenseCategories,
+      selectedFile: null,
     };
+    this.handleFileUpload = this.handleFileUpload.bind(this);
+    this.handleFileSubmit = this.handleFileSubmit.bind(this);
   }
+
+  handleFileUpload = (event) => {
+    console.log(event.target.files[0]);
+    this.setState({ selectedFile: event.target.files[0] });
+  };
+
+  handleFileSubmit = (event) => {
+    const data = new FormData();
+    data.append("file", this.state.selectedFile);
+    data.values().forEach((element) => {
+      console.log(element);
+    });
+  };
 
   render() {
     let incomeList = (
@@ -51,7 +68,7 @@ export default class ProfilePage extends Component {
     );
 
     let addIncome = (
-      <Box display="flex" flexDirection="column" justifyContent="centre">
+      <Box display="flex" flexDirection="column" justifyContent="center">
         <FormControl>
           <InputLabel>Income Category</InputLabel>
           <Input />
@@ -66,7 +83,7 @@ export default class ProfilePage extends Component {
       <div>
         <Typography variant="h6">Current Expense Categories</Typography>
         <List
-          class="list-item"
+          className="list-item"
           component="nav"
           aria-label="list of income categories"
         >
@@ -87,7 +104,7 @@ export default class ProfilePage extends Component {
     );
 
     let addExpense = (
-      <Box display="flex" flexDirection="column" justifyContent="centre">
+      <Box display="flex" flexDirection="column" justifyContent="center">
         <FormControl>
           <InputLabel>Expense Category</InputLabel>
           <Input />
@@ -95,6 +112,31 @@ export default class ProfilePage extends Component {
         <Box m={2}>
           <Button variant="outlined"> Add Expense Category</Button>
         </Box>
+      </Box>
+    );
+
+    let fileUpload = (
+      <Box
+        className="file-input"
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+      >
+        <div>
+          <InputLabel>File Upload</InputLabel>
+          <Input
+            className="file-input"
+            type="file"
+            onChange={this.handleFileUpload}
+          ></Input>
+        </div>
+        <Button
+          variant="outlined"
+          className="file-submit"
+          onClick={this.handleFileSubmit}
+        >
+          Submit
+        </Button>
       </Box>
     );
 
@@ -118,6 +160,7 @@ export default class ProfilePage extends Component {
           {expenseList}
           {addExpense}
         </Box>
+        {fileUpload}
       </div>
     );
   }
