@@ -10,7 +10,6 @@ const User = require('../models/user');
 
 router.put('/new', function(req, res) {
   req = req.body;
-  console.log(req)
   User.updateOne(
     {googleID: req.googleID},
     {googleID: req.googleID,

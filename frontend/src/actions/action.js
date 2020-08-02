@@ -95,7 +95,6 @@ export function deleteTransaction(id) {
 }
 
 export function addTransactionItem(id, name, amount, isInc, category, date, userID) {
-  console.log(userID)
   let postObject = {
     id: id,
     name: name,

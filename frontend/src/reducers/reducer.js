@@ -103,7 +103,6 @@ export default function messageReducer(state = initialState, action) {
           return el.date.slice(0, 4) === year;
         });
       }
-      console.log(filteredTransactions);
       return {
         ...state,
         transactionsFiltered: filteredTransactions,

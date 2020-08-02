@@ -59,7 +59,6 @@ class EntryList extends React.Component {
   componentDidMount() {
     // axios call to get transactions
     this.props.fetchData(this.props.googleID);
-    console.log(this.props.reducer.transactions)
     // TODO sum for aggregation action to initialize
   }
 
@@ -103,7 +102,6 @@ class EntryList extends React.Component {
 
   render() {
     const self = this;
-    console.log(this.props);
     if (this.props.reducer.hasError) {
       return (
         <p>
@@ -153,13 +151,11 @@ class EntryList extends React.Component {
       renderList = <p>No entries available for the selected options!</p>;
     }
 
-    if (this.props.aggregateReducer.totalInflow == 0 && this.props.aggregateReducer.totalOutflow == 0) {
-      console.log("in" + this.props.aggregateReducer.totalInflow)
-          this.props.reducer.transactions.map((item) => {
-            console.log(item)
-            this.props.initializeTotals(item)
-          })
-        }
+    // if (this.props.aggregateReducer.totalInflow == 0 && this.props.aggregateReducer.totalOutflow == 0) {
+    //       this.props.reducer.transactions.map((item) => {
+    //         this.props.initializeTotals(item)
+    //       })
+    //     }
 
     return (
       <div className="entryList">
