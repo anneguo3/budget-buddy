@@ -71,6 +71,20 @@ router.delete("/transactions", (req, res, next) => {
 router.post("/upload", (req, res, next) => {
   const transactions = req.body;
   console.log(transactions);
+  Transaction.insertMany(transactions, (err, result) => {
+    if (err) {
+      console.log(`POST Error for user #${req.body.userID}: ${err}`);
+      res.status(500).json({
+        error: err,
+      });
+      return;
+    }
+    console.log(`Succesful POST for user #${req.body.userID}`);
+    res.status(201).json({
+      message: "Handling POST requests to /transactions",
+      transactions: result,
+    });
+  });
 });
 
 module.exports = router;

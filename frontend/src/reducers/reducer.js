@@ -10,14 +10,14 @@ const initialState = {
   date: "",
   transactionsFiltered: [],
   user: null,
-  expenseCategories:[
+  expenseCategories: [
     "Entertainment",
     "Groceries",
     "Restaurants",
     "Housing",
     "Miscellaneous",
   ],
-  incomeCategories: ["Chequing", "Savings"] 
+  incomeCategories: ["Chequing", "Savings"],
 };
 
 const monthMapping = new Map([
@@ -38,18 +38,23 @@ const monthMapping = new Map([
 
 export default function messageReducer(state = initialState, action) {
   switch (action.type) {
-
     case "USER_SUCCESS":
       return {
         ...state,
-        expenseCategories: [...state.expenseCategories, ...action.payload.expenses],
-        incomeCategories: [...state.incomeCategories, ...action.payload.incomes],
+        expenseCategories: [
+          ...state.expenseCategories,
+          ...action.payload.expenses,
+        ],
+        incomeCategories: [
+          ...state.incomeCategories,
+          ...action.payload.incomes,
+        ],
         user: {
           ...state.user,
           name: action.payload.name,
-          url: action.payload.url
-        }
-    };
+          url: action.payload.url,
+        },
+      };
     case "ITEMS_GET_SUCCESS":
       // ADD IN HERE TODO ========================================
       return {
@@ -79,17 +84,24 @@ export default function messageReducer(state = initialState, action) {
           transactionsFiltered: [...state.transactions, action.payload],
         };
       }
+    case "TRANS_UPLOAD_SUCCESS":
+      console.log(state.transactions.concat(action.payload));
+      return {
+        ...state,
+        transactions: [...state.transactions].concat(action.payload),
+        transactionsFiltered: [...state.transactions].concat(action.payload),
+      };
     case "ADD_EXPENSE_SUCCESS":
       return {
         ...state,
-        expenseCategories: [...state.expenseCategories, action.payload]
-      }
+        expenseCategories: [...state.expenseCategories, action.payload],
+      };
 
-      case "ADD_INCOME_SUCCESS":
-        return {
-          ...state,
-          incomeCategories: [...state.incomeCategories, action.payload]
-        }
+    case "ADD_INCOME_SUCCESS":
+      return {
+        ...state,
+        incomeCategories: [...state.incomeCategories, action.payload],
+      };
     case "ITEMS_GET_FAILURE":
       return {
         ...state,
@@ -109,18 +121,18 @@ export default function messageReducer(state = initialState, action) {
     case "ADD_EXPENSE_FAILURE":
       return {
         ...state,
-        hasError: true
-      }
+        hasError: true,
+      };
     case "ADD_INCOME_FAILURE":
       return {
         ...state,
-        hasError: true
-      }
+        hasError: true,
+      };
     case "USER_FAILURE":
       return {
         ...state,
-        hasError:true
-      }  
+        hasError: true,
+      };
     case "FILTER_CHANGE":
       const type = action.payload.filterType;
       const month =

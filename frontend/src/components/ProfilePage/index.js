@@ -52,15 +52,18 @@ class ProfilePage extends React.Component {
     let sheetName = wb.SheetNames[0];
     let entries = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
     entries.forEach((element) => {
-      console.log(element);
       let entry = {};
       entry["id"] = uuid.v4();
-      entry["name"] = element["Transaction"];
-      entry["userId"] = this.props.userID;
+      entry["name"] = element["Transaction"].trim();
+      entry["userID"] = this.props.user.googleID;
       entry["amount"] = element["Amount"].toString();
+      entry["isMoneyIncrease"] = element["Type"].trim() === "Income";
+      entry["category"] = element["Category"].trim();
+      entry["date"] = element["Date"];
+      transactions.push(entry);
     });
-
-    this.setState({ transactions: entries });
+    console.log(transactions);
+    this.setState({ transactions: transactions });
   }
 
   handleFileUpload = (event) => {
