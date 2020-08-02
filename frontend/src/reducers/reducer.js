@@ -46,19 +46,13 @@ export default function messageReducer(state = initialState, action) {
         transactions: filteredTrans,
       };
     case "TRANS_POST_SUCCESS":
-      if (action.payload.isMoneyIncrease) {
-        return {
-          ...state,
-          transactions: [...state.transactions, action.payload],
-          transactionsFiltered: [...state.transactions, action.payload],
-        };
-      } else {
-        return {
-          ...state,
-          transactions: [...state.transactions, action.payload],
-          transactionsFiltered: [...state.transactions, action.payload],
-        };
-      }
+      const transObj = JSON.parse(action.payload.config.data)
+      console.log(transObj)
+      return {
+        ...state,
+        transactions: [...state.transactions, transObj],
+        transactionsFiltered: [...state.transactions, transObj],
+      };
     case "ITEMS_GET_FAILURE":
       return {
         ...state,
