@@ -3,7 +3,7 @@ export const addToCat = transaction => ({
       payload: transaction
 })
 
-export const handleDelete = transaction => ({
-      type: 'HANDLE_DELETE',
-      payload: transaction
-})
+// export const handleDelete = transaction => ({
+//       type: 'HANDLE_DELETE',
+//       payload: transaction
+// })
