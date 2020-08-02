@@ -5,6 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import * as FileSaver from "file-saver";
 import { connect } from "react-redux";
 import {
   uploadTransactions,
@@ -12,7 +13,6 @@ import {
   addIncomeCategory,
 } from "../../actions/action";
 import uuid from "uuid";
-// import aggregateReducer from "../../reducers/aggregateReducer";
 import reducer from "../../reducers/reducer";
 
 import XLSX from "xlsx";
@@ -54,15 +54,14 @@ class ProfilePage extends React.Component {
     entries.forEach((element) => {
       let entry = {};
       entry["id"] = uuid.v4();
-      entry["name"] = element["Transaction"].trim();
+      entry["name"] = element["Transaction"].toString().trim();
       entry["userID"] = this.props.user.googleID;
       entry["amount"] = element["Amount"].toString();
       entry["isMoneyIncrease"] = element["Type"].trim() === "Income";
-      entry["category"] = element["Category"].trim();
+      entry["category"] = element["Category"].toString().trim();
       entry["date"] = element["Date"];
       transactions.push(entry);
     });
-    console.log(transactions);
     this.setState({ transactions: transactions });
   }
 
@@ -70,6 +69,23 @@ class ProfilePage extends React.Component {
     let reader = new FileReader();
     reader.onload = this.excelToJson.bind(this, reader);
     reader.readAsBinaryString(event.target.files[0]);
+  };
+
+  handleTemplateDownload = (event) => {
+    const sheetHeaders = [
+      { Type: "" },
+      { Category: "" },
+      { Transaction: "" },
+      { Amount: "" },
+      { Date: "" },
+    ];
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const ws = XLSX.utils.json_to_sheet(sheetHeaders);
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, "Entries_Template.xlsx");
   };
 
   render() {
@@ -163,6 +179,10 @@ class ProfilePage extends React.Component {
           <Input
             className="file-input"
             type="file"
+            inputProps={{
+              accept:
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
+            }}
             onChange={this.handleFileUpload}
           ></Input>
         </div>
@@ -177,6 +197,14 @@ class ProfilePage extends React.Component {
             Submit
           </Button>
         </Box>
+      </Box>
+    );
+
+    let templateDownload = (
+      <Box display="flex" flexDirection="row" justifyContent="center" m={5}>
+        <Button variant="outlined" onClick={this.handleTemplateDownload}>
+          Download Template
+        </Button>
       </Box>
     );
 
@@ -201,6 +229,7 @@ class ProfilePage extends React.Component {
           {addExpense}
         </Box>
         {fileUpload}
+        {templateDownload}
       </div>
     );
   }
