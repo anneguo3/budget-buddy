@@ -3,9 +3,9 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var cors = require('cors');
 router.use(cors())
-var connectionString = 'mongodb+srv://m001-student:m001-mongodb-basics@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority'
-mongoose.connect(connectionString);
-var conn = mongoose.connection;
+const passw = require('./pass')
+const connectionString = "mongodb+srv://" + passw + "@sandbox-fsdyt.mongodb.net/transactionDB?retryWrites=true&w=majority";
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
 const User = require('../models/user');
 
 router.put('/new', function(req, res) {
@@ -18,7 +18,7 @@ router.put('/new', function(req, res) {
       image: req.image
     },
     {upsert: true})
-  .then(response =>{
+  .then(response => {
     console.log('Stored user succesfully in users collection')
     res.sendStatus(200)
   }).catch(err => {
@@ -27,5 +27,36 @@ router.put('/new', function(req, res) {
   })
 });
 
+router.get('/:id', (req, res) => {
+  User.findOne({googleID: req.params.id})
+  .then(result => {
+    console.log(result)
+    res.send(result);
+  })
+  .catch(err => {
+    console.log(err)
+    res.sendStatus(500)
+  })
+})
+
+router.put('/category', (req, res) => {
+  User.findOne({googleID: req.body.googleID})
+  .then(result => {
+    let income = req.body.income
+    let expense = req.body.expense
+    let expenses = result["expenses"]
+    let incomes = result["incomes"]
+    expense && !expenses.includes(expense) ? expenses.push(expense) : null
+    income && !incomes.includes(income) ? incomes.push(income) : null
+    result.save();
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+  })
+});
 
 module.exports = router;

@@ -10,6 +10,14 @@ const initialState = {
   date: "",
   transactionsFiltered: [],
   user: null,
+  expenseCategories: [
+    "Entertainment",
+    "Groceries",
+    "Restaurants",
+    "Housing",
+    "Miscellaneous",
+  ],
+  incomeCategories: ["Chequing", "Savings"],
 };
 
 const monthMapping = new Map([
@@ -30,6 +38,23 @@ const monthMapping = new Map([
 
 export default function messageReducer(state = initialState, action) {
   switch (action.type) {
+    case "USER_SUCCESS":
+      return {
+        ...state,
+        expenseCategories: [
+          ...state.expenseCategories,
+          ...action.payload.expenses,
+        ],
+        incomeCategories: [
+          ...state.incomeCategories,
+          ...action.payload.incomes,
+        ],
+        user: {
+          ...state.user,
+          name: action.payload.name,
+          url: action.payload.url,
+        },
+      };
     case "ITEMS_GET_SUCCESS":
       // ADD IN HERE TODO ========================================
       return {
@@ -39,26 +64,45 @@ export default function messageReducer(state = initialState, action) {
       };
     case "DELETE_TRANS_SUCCESS":
       const filteredTrans = state.transactions.filter(function (el) {
+        // delete twice to completely wipe out that id
+        return el.id !== action.payload;
+      });
+      const filteredTransFilt = state.transactionsFiltered.filter(function (
+        el
+      ) {
         return el.id !== action.payload;
       });
       return {
         ...state,
         transactions: filteredTrans,
+        transactionsFiltered: filteredTransFilt,
       };
     case "TRANS_POST_SUCCESS":
-      if (action.payload.isMoneyIncrease) {
-        return {
-          ...state,
-          transactions: [...state.transactions, action.payload],
-          transactionsFiltered: [...state.transactions, action.payload],
-        };
-      } else {
-        return {
-          ...state,
-          transactions: [...state.transactions, action.payload],
-          transactionsFiltered: [...state.transactions, action.payload],
-        };
-      }
+      const transObj = JSON.parse(action.payload.config.data);
+      console.log(transObj);
+      return {
+        ...state,
+        transactions: [...state.transactions, transObj], // same logic as above comment
+        transactionsFiltered: [...state.transactions, transObj],
+      };
+    case "TRANS_UPLOAD_SUCCESS":
+      console.log(state.transactions.concat(action.payload));
+      return {
+        ...state,
+        transactions: [...state.transactions].concat(action.payload),
+        transactionsFiltered: [...state.transactions].concat(action.payload),
+      };
+    case "ADD_EXPENSE_SUCCESS":
+      return {
+        ...state,
+        expenseCategories: [...state.expenseCategories, action.payload],
+      };
+
+    case "ADD_INCOME_SUCCESS":
+      return {
+        ...state,
+        incomeCategories: [...state.incomeCategories, action.payload],
+      };
     case "ITEMS_GET_FAILURE":
       return {
         ...state,
@@ -75,7 +119,21 @@ export default function messageReducer(state = initialState, action) {
         ...state,
         hasError: true,
       };
-
+    case "ADD_EXPENSE_FAILURE":
+      return {
+        ...state,
+        hasError: true,
+      };
+    case "ADD_INCOME_FAILURE":
+      return {
+        ...state,
+        hasError: true,
+      };
+    case "USER_FAILURE":
+      return {
+        ...state,
+        hasError: true,
+      };
     case "FILTER_CHANGE":
       const type = action.payload.filterType;
       const month =

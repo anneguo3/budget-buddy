@@ -16,8 +16,8 @@ class TextBox extends React.Component {
             inflow={this.props.aggregateReducer.totalInflow} 
             outflow={this.props.aggregateReducer.totalOutflow}
             />
-        // const
-
+            console.log(this.props.aggregateReducer.totalInflow)
+            console.log(this.props.aggregateReducer.totalOutflow)
         return (
             <div>
                 <Card className="textbox">

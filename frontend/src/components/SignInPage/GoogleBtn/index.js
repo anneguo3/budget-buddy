@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { login } from "../../../actions/action";
+import { login, fetchUserData } from "../../../actions/action";
 import { connect } from "react-redux";
 import axios from "axios";
-import {history} from 'react-router-dom'
+import { history } from "react-router-dom";
 
 const CLIENT_ID =
   "851822540683-n3koid7ih90omslsla3nf9fo9kfig8u5.apps.googleusercontent.com";
@@ -16,48 +16,45 @@ class GoogleBtn extends React.Component {
       isLogined: false,
       accessToken: "",
     };
-
-    this.login = this.login.bind(this);
-    this.handleLoginFailure = this.handleLoginFailure.bind(this);
-    this.logout = this.logout.bind(this);
-    this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
 
-  login(response) {
+  login = (response) => {
     if (response.accessToken) {
       this.setState((state) => ({
         isLogined: true,
         accessToken: response.accessToken,
       }));
       let res = response.profileObj;
-      axios.put(
-        `https://budgetbuddy4.herokuapp.com/users/new`,
-        {
+      axios
+        .put(`/users/new`, {
           googleID: res.googleId,
           name: res.name,
           email: res.email,
-          image: res.imageUrl
-        }).then(() => {
-          this.props.login(response.accessToken, res.googleId)
-          this.props.push();
+          image: res.imageUrl,
+        })
+        .then(() => {
+          this.props.login(response.accessToken, res.googleId);
+          this.props.getUser(res.googleId);
+          setTimeout(this.props.push, 1000);
         });
     }
-  }
+  };
 
-  logout(response) {
+  logout = (response) => {
     this.setState((state) => ({
       isLogined: false,
       accessToken: "",
     }));
-  }
+  };
 
-  handleLoginFailure(response) {
+  handleLoginFailure = (response) => {
+    console.log(response);
     alert("Failed to log in");
-  }
+  };
 
-  handleLogoutFailure(response) {
+  handleLogoutFailure = (response) => {
     alert("Failed to log out");
-  }
+  };
 
   render() {
     return (
@@ -86,14 +83,14 @@ class GoogleBtn extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (token, id) =>
-      dispatch(login(token, id)),
+    login: (token, id) => dispatch(login(token, id)),
+    getUser: (id) => dispatch(fetchUserData(id)),
   };
 };
 

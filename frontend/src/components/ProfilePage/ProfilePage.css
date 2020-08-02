@@ -1,3 +1,12 @@
 .list-item {
   width: 200px;
 }
+
+.file-input {
+  width: 10px;
+}
+
+.file-submit {
+  padding-left: 100px;
+  border: 10px;
+}
