@@ -129,3 +129,20 @@ export function addTransactionItem(
       });
   };
 }
+
+export function uploadTransactions(transactions) {
+  return (dispatch) => {
+    axios
+      .post("/upload/", transactions)
+      .then((response) => {
+        if (response === 500) {
+          throw Error(response.statusText);
+        }
+        console.log(response);
+        dispatch(itemsGetSuccess(response.data));
+      })
+      .catch((err) => {
+        dispatch(transactionPostFailure());
+      });
+  };
+}

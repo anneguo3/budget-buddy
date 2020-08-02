@@ -7,10 +7,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
-import aggregateReducer from "../../reducers/aggregateReducer";
+import { uploadTransactions } from "../../actions/action";
+import uuid from "uuid";
+// import aggregateReducer from "../../reducers/aggregateReducer";
 import reducer from "../../reducers/reducer";
 import XLSX from "xlsx";
-
 const incomeCategories = ["Chequing", "Savings"];
 
 const expenseCategories = [
@@ -21,29 +22,40 @@ const expenseCategories = [
   "Miscellaneous",
 ];
 
-export default class ProfilePage extends Component {
+class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       incomeCategories: incomeCategories,
       expenseCategories: expenseCategories,
-      selectedFile: null,
+      transactions: null,
     };
     this.handleFileUpload = this.handleFileUpload.bind(this);
-    this.handleFileSubmit = this.handleFileSubmit.bind(this);
+    // this.handleFileSubmit = this.handleFileSubmit.bind(this);
+  }
+
+  excelToJson(reader) {
+    let transactions = [];
+    let fileData = reader.result;
+    let wb = XLSX.read(fileData, { type: "binary" });
+    let sheetName = wb.SheetNames[0];
+    let entries = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
+    entries.forEach((element) => {
+      console.log(element);
+      let entry = {};
+      entry["id"] = uuid.v4();
+      entry["name"] = element["Transaction"];
+      entry["userId"] = this.props.userID;
+      entry["amount"] = element["Amount"].toString();
+    });
+
+    this.setState({ transactions: entries });
   }
 
   handleFileUpload = (event) => {
-    console.log(event.target.files[0]);
-    this.setState({ selectedFile: event.target.files[0] });
-  };
-
-  handleFileSubmit = (event) => {
-    const data = new FormData();
-    data.append("file", this.state.selectedFile);
-    data.values().forEach((element) => {
-      console.log(element);
-    });
+    let reader = new FileReader();
+    reader.onload = this.excelToJson.bind(this, reader);
+    reader.readAsBinaryString(event.target.files[0]);
   };
 
   render() {
@@ -130,20 +142,24 @@ export default class ProfilePage extends Component {
             onChange={this.handleFileUpload}
           ></Input>
         </div>
-        <Button
-          variant="outlined"
-          className="file-submit"
-          onClick={this.handleFileSubmit}
-        >
-          Submit
-        </Button>
+        <Box m={1}>
+          <Button
+            variant="outlined"
+            className="file-submit"
+            onClick={() => {
+              this.props.upload(this.state.transactions);
+            }}
+          >
+            Submit
+          </Button>
+        </Box>
       </Box>
     );
 
     return (
       <div>
         <Box
-          m={5}
+          m={1}
           display="flex"
           flexDirection="row"
           justifyContent="space-around"
@@ -165,11 +181,17 @@ export default class ProfilePage extends Component {
     );
   }
 }
-// const mapStateToProps = (state) => {
-//   return {
-//     aggregateReducer: state.aggregateReducer,
-//     user: state.reducer.user,
-//   };
-// };
 
-// export default connect(mapStateToProps)(ProfilePage);
+const mapStateToProps = (state) => {
+  return {
+    // userID: state.reducer.user.googleID,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    upload: (transactions) => dispatch(uploadTransactions(transactions)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
