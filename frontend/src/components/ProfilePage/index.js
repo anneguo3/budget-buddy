@@ -95,7 +95,10 @@ class ProfilePage extends React.Component {
         <List component="nav" aria-label="list of income categories">
           <div>
             {this.props.incomeCategories.map((category) => (
-              <div style={{ backgroundColor: "rgb(184, 255, 201)" }}>
+              <div
+                key={category}
+                style={{ backgroundColor: "rgb(184, 255, 201)" }}
+              >
                 <ListItem button>
                   <ListItemText id="category" primary={category}></ListItemText>
                   <IconButton
@@ -134,20 +137,21 @@ class ProfilePage extends React.Component {
           component="nav"
           aria-label="list of income categories"
         >
-          <div>
-            {this.props.expenseCategories.map((category) => (
-              <div style={{ backgroundColor: "rgb(255, 153, 153)" }}>
-                <ListItem button>
-                  <ListItemText id="category" primary={category}></ListItemText>
-                  <IconButton
-                    value={category}
-                    edge="end"
-                    aria-label="delete"
-                  ></IconButton>
-                </ListItem>
-              </div>
-            ))}
-          </div>
+          {this.props.expenseCategories.map((category) => (
+            <div
+              key={category}
+              style={{ backgroundColor: "rgb(255, 153, 153)" }}
+            >
+              <ListItem button>
+                <ListItemText id="category" primary={category}></ListItemText>
+                <IconButton
+                  value={category}
+                  edge="end"
+                  aria-label="delete"
+                ></IconButton>
+              </ListItem>
+            </div>
+          ))}
         </List>
       </div>
     );
