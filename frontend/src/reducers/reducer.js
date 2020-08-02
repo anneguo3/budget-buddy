@@ -64,26 +64,27 @@ export default function messageReducer(state = initialState, action) {
       };
     case "DELETE_TRANS_SUCCESS":
       const filteredTrans = state.transactions.filter(function (el) {
+        // delete twice to completely wipe out that id
+        return el.id !== action.payload;
+      });
+      const filteredTransFilt = state.transactionsFiltered.filter(function (
+        el
+      ) {
         return el.id !== action.payload;
       });
       return {
         ...state,
         transactions: filteredTrans,
+        transactionsFiltered: filteredTransFilt,
       };
     case "TRANS_POST_SUCCESS":
-      if (action.payload.isMoneyIncrease) {
-        return {
-          ...state,
-          transactions: [...state.transactions, action.payload],
-          transactionsFiltered: [...state.transactions, action.payload],
-        };
-      } else {
-        return {
-          ...state,
-          transactions: [...state.transactions, action.payload],
-          transactionsFiltered: [...state.transactions, action.payload],
-        };
-      }
+      const transObj = JSON.parse(action.payload.config.data);
+      console.log(transObj);
+      return {
+        ...state,
+        transactions: [...state.transactions, transObj], // same logic as above comment
+        transactionsFiltered: [...state.transactions, transObj],
+      };
     case "TRANS_UPLOAD_SUCCESS":
       console.log(state.transactions.concat(action.payload));
       return {
