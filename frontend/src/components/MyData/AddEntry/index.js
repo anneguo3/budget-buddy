@@ -18,15 +18,15 @@ import uuid from "uuid";
 import "./AddEntry.css";
 import { addTransactionItem } from "../../../actions/action";
 
-const incomeCategories = ["Chequing", "Savings"];
+// const incomeCategories = ["Chequing", "Savings"];
 
-const expenseCategories = [
-  "Entertainment",
-  "Groceries",
-  "Restaurants",
-  "Housing",
-  "Miscellaneous",
-];
+// const expenseCategories = [
+//   "Entertainment",
+//   "Groceries",
+//   "Restaurants",
+//   "Housing",
+//   "Miscellaneous",
+// ];
 
 class AddEntry extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class AddEntry extends React.Component {
       isMoneyIncrease: false,
       date: moment().format().substring(0, 10),
       category: "",
-      categories: expenseCategories,
+      categories: this.props.expenseCategories,
     };
 
     this.handleName = this.handleName.bind(this);
@@ -56,12 +56,12 @@ class AddEntry extends React.Component {
     if (event.target.value === "false") {
       this.setState({
         isMoneyIncrease: false,
-        categories: expenseCategories,
+        categories: this.props.expenseCategories,
       });
     } else {
       this.setState({
         isMoneyIncrease: true,
-        categories: incomeCategories,
+        categories: this.props.incomeCategories,
       });
     }
   }
@@ -175,7 +175,9 @@ const mapStateToProps = (state) => {
     isMoneyIncrease: state.isMoneyIncrease,
     date: state.date,
     category: state.category,
-    userID: state.reducer.user.googleID
+    userID: state.reducer.user.googleID,
+    expenseCategories: state.reducer.expenseCategories,
+    incomeCategories: state.reducer.incomeCategories
   };
 };
 
