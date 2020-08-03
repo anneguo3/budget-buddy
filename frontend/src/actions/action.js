@@ -107,6 +107,12 @@ export function addIncomeFailure() {
   };
 }
 
+export function loadingPage() {
+  return {
+    type: "LOADING_PAGE",
+  };
+}
+
 export function transactionsUploadSuccess(transactions) {
   return {
     type: "TRANS_UPLOAD_SUCCESS",
@@ -155,7 +161,9 @@ export function addExpenseCategory(expense, googleID) {
 }
 
 export function fetchUserData(googleID) {
+
   return (dispatch) => {
+    dispatch(loadingPage());
     axios
       .get(`/users/${googleID}`)
       .then((response) => {
@@ -172,7 +180,9 @@ export function fetchUserData(googleID) {
 }
 
 export function itemsFetchData(googleID) {
+
   return (dispatch) => {
+    dispatch(loadingPage());
     axios
       .get(`/transactions/${googleID}`)
       .then((response) => {
@@ -189,7 +199,9 @@ export function itemsFetchData(googleID) {
 }
 
 export function deleteTransaction(id) {
+
   return (dispatch) => {
+    dispatch(loadingPage());
     axios
       .delete("/transactions", { data: { id: id } })
       .then((response) => {
@@ -213,6 +225,7 @@ export function addTransactionItem(
   date,
   userID
 ) {
+
   console.log(userID);
   let postObject = {
     id: id,
@@ -224,6 +237,7 @@ export function addTransactionItem(
     date: date,
   };
   return (dispatch) => {
+    dispatch(loadingPage());
     axios
       .post("/transactions/", postObject)
       .then((response) => {

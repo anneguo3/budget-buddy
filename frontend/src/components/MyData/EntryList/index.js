@@ -18,6 +18,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import SpinningIcon from "../../SpinnerPage/index"
+
 import {
   itemsFetchData,
   deleteTransaction,
@@ -111,6 +113,12 @@ class EntryList extends React.Component {
           refresh the page!
         </p>
       );
+    }
+
+    if (this.props.reducer.isLoading) {
+      return (
+        < SpinningIcon />
+      )
     }
 
     let renderList;
