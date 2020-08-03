@@ -4,6 +4,7 @@ const initialState = {
   totalInflow: 0,
   totalOutflow: 0,
   isMoneyIncrease: null,
+  isLoading: true,
   filterIsIncome: 0,
   transName: "",
   amount: "",
@@ -54,6 +55,12 @@ export default function messageReducer(state = initialState, action) {
           name: action.payload.name,
           url: action.payload.url,
         },
+        isLoading: false
+      };
+    case "LOADING_PAGE":
+      return {
+        ...state,
+        isLoading: true
       };
     case "ITEMS_GET_SUCCESS":
       // ADD IN HERE TODO ========================================
@@ -61,6 +68,7 @@ export default function messageReducer(state = initialState, action) {
         ...state,
         transactions: JSON.parse(action.payload),
         transactionsFiltered: JSON.parse(action.payload),
+        isLoading: false
       };
     case "DELETE_TRANS_SUCCESS":
       const filteredTrans = state.transactions.filter(function (el) {
@@ -76,6 +84,7 @@ export default function messageReducer(state = initialState, action) {
         ...state,
         transactions: filteredTrans,
         transactionsFiltered: filteredTransFilt,
+        isLoading: false
       };
     case "TRANS_POST_SUCCESS":
       const transObj = JSON.parse(action.payload.config.data);
@@ -84,6 +93,7 @@ export default function messageReducer(state = initialState, action) {
         ...state,
         transactions: [...state.transactions, transObj], // same logic as above comment
         transactionsFiltered: [...state.transactions, transObj],
+        isLoading: false
       };
     case "TRANS_UPLOAD_SUCCESS":
       console.log(state.transactions.concat(action.payload));
@@ -107,32 +117,38 @@ export default function messageReducer(state = initialState, action) {
       return {
         ...state,
         hasError: true,
+        isLoading: false
       };
     case "TRANS_POST_FAILURE":
       return {
         ...state,
         hasError: true,
+        isLoading: false
       };
 
     case "DELETE_TRANS_FAILURE":
       return {
         ...state,
         hasError: true,
+        isLoading: false
       };
     case "ADD_EXPENSE_FAILURE":
       return {
         ...state,
         hasError: true,
+        isLoading: false
       };
     case "ADD_INCOME_FAILURE":
       return {
         ...state,
         hasError: true,
+        isLoading: false
       };
     case "USER_FAILURE":
       return {
         ...state,
         hasError: true,
+        isLoading: false
       };
     case "FILTER_CHANGE":
       const type = action.payload.filterType;
