@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as FileSaver from "file-saver";
+import Grid from '@material-ui/core/Grid';
 import { connect } from "react-redux";
 import {
   uploadTransactions,
@@ -89,6 +90,38 @@ class ProfilePage extends React.Component {
   };
 
   render() {
+    let addSaveGoal = (
+      <div>
+        <Box display="flex" flexDirection="column" justifyContent="center">
+            <FormControl>
+              <InputLabel>Custom Spend Goal</InputLabel>
+              <Input id="spend_goal" />
+            </FormControl>
+            <Box m={2}>
+              <Button variant="outlined" onClick={this.createSpendGoal}>
+                Create Spend Goal
+              </Button>
+            </Box>
+          </Box>
+      </div>
+    )
+
+    let addSpendGoal = (
+      <div>
+        <Box display="flex" flexDirection="column" justifyContent="center">
+          <FormControl>
+            <InputLabel>Custom Savings Goal</InputLabel>
+            <Input id="save_goal" />
+          </FormControl>
+          <Box m={2}>
+            <Button variant="outlined" onClick={this.createSaveGoal}>
+              Create Savings Goal
+            </Button>
+          </Box>
+        </Box>
+      </div>
+    )
+
     let incomeList = (
       <div>
         <Typography variant="h6">Current Income Categories</Typography>
@@ -220,6 +253,35 @@ class ProfilePage extends React.Component {
           flexDirection="row"
           justifyContent="space-around"
         >
+          <Typography variant="h6">
+            Add custom spending and saving goals for this month.
+          </Typography>
+        </Box>
+        <Box
+          m={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        >
+          {addSaveGoal}
+          {addSpendGoal}
+        </Box>
+
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        >
+          <Typography variant="h6">
+              Add custom income and expense categories.
+          </Typography>
+        </Box>
+        <Box
+          m={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        > 
           {incomeList}
           {addIncome}
         </Box>

@@ -2,6 +2,7 @@ import React from "react";
 import "./Textbox.css"
 import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
+import MonthAggregateInfo from '../AggregateInfo/index'
 import AggregateInfo from '../AggregateInfo/index';
 import CategoriesBarChart from '../AggregateInfo/categoriesBarChart';
 import TimeLineGraph from '../AggregateInfo/timeLineGraph';
@@ -12,12 +13,8 @@ class TextBox extends React.Component {
         super(props)
     }
     render() {
-        const aggregateInfo = <AggregateInfo 
-            inflow={this.props.aggregateReducer.totalInflow} 
-            outflow={this.props.aggregateReducer.totalOutflow}
-            />
-            console.log(this.props.aggregateReducer.totalInflow)
-            console.log(this.props.aggregateReducer.totalOutflow)
+        let aggregatePie = (this.props.isMonth) ? <MonthAggregateInfo/> : <AggregateInfo/>
+
         return (
             <div>
                 <Card className="textbox">
@@ -32,7 +29,7 @@ class TextBox extends React.Component {
                             <Typography variant="h6" className = "subtitle">
                                 Spending vs Saving
                             </Typography>
-                            {aggregateInfo}
+                            {aggregatePie}
                         </div>
                         <div>
                             <CategoriesBarChart/>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PieChartIndex from './pieChartIndex.js';
+import PieChartIndex from './monthPieChart.js';
 import { initializeTotals } from '../../../actions/aggregateAction';
 
-class AggregateInfo extends React.Component {
+class MonthAggregateInfo extends React.Component {
       state = {
             inflow: 0,
             outflow: 0
@@ -16,15 +16,15 @@ class AggregateInfo extends React.Component {
                         console.log(typeof item.date)
                         if (item.isMoneyIncrease) {
                               this.setState((state) => ({
-                                    inflow: Number(state.inflow + item.amount)
+                                    inflow: Number(state.inflow) + Number(item.amount)
                               }))
                         } else {
                               this.setState((state) => ({
-                                    outflow: Number(state.outflow + item.amount)
+                                    outflow: Number(state.outflow) + Number(item.amount)
                               }))
                               // TODO state needs to update properly
                               console.log(Number(this.state.outflow + item.amount))
-                              console.log(+(Number(this.state.outflow) + Number(item.amount)))
+                              console.log((Number(this.state.outflow) + Number(item.amount)))
                               console.log(this.state.outflow)
                         }
                   })
@@ -60,4 +60,4 @@ const mapStateToProps = (state) => {
       };
     };
   
-export default connect(mapStateToProps, mapDispatchToProps)(AggregateInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(MonthAggregateInfo);
