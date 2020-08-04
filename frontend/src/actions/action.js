@@ -9,6 +9,8 @@ export function getUserSuccess(user) {
       url: user.image,
       expenses: user.expenses,
       incomes: user.incomes,
+      saveGoal: user.saveGoal,
+      spendGoal: user.spendGoal
     },
   };
 }

@@ -307,6 +307,8 @@ const mapStateToProps = (state) => {
     user: state.reducer.user,
     expenseCategories: state.reducer.expenseCategories,
     incomeCategories: state.reducer.incomeCategories,
+    spendGoal: state.reducer.user.spendGoal,
+    saveGoal: state.reducer.user.saveGoal
   };
 };
 
