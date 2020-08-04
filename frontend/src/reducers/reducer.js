@@ -54,6 +54,8 @@ export default function messageReducer(state = initialState, action) {
           ...state.user,
           name: action.payload.name,
           url: action.payload.url,
+          spendGoal: action.payload.spendGoal,
+          saveGoal: action.payload.saveGoal
         },
         isLoading: false
       };
