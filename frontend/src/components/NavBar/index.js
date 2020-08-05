@@ -45,7 +45,7 @@ let ButtonAppBar = ({dispatch}) => {
             Budget Buddy
           </Typography>
           <Link to={"/data"} style={{ textDecoration: "none", color: "white" }}>
-            <Button color="inherit">My Data</Button>
+            <Button color="inherit">Data</Button>
           </Link>
           <Link
             to={"/overview"}
@@ -53,11 +53,12 @@ let ButtonAppBar = ({dispatch}) => {
           >
             <Button color="inherit">Overview</Button>
           </Link>
-          <IconButton color="inherit">
-            <Link to={"/profile"} style={{ textDecoration: "none", color: "white" }}>
-              <AccountCircle />
-            </Link>
-          </IconButton>
+          <Link
+            to={"/profile"}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            <Button color="inherit">Profile</Button>
+          </Link>
           <Button color="inherit" onClick={() => {
             dispatch(logout());
             window.location.replace('/');
