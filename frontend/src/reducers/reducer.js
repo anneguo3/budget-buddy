@@ -92,7 +92,6 @@ export default function messageReducer(state = initialState, action) {
       };
     case "TRANS_POST_SUCCESS":
       const transObj = JSON.parse(action.payload.config.data);
-      console.log(transObj);
       return {
         ...state,
         transactions: [...state.transactions, transObj], // same logic as above comment
@@ -100,7 +99,6 @@ export default function messageReducer(state = initialState, action) {
         isLoading: false
       };
     case "TRANS_UPLOAD_SUCCESS":
-      console.log(state.transactions.concat(action.payload));
       return {
         ...state,
         transactions: [...state.transactions].concat(action.payload),

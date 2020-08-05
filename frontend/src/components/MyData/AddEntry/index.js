@@ -18,16 +18,6 @@ import uuid from "uuid";
 import "./AddEntry.css";
 import { addTransactionItem } from "../../../actions/action";
 
-// const incomeCategories = ["Chequing", "Savings"];
-
-// const expenseCategories = [
-//   "Entertainment",
-//   "Groceries",
-//   "Restaurants",
-//   "Housing",
-//   "Miscellaneous",
-// ];
-
 class AddEntry extends React.Component {
   constructor(props) {
     super(props);
