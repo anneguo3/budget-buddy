@@ -98,7 +98,6 @@ class ProfilePage extends React.Component {
       if (saveGoal && googleID) this.props.createSave(saveGoal, googleID);
       else alert("Please enter a value that is not null.");
     }
-    console.log(this.props.user)
   };
 
   createSpendGoal = () => {

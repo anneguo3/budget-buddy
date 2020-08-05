@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
 import Textbox from './../Textbox'
 import { connect } from 'react-redux';
-import aggregateReducer from '../../../reducers/aggregateReducer';
 
 class SummaryPage extends React.Component {
   constructor(props) {
