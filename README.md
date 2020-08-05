@@ -9,7 +9,6 @@ Budget Buddy helps users gain a greater control of their financial life, by prov
 <ins> 3-5 minimal requirements </ins>
 
 - Users add and delete income + expense items (name + amount) with a datestamp - yes
-- Saves “names” used and income sources - did not align with project goals
 - Feedback → most spent, least spent, surplus/deficit - yes
 - Persistence of data → login on start - yes
 
