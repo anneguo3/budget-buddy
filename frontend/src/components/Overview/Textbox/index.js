@@ -12,11 +12,6 @@ class TextBox extends React.Component {
         super(props)
     }
     render() {
-        const aggregateInfo = <AggregateInfo 
-            inflow={this.props.aggregateReducer.totalInflow} 
-            outflow={this.props.aggregateReducer.totalOutflow}
-            />
-        // const
 
         return (
             <div>
@@ -32,7 +27,7 @@ class TextBox extends React.Component {
                             <Typography variant="h6" className = "subtitle">
                                 Spending vs Saving
                             </Typography>
-                            {aggregateInfo}
+                            <AggregateInfo/>
                         </div>
                         <div>
                             <CategoriesBarChart/>

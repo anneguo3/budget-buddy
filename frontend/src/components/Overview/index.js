@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {Textbox} from './Textbox'
 import SummaryPage from './SummaryPage'
-import combineReducer from '../../reducers/index';
 import { connect } from "react-redux";
 
 class Overview extends Component {

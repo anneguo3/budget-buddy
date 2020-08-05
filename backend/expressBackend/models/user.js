@@ -6,7 +6,9 @@ const userSchema = mongoose.Schema({
     name: String,
     image: String,
     expenses: Array,
-    incomes: Array
+    incomes: Array,
+    spendGoal: Number,
+    saveGoal: Number
 });
   
 module.exports = mongoose.model("users", userSchema);

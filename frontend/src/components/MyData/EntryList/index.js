@@ -26,7 +26,6 @@ import {
   filterChange,
 } from "../../../actions/action";
 import {
-  initializeTotals,
   handleDelete,
 } from "./../../../actions/aggregateAction";
 
@@ -61,7 +60,11 @@ class EntryList extends React.Component {
   componentDidMount() {
     // axios call to get transactions
     this.props.fetchData(this.props.googleID);
+<<<<<<< HEAD
+    // TODO sum for aggregation action to initialize
+=======
   
+>>>>>>> master
   }
 
   colorDecide(flagInc) {
@@ -159,12 +162,15 @@ class EntryList extends React.Component {
       renderList = <p>No entries available for the selected options!</p>;
     }
 
+<<<<<<< HEAD
+=======
     if (this.props.aggregateReducer.totalInflow == 0 && this.props.aggregateReducer.totalOutflow == 0) {
           this.props.reducer.transactions.map((item) => {
             this.props.initializeTotals(item)
           })
         }
 
+>>>>>>> master
     return (
       <div className="entryList">
         <Box
@@ -233,7 +239,6 @@ const mapDispatchToProps = (dispatch) => {
     delTrans: (id) => dispatch(deleteTransaction(id)),
     filterChangeTrigger: (filter) => dispatch(filterChange(filter)),
     handleDelete: (item) => dispatch(handleDelete(item)),
-    initializeTotals: (item) => dispatch(initializeTotals(item)),
   };
 };
 

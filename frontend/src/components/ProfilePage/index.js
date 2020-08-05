@@ -6,12 +6,15 @@ import IconButton from "@material-ui/core/IconButton";
 import { Box, FormControl, InputLabel, Input, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as FileSaver from "file-saver";
+import Grid from '@material-ui/core/Grid';
 import { connect } from "react-redux";
 import {
   uploadTransactions,
   addExpenseCategory,
   addIncomeCategory,
-} from "../../actions/action";
+  createSaveGoal,
+  createSpendGoal
+} from '../../actions/action';
 import uuid from "uuid";
 import reducer from "../../reducers/reducer";
 
@@ -88,7 +91,57 @@ class ProfilePage extends React.Component {
     FileSaver.saveAs(data, "Entries_Template.xlsx");
   };
 
+  createSaveGoal = () => {
+    if (this.props) {
+      let saveGoal = document.querySelector("#save_goal").value;
+      let googleID = this.props.user.googleID;
+      if (saveGoal && googleID) this.props.createSave(saveGoal, googleID);
+      else alert("Please enter a value that is not null.");
+    }
+  };
+
+  createSpendGoal = () => {
+    if (this.props) {
+      let spendGoal = document.querySelector("#spend_goal").value;
+      let googleID = this.props.user.googleID;
+      if (spendGoal && googleID) this.props.createSpend(spendGoal, googleID);
+      else alert("Please enter a value that is not null.");
+    }
+  };
+
   render() {
+    let addSaveGoal = (
+      <div>
+        <Box display="flex" flexDirection="column" justifyContent="center">
+            <FormControl>
+              <InputLabel>Custom Savings Goal</InputLabel>
+              <Input id="save_goal" />
+            </FormControl>
+            <Box m={2}>
+              <Button variant="outlined" onClick={this.createSaveGoal}>
+                Create Save Goal
+              </Button>
+            </Box>
+          </Box>
+      </div>
+    )
+
+    let addSpendGoal = (
+      <div>
+        <Box display="flex" flexDirection="column" justifyContent="center">
+          <FormControl>
+            <InputLabel>Custom Spending Goal</InputLabel>
+            <Input id="spend_goal" />
+          </FormControl>
+          <Box m={2}>
+            <Button variant="outlined" onClick={this.createSpendGoal}>
+              Create Spend Goal
+            </Button>
+          </Box>
+        </Box>
+      </div>
+    )
+
     let incomeList = (
       <div>
         <Typography variant="h6">Current Income Categories</Typography>
@@ -220,6 +273,35 @@ class ProfilePage extends React.Component {
           flexDirection="row"
           justifyContent="space-around"
         >
+          <Typography variant="h6">
+            Add custom spending and saving goals for this month.
+          </Typography>
+        </Box>
+        <Box
+          m={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        >
+          {addSaveGoal}
+          {addSpendGoal}
+        </Box>
+
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        >
+          <Typography variant="h6">
+              Add custom income and expense categories.
+          </Typography>
+        </Box>
+        <Box
+          m={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-around"
+        > 
           {incomeList}
           {addIncome}
         </Box>
@@ -245,6 +327,8 @@ const mapStateToProps = (state) => {
     user: state.reducer.user,
     expenseCategories: state.reducer.expenseCategories,
     incomeCategories: state.reducer.incomeCategories,
+    spendGoal: state.reducer.user.spendGoal,
+    saveGoal: state.reducer.user.saveGoal
   };
 };
 
@@ -257,6 +341,12 @@ const mapDispatchToProps = (dispatch) => {
     addIncome: (income, googleID) => {
       dispatch(addIncomeCategory(income, googleID));
     },
+    createSave: (goal, googleID) => {
+      dispatch(createSaveGoal(goal, googleID));
+    },
+    createSpend: (goal, googleID) => {
+      dispatch(createSpendGoal(goal, googleID));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

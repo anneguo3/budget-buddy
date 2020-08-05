@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
 import Textbox from './../Textbox'
 import { connect } from 'react-redux';
-import aggregateReducer from '../../../reducers/aggregateReducer';
 
 class SummaryPage extends React.Component {
   constructor(props) {
@@ -18,13 +17,13 @@ class SummaryPage extends React.Component {
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
           <Typography variant="h5" align='center'>This Month</Typography>
-            <Textbox totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}  />
+            <Textbox isMonth = {true} />
           </CardContent>
         </Card>
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
             <Typography variant="h5" align='center'>Year to Date</Typography>
-            <Textbox totalInflow={this.props.aggregateReducer.totalInflow} totalOutflow={this.props.aggregateReducer.totalOutflow}  />
+            <Textbox isMonth = {false} />
           </CardContent>
         </Card>
       </div>

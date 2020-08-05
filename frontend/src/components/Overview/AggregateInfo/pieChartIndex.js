@@ -41,7 +41,6 @@ const PieChartIndex = (props) => {
 
   return (
     <div>
-      <p>You have saved ${props.inflow.toFixed(2)} and spent ${props.outflow.toFixed(2)} this month.</p>
       <PieChart width={400} height={400}>
         <Pie
           data={data}

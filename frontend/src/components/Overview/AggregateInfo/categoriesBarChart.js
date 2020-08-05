@@ -13,6 +13,7 @@ class CategoryBars extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      transactions: this.props.reducer.transactions,
       totalChequing: 0,
       totalSavings: 0,
       totalEntertainment: 0,
@@ -24,36 +25,43 @@ class CategoryBars extends React.Component {
   }
 
   componentDidMount() {
-    this.props.reducer.transactions.map((item) => {
+    this.state.transactions.map((item) => {
       switch (item.category) {
-        case 'Chequing':
+        case "Chequing":
           this.setState({
-            totalChequing: this.state.totalChequing + Number(item.amount)
+            totalChequing: Number(this.state.totalChequing + item.amount)
           });
-        case 'Savings':
+          break;
+        case "Savings":
           this.setState({
-            totalSavings: this.state.totalSavings + Number(item.amount)
+            totalSavings: Number(this.state.totalSavings + item.amount)
           });
+          break;
         case "Entertainment":
           this.setState({
-            totalEntertainment: this.state.totalEntertainment - Number(item.amount)
+            totalEntertainment: Number(this.state.totalEntertainment - item.amount)
           });
+          break;
         case "Groceries":
           this.setState({
-            totalGroceries: this.state.totalGroceries - Number(item.amount)
+            totalGroceries: Number(this.state.totalGroceries - item.amount)
           });
+          break;
         case "Restaurants":
           this.setState({
-            totalRestaurants: this.state.totalRestaurants - Number(item.amount)
+            totalRestaurants: Number(this.state.totalRestaurants - item.amount)
           });
+          break;
         case "Housing":
           this.setState({
-            totalHousing: this.state.totalHousing - Number(item.amount)
+            totalHousing: Number(this.state.totalHousing - item.amount)
           });
+          break;
         case "Miscellaneous":
           this.setState({
-            totalMiscellaneous: this.state.totalMiscellaneous - Number(item.amount)
+            totalMiscellaneous: Number(this.state.totalMiscellaneous - item.amount)
           });
+          break;
       }
     })
   }

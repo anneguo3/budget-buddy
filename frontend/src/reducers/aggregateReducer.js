@@ -1,6 +1,8 @@
 const initialState = {
       totalInflow: 0,
       totalOutflow: 0,
+      spendGoal: -999,
+      saveGoal: -999
 }
 
 export default function aggregateReducer(state = initialState, action) {
@@ -38,6 +40,16 @@ export default function aggregateReducer(state = initialState, action) {
                               ...state,
                               totalOutflow: state.totalOutflow - Number(action.payload.amount)
                         };
+                  }
+            case 'CREATE_SPEND_GOAL':
+                  return {
+                        ...state,
+                        spendGoal: action.payload.amount
+                  }
+            case 'CREATE_SAVE_GOAL':
+                  return {
+                        ...state,
+                        saveGoal: action.payload.amount
                   }
             default:
                   return state;
