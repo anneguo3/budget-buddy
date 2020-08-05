@@ -5,15 +5,27 @@ import {
 } from 'recharts';
 
 import { addToCat } from '../../../actions/categoryAction';
-import categoryReducer from '../../../reducers/categoryReducer';
-
+import moment from "moment";
 
 
 class CategoryBars extends React.Component {
   constructor(props) {
     super(props);
+
+    this.transactions = [];
+    if (props.isMonth) {
+      this.props.reducer.transactions.map((item) => {
+        if (moment(moment()).isSame(item.date, 'month')) {
+          this.transactions.push(item)
+        }
+      })
+    } else {
+      this.transactions = this.props.reducer.transactions
+    }
+    
+
     this.state = {
-      transactions: this.props.reducer.transactions,
+      transactions: this.transactions,
       totalChequing: 0,
       totalSavings: 0,
       totalEntertainment: 0,
@@ -21,6 +33,7 @@ class CategoryBars extends React.Component {
       totalRestaurants: 0,
       totalHousing: 0,
       totalMiscellaneous: 0,
+      isMonth: props.isMonth
     }
   }
 

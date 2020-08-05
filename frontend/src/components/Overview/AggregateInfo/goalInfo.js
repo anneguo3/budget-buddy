@@ -16,8 +16,10 @@ class GoalInfo extends Component {
          let progress = (this.state.isOver) ? "over" : "under";
          return (
             <div>
-               Your current {category} goal is ${this.state.goal}.
-               You are {progress} your {category} goal by ${this.state.diff}.
+               <p>
+                  Your current monthly {category} goal is ${this.state.goal}.
+                  You are {progress} your {category} goal by ${this.state.diff}.
+               </p>
             </div>
          )
     }
