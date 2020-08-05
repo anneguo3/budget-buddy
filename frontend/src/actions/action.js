@@ -134,7 +134,6 @@ export function addIncomeCategory(income, googleID) {
         dispatch(addIncomeSuccess(income));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(addIncomeFailure());
       });
   };
@@ -154,7 +153,6 @@ export function addExpenseCategory(expense, googleID) {
         dispatch(addExpenseSuccess(expense));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(addExpenseFailure());
       });
   };
@@ -173,7 +171,6 @@ export function fetchUserData(googleID) {
         dispatch(getUserSuccess(response.data));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(getUserFailure());
       });
   };
@@ -192,7 +189,6 @@ export function itemsFetchData(googleID) {
         dispatch(itemsGetSuccess(response.data));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(itemGetFailure());
       });
   };
@@ -226,7 +222,6 @@ export function addTransactionItem(
   userID
 ) {
 
-  console.log(userID);
   let postObject = {
     id: id,
     name: name,
