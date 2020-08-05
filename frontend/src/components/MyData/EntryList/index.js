@@ -61,7 +61,7 @@ class EntryList extends React.Component {
   componentDidMount() {
     // axios call to get transactions
     this.props.fetchData(this.props.googleID);
-    // TODO sum for aggregation action to initialize
+  
   }
 
   colorDecide(flagInc) {
