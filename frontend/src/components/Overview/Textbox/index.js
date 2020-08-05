@@ -9,7 +9,11 @@ import { connect } from "react-redux";
 
 class TextBox extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+
+        this.state = {
+            isMonth: props.isMonth
+        };
     }
     render() {
 
@@ -27,16 +31,16 @@ class TextBox extends React.Component {
                             <Typography variant="h6" className = "subtitle">
                                 Spending vs Saving
                             </Typography>
-                            <AggregateInfo/>
+                            <AggregateInfo isMonth = {this.state.isMonth}/>
                         </div>
                         <div>
-                            <CategoriesBarChart/>
+                            <CategoriesBarChart isMonth = {this.state.isMonth}/>
                         </div>
                         <div>
                             <Typography variant="h6" className = "subtitle">
                                 Your Budget Timeline
                             </Typography>
-                            <TimeLineGraph />
+                            <TimeLineGraph  isMonth = {this.state.isMonth}/>
                         </div>
                         
                     </CardContent>

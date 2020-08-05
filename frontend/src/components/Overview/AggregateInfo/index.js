@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PieChartIndex from './pieChartIndex.js';
 import { initializeTotals } from '../../../actions/aggregateAction';
 import GoalInfo from './goalInfo';
+import moment from "moment";
 
 class AggregateInfo extends React.Component {
       constructor(props) {
@@ -10,11 +11,22 @@ class AggregateInfo extends React.Component {
 
             this.in = 0;
             this.out = 0;
+            
             this.props.reducer.transactions.map((item) => {
-                  if (item.isMoneyIncrease) {
-                        this.in = Number(this.in) + Number(item.amount)
+                  if (props.isMonth) {
+                        if (moment(moment()).isSame(item.date, 'month')) {
+                              if (item.isMoneyIncrease) {
+                                    this.in = Number(this.in) + Number(item.amount)
+                              } else {
+                                    this.out = Number(this.out) + Number(item.amount)
+                              }  
+                        }                      
                   } else {
-                        this.out = Number(this.out) + Number(item.amount)
+                        if (item.isMoneyIncrease) {
+                              this.in = Number(this.in) + Number(item.amount)
+                        } else {
+                              this.out = Number(this.out) + Number(item.amount)
+                        }
                   }
             })
 
@@ -35,7 +47,7 @@ class AggregateInfo extends React.Component {
                   this.spendOver = this.props.user.spendGoal < this.out
                   this.spendDiff = Math.abs(this.props.user.spendGoal - this.out)
             }
-            console.log(this.props.user.spendGoal)
+            
             this.state = {
                   inflow: this.in,
                   outflow: this.out,
@@ -44,7 +56,8 @@ class AggregateInfo extends React.Component {
                   saveDiff: this.saveDiff,
                   spendExists: this.spendExists,
                   spendOver: this.spendOver,
-                  spendDiff: this.spendDiff
+                  spendDiff: this.spendDiff,
+                  isMonth: props.isMonth
             };
             
       }         
@@ -52,11 +65,12 @@ class AggregateInfo extends React.Component {
       render() {                
             const placeholder = <p>You have no data to display.</p>
             const dataExists = (this.state.inflow !== 0 || this.state.outflow !== 0);  
+            let monthOrYear = (this.state.isMonth) ? "month" : "year";
 
-            let displaySaveGoal = (this.state.saveExists) 
+            let displaySaveGoal = (this.state.saveExists && this.state.isMonth) 
                   ? <GoalInfo goal={this.props.user.saveGoal} isSave={true} isOver={this.state.saveOver} diff={this.state.saveDiff}/>
                   : null      
-            let displaySpendGoal = (this.state.spendExists) 
+            let displaySpendGoal = (this.state.spendExists && this.state.isMonth) 
                   ? <GoalInfo goal = {this.props.user.spendGoal} isSave = {false} isOver = {this.state.spendOver} diff = {this.state.spendDiff}/>
                   : null
 
@@ -64,7 +78,7 @@ class AggregateInfo extends React.Component {
                   <div>
                         <div>
                               <p>
-                                    You have saved ${Number(this.state.inflow).toFixed(2)} and spent ${Number(this.state.outflow).toFixed(2)} this month.
+                                    You have saved ${Number(this.state.inflow).toFixed(2)} and spent ${Number(this.state.outflow).toFixed(2)} this {monthOrYear}.
                               </p>
                               {displaySaveGoal}
                               {displaySpendGoal}
