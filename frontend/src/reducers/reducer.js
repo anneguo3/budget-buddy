@@ -19,8 +19,8 @@ const initialState = {
     "Miscellaneous",
   ],
   incomeCategories: ["Chequing", "Savings"],
-  saveGoal: 0,
-  spendGoal: 0
+  saveGoal: -999,
+  spendGoal: -999
 };
 
 const monthMapping = new Map([

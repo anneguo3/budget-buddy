@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PieChartIndex from './pieChartIndex.js';
 import { initializeTotals } from '../../../actions/aggregateAction';
+import GoalInfo from './goalInfo';
 
 class AggregateInfo extends React.Component {
       constructor(props) {
@@ -17,25 +18,31 @@ class AggregateInfo extends React.Component {
                   }
             })
 
+            this.saveExists = (this.props.user.saveGoal !== undefined && this.props.user.saveGoal !== null 
+                  && this.props.user.saveGoal !== -999)
             this.saveOver = false;
             this.saveDiff = 0;
-            if (typeof this.props.user.saveGoal === Number) {
-                  this.saveOver = this.props.user.saveGoal > this.in
+            if (this.saveExists) {
+                  this.saveOver = this.props.user.saveGoal < this.in
                   this.saveDiff = Math.abs(this.props.user.saveGoal - this.in)
             }
 
+            this.spendExists = (this.props.user.spendGoal !== undefined && this.props.user.spendGoal !== null 
+                  && this.props.user.spendGoal !== -999)
             this.spendOver = false;
             this.spendDiff = 0;
-            if (typeof this.props.user.spendGoal === Number) {
-                  this.spendOver = this.props.user.spendGoal > this.out
+            if (this.spendExists) {
+                  this.spendOver = this.props.user.spendGoal < this.out
                   this.spendDiff = Math.abs(this.props.user.spendGoal - this.out)
             }
-
+            console.log(this.props.user.spendGoal)
             this.state = {
                   inflow: this.in,
                   outflow: this.out,
+                  saveExists: this.saveExists,
                   saveOver: this.saveOver,
                   saveDiff: this.saveDiff,
+                  spendExists: this.spendExists,
                   spendOver: this.spendOver,
                   spendDiff: this.spendDiff
             };
@@ -44,28 +51,14 @@ class AggregateInfo extends React.Component {
       
       render() {                
             const placeholder = <p>You have no data to display.</p>
-            const dataExists = (this.state.inflow !== 0 || this.state.outflow !== 0);
+            const dataExists = (this.state.inflow !== 0 || this.state.outflow !== 0);  
 
-            let isSaveOver = (this.saveOver) ? 
-                  <p>
-                        You are over your savings goal of ${this.props.user.saveGoal} by ${this.state.saveDiff}!
-                  </p> 
-                  : 
-                  <p>
-                        You are under your savings goal of ${this.props.user.saveGoal} by ${this.state.saveDiff}!
-                  </p>
-            let save = (typeof this.props.user.saveGoal !== undefined && typeof this.props.user.saveGoal !== null) ? {isSaveOver} : null
-
-            let isSpendOver = (this.spendOver) ? 
-            <p>
-                  You are over your spending goal of ${this.props.user.spendGoal} by ${this.state.spendDiff}!
-            </p> 
-            : 
-            <p>
-                  You are under your spending goal of ${this.props.user.spendGoal} by ${this.state.spendDiff}!
-            </p>
-            let spend = (typeof this.props.user.spendGoal !== undefined && typeof this.props.user.spendGoal !== null) ? {isSpendOver} : null
-
+            let displaySaveGoal = (this.state.saveExists) 
+                  ? <GoalInfo goal={this.props.user.saveGoal} isSave={true} isOver={this.state.saveOver} diff={this.state.saveDiff}/>
+                  : null      
+            let displaySpendGoal = (this.state.spendExists) 
+                  ? <GoalInfo goal = {this.props.user.spendGoal} isSave = {false} isOver = {this.state.spendOver} diff = {this.state.spendDiff}/>
+                  : null
 
             let data = 
                   <div>
@@ -73,8 +66,8 @@ class AggregateInfo extends React.Component {
                               <p>
                                     You have saved ${Number(this.state.inflow).toFixed(2)} and spent ${Number(this.state.outflow).toFixed(2)} this month.
                               </p>
-                              {save}
-                              {spend}
+                              {displaySaveGoal}
+                              {displaySpendGoal}
                         </div>
                         
                         <PieChartIndex inflow={this.state.inflow} outflow={this.state.outflow}/>

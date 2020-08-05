@@ -2,7 +2,6 @@ import React from "react";
 import "./Textbox.css"
 import Card from '@material-ui/core/Card';
 import { CardContent, Typography } from "@material-ui/core";
-import MonthAggregateInfo from '../AggregateInfo/index'
 import AggregateInfo from '../AggregateInfo/index';
 import CategoriesBarChart from '../AggregateInfo/categoriesBarChart';
 import TimeLineGraph from '../AggregateInfo/timeLineGraph';
@@ -13,7 +12,6 @@ class TextBox extends React.Component {
         super(props)
     }
     render() {
-        let aggregatePie = (this.props.isMonth) ? <MonthAggregateInfo/> : <AggregateInfo/>
 
         return (
             <div>
@@ -29,7 +27,7 @@ class TextBox extends React.Component {
                             <Typography variant="h6" className = "subtitle">
                                 Spending vs Saving
                             </Typography>
-                            {aggregatePie}
+                            <AggregateInfo/>
                         </div>
                         <div>
                             <CategoriesBarChart/>

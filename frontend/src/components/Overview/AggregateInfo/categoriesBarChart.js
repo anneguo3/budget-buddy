@@ -26,7 +26,6 @@ class CategoryBars extends React.Component {
 
   componentDidMount() {
     this.state.transactions.map((item) => {
-      console.log(item.category)
       switch (item.category) {
         case "Chequing":
           this.setState({
