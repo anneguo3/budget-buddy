@@ -70,7 +70,6 @@ router.delete("/transactions", (req, res, next) => {
 /* UPLOAD file to add to Request*/
 router.post("/upload", (req, res, next) => {
   const transactions = req.body;
-  console.log(transactions);
   Transaction.insertMany(transactions, (err, result) => {
     if (err) {
       console.log(`POST Error for user #${req.body.userID}: ${err}`);
