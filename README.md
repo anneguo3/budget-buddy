@@ -39,8 +39,7 @@ Our project is created based on React and Redux and the standard structure compo
 
 <ins>MongoDB</ins>
 
-Two different collections
-MongoDB is leveraged in our application to store each user’s data to ensure that there is persistence, enabling optimal user experience. We leveraged the NoSQL format by maintaining two different collections, one for all transactions for all users, and the latter to store all existing users, such that the transactions for each user were much more easily queried.
+Two different collections were used. MongoDB is leveraged in our application to store each user’s data to ensure that there is persistence, enabling optimal user experience. We leveraged the NoSQL format by maintaining two different collections, one for all transactions for all users, and the latter to store all existing users, such that the transactions for each user were much more easily queried.
 
 <ins>Node & Express</ins>
 
@@ -70,11 +69,6 @@ Sylvester - I worked on the routing for the app, the login page/functionality wi
 
 Ansel - Helped create code structure for Redux integration as I had previous industry experience (actions, reducer, store structures). I also mainly worked on the transactions list and the deletion request. Filtering mechanism for different types of transactions. 
 
-
-
-## App Mock-Up:
-
-![Mock-Up](https://github.com/anneguo3/budget-buddy/blob/master/_mocks_/436I_App_Draft.jpg?raw=true)
 
 ## Deployed URL:
 
