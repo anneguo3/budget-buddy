@@ -6,7 +6,6 @@ import { initializeTotals } from '../../../actions/aggregateAction';
 class AggregateInfo extends React.Component {
       constructor(props) {
             super(props);
-            console.log(this.props);
 
             this.in = 0;
             this.out = 0;
@@ -22,36 +21,7 @@ class AggregateInfo extends React.Component {
                   inflow: this.in,
                   outflow: this.out
             };
-            console.log(this.state)
-      }
-      
-        
-      // componentDidUpdate() {
-      //       if (this.state.inflow == 0 && this.state.outflow == 0) {
-      //             this.props.reducer.transactions.map((item) => {
-      //                   console.log(item)
-      //                   console.log(typeof item.date)
-      //                   if (item.isMoneyIncrease) {
-      //                         this.setState((state) => ({
-      //                               inflow: Number(state.inflow + item.amount)
-      //                         }))
-      //                   } else {
-      //                         this.setState({
-      //                               outflow: this.props.outflow + item.amount
-      //                         })
-
-      //                         let outflow = 0
-      //                         outflow += item.amount
-      //                         // TODO state needs to update properly
-      //                         console.log(Number(this.state.outflow + item.amount))
-      //                         console.log(+(Number(this.state.outflow) + Number(item.amount)))
-      //                         console.log(this.state.outflow)
-      //                   }
-      //             })
-      //       } 
-      //       console.log(this.state)
-      // }
-         
+      }         
       
       render() {                
             const placeholder = <p>You have no data to display.</p>

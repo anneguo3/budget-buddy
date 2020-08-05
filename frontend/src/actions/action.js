@@ -122,6 +122,73 @@ export function transactionsUploadSuccess(transactions) {
   };
 }
 
+export function createSaveSuccess(saveGoal) {
+  return {
+    type: "SAVE_GOAL_SUCCESS",
+    payload: saveGoal,
+  };
+}
+
+export function createSaveFailure() {
+  return {
+    type: "SAVE_GOAL_FAILURE",
+  };
+}
+
+export function createSpendSuccess(spendGoal) {
+  return {
+    type: "SPEND_GOAL_SUCCESS",
+    payload: spendGoal,
+  };
+}
+
+export function createSpendFailure() {
+  return {
+    type: "SPEND_GOAL_FAILURE",
+  };
+}
+
+// TODO
+export function createSaveGoal(saveGoal, googleID) {
+  return (dispatch) => {
+    axios
+      .put(`/users/saveGoal`, {
+        saveGoal: saveGoal,
+        googleID: googleID,
+      })
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error();
+        }
+        dispatch(createSaveSuccess(saveGoal));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(createSaveFailure());
+      });
+  };
+}
+// TODO
+export function createSpendGoal(spendGoal, googleID) {
+  return (dispatch) => {
+    axios
+      .put(`/users/spendGoal`, {
+        spendGoal: spendGoal,
+        googleID: googleID,
+      })
+      .then((response) => {
+        if (response.status !== 200) {
+          throw Error();
+        }
+        dispatch(createSpendSuccess(spendGoal));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(createSpendFailure());
+      });
+  };
+}
+
 export function addIncomeCategory(income, googleID) {
   return (dispatch) => {
     axios

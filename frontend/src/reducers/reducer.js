@@ -19,6 +19,8 @@ const initialState = {
     "Miscellaneous",
   ],
   incomeCategories: ["Chequing", "Savings"],
+  saveGoal: -999,
+  spendGoal: -999
 };
 
 const monthMapping = new Map([
@@ -147,6 +149,28 @@ export default function messageReducer(state = initialState, action) {
         isLoading: false
       };
     case "USER_FAILURE":
+      return {
+        ...state,
+        hasError: true,
+        isLoading: false
+      };
+    case "SAVE_GOAL_SUCCESS":
+      return {
+        ...state,
+        saveGoal: action.payload
+      };
+    case "SPEND_GOAL_SUCCESS":
+      return {
+        ...state,
+        spendGoal: action.payload
+      };
+    case "SAVE_GOAL_FAILURE":
+      return {
+        ...state,
+        hasError: true,
+        isLoading: false
+      };
+    case "SPEND_GOAL_FAILURE":
       return {
         ...state,
         hasError: true,

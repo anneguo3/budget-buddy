@@ -12,6 +12,8 @@ import {
   uploadTransactions,
   addExpenseCategory,
   addIncomeCategory,
+  createSaveGoal,
+  createSpendGoal
 } from '../../actions/action';
 import uuid from "uuid";
 import reducer from "../../reducers/reducer";
@@ -89,17 +91,36 @@ class ProfilePage extends React.Component {
     FileSaver.saveAs(data, "Entries_Template.xlsx");
   };
 
+  createSaveGoal = () => {
+    if (this.props) {
+      let saveGoal = document.querySelector("#save_goal").value;
+      let googleID = this.props.user.googleID;
+      if (saveGoal && googleID) this.props.createSave(saveGoal, googleID);
+      else alert("Please enter a value that is not null.");
+    }
+    console.log(this.props.user)
+  };
+
+  createSpendGoal = () => {
+    if (this.props) {
+      let spendGoal = document.querySelector("#spend_goal").value;
+      let googleID = this.props.user.googleID;
+      if (spendGoal && googleID) this.props.createSpend(spendGoal, googleID);
+      else alert("Please enter a value that is not null.");
+    }
+  };
+
   render() {
     let addSaveGoal = (
       <div>
         <Box display="flex" flexDirection="column" justifyContent="center">
             <FormControl>
-              <InputLabel>Custom Spend Goal</InputLabel>
-              <Input id="spend_goal" />
+              <InputLabel>Custom Savings Goal</InputLabel>
+              <Input id="save_goal" />
             </FormControl>
             <Box m={2}>
-              <Button variant="outlined" onClick={this.createSpendGoal}>
-                Create Spend Goal
+              <Button variant="outlined" onClick={this.createSaveGoal}>
+                Create Save Goal
               </Button>
             </Box>
           </Box>
@@ -110,12 +131,12 @@ class ProfilePage extends React.Component {
       <div>
         <Box display="flex" flexDirection="column" justifyContent="center">
           <FormControl>
-            <InputLabel>Custom Savings Goal</InputLabel>
-            <Input id="save_goal" />
+            <InputLabel>Custom Spending Goal</InputLabel>
+            <Input id="spend_goal" />
           </FormControl>
           <Box m={2}>
-            <Button variant="outlined" onClick={this.createSaveGoal}>
-              Create Savings Goal
+            <Button variant="outlined" onClick={this.createSpendGoal}>
+              Create Spend Goal
             </Button>
           </Box>
         </Box>
@@ -321,6 +342,12 @@ const mapDispatchToProps = (dispatch) => {
     addIncome: (income, googleID) => {
       dispatch(addIncomeCategory(income, googleID));
     },
+    createSave: (goal, googleID) => {
+      dispatch(createSaveGoal(goal, googleID));
+    },
+    createSpend: (goal, googleID) => {
+      dispatch(createSpendGoal(goal, googleID));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

@@ -73,6 +73,8 @@ router.put('/spendGoal', (req, res) => {
 });
 
 router.put('/saveGoal', (req, res) => {
+  console.log("req")
+  console.log(req)
   User.updateOne({googleID: req.body.googleID},
     {saveGoal: req.body.amount})
   .then(() => {
