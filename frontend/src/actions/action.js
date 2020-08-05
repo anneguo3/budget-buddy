@@ -153,7 +153,7 @@ export function createSaveGoal(saveGoal, googleID) {
   return (dispatch) => {
     axios
       .put(`/users/saveGoal`, {
-        saveGoal: saveGoal,
+        amount: parseInt(saveGoal),
         googleID: googleID,
       })
       .then((response) => {
@@ -173,7 +173,7 @@ export function createSpendGoal(spendGoal, googleID) {
   return (dispatch) => {
     axios
       .put(`/users/spendGoal`, {
-        spendGoal: spendGoal,
+        amount: parseInt(spendGoal),
         googleID: googleID,
       })
       .then((response) => {
