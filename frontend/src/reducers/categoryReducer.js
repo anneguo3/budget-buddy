@@ -1,15 +1,28 @@
 const initialState = {
-  totalChequing: 0,
-  totalSavings: 0,
-  totalEntertainment: 0,
-  totalGroceries: 0,
-  totalRestaurants: 0,
-  totalHousing: 0,
-  totalMiscellaneous: 0,
+      expenseCategories: [],
+      incomeCategories: []
 };
 
 export default function categoryReducer(state = initialState, action) {
       switch(action.type) {
+            case 'INIT_EXPENSE':
+                  let expenseExists = state.expenseCategories.indexOf(action.payload) > -1
+                  if (!expenseExists) {
+                        return {
+                              ...state,
+                              expenseCategories: [...state.expenseCategories, action.payload]
+                        };
+                  }
+                  return state;
+            case 'INIT_INCOME':
+                  let incomeExists = state.incomeCategories.indexOf(action.payload) > -1
+                  if (!incomeExists) {
+                        return {
+                              ...state,
+                              incomeCategories: [...state.incomeCategories, action.payload]
+                        }
+                  }
+                  return state;
             case 'ADD_TO_CATEG':
                   switch(action.payload.category) {
                         case 'Chequing':

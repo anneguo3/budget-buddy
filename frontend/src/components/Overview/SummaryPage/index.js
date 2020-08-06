@@ -23,7 +23,7 @@ class SummaryPage extends React.Component {
         <Card className="textbox" style={{ width: '50%' }}>
           <CardContent>
             <Typography variant="h5" align='center'>Year to Date</Typography>
-            <Textbox isMonth = {false} />
+            {/* <Textbox isMonth = {false} /> */}
           </CardContent>
         </Card>
       </div>

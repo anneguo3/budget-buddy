@@ -4,14 +4,14 @@ import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine,
 } from 'recharts';
 
-import { addToCat } from '../../../actions/categoryAction';
+import { initExpense, initIncome, addToCat } from '../../../actions/categoryAction';
 import moment from "moment";
 
 
 class CategoryBars extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.transactions = [];
     if (props.isMonth) {
       this.props.reducer.transactions.map((item) => {
@@ -23,86 +23,59 @@ class CategoryBars extends React.Component {
       this.transactions = this.props.reducer.transactions
     }
     
-
-    this.state = {
-      transactions: this.transactions,
-      totalChequing: 0,
-      totalSavings: 0,
-      totalEntertainment: 0,
-      totalGroceries: 0,
-      totalRestaurants: 0,
-      totalHousing: 0,
-      totalMiscellaneous: 0,
-      isMonth: props.isMonth
+    for (let category of this.props.reducer.expenseCategories) {
+      this.props.initExpense(category);
     }
-  }
-
-  componentDidMount() {
-    this.state.transactions.map((item) => {
-      switch (item.category) {
-        case "Chequing":
-          this.setState({
-            totalChequing: Number(this.state.totalChequing + item.amount)
-          });
-          break;
-        case "Savings":
-          this.setState({
-            totalSavings: Number(this.state.totalSavings + item.amount)
-          });
-          break;
-        case "Entertainment":
-          this.setState({
-            totalEntertainment: Number(this.state.totalEntertainment - item.amount)
-          });
-          break;
-        case "Groceries":
-          this.setState({
-            totalGroceries: Number(this.state.totalGroceries - item.amount)
-          });
-          break;
-        case "Restaurants":
-          this.setState({
-            totalRestaurants: Number(this.state.totalRestaurants - item.amount)
-          });
-          break;
-        case "Housing":
-          this.setState({
-            totalHousing: Number(this.state.totalHousing - item.amount)
-          });
-          break;
-        case "Miscellaneous":
-          this.setState({
-            totalMiscellaneous: Number(this.state.totalMiscellaneous - item.amount)
-          });
-          break;
+    for (let category of this.props.reducer.incomeCategories) {
+      this.props.initIncome(category);
+    }
+    
+    let categoryMap = new Map()
+    
+    this.transactions.map((item) => {
+      if (item.isMoneyIncrease) {
+        for (let category of this.props.categoryReducer.incomeCategories) {
+          if (item.category === category) {
+            if (categoryMap.has(category)) {
+              categoryMap.set(category, (Number(categoryMap.get(category)) + Number(item.amount)))
+            } else {
+              categoryMap.set(category, item.amount)
+            }
+          }
+        }
+      } else {
+        for (let category of this.props.categoryReducer.expenseCategories) {
+          if (item.category === category) {
+            if (categoryMap.has(category)) {
+              categoryMap.set(category, (Number(categoryMap.get(category)) - Number(item.amount)))
+            } else {
+              categoryMap.set(category, 0 - Number(item.amount))
+            }
+          }
+        }
       }
     })
+    this.data = [];
+
+    for (let [category, amount] of categoryMap) {
+      if (amount < 0) {
+        this.data.push({
+          name: category, Expense: amount,
+        });
+      } else {
+        this.data.push({
+          name: category, Income: amount,
+        });
+      }
+    }
+
+    this.state = {
+      data: this.data
+    }
   }
   
   render() {
-    let data = [
-      {
-        name: 'Entertainment', Expense: this.state.totalEntertainment, amt: 2400,
-      },
-      {
-        name: 'Groceries', Expense: this.state.totalGroceries, amt: 2210,
-      },
-      {
-        name: 'Restaurants', Expense: this.state.totalRestaurants, amt: 2290,
-      },
-      {
-        name: 'Housing', Expense: this.state.totalHousing, amt: 2000,
-      },
-      {
-        name: 'Miscellaneous', Expense: this.state.totalMiscellaneous, amt: 2181,
-      },
-      {
-        name: 'Chequing', Income: this.state.totalChequing, amt: 2500,
-      },
-      {
-        name: 'Savings', Income: this.state.totalSavings, amt: 2100,
-      },
-    ];
+    let data = this.state.data;
     return (
       <div>
         <p>A quick look at your overall spending and saving categories.</p>
@@ -139,6 +112,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    initExpense: (categories) => dispatch(initExpense(categories)),
+    initIncome: (categories) => dispatch(initIncome(categories)),
     addToCat: (item) => dispatch(addToCat(item)),
   };
 };
