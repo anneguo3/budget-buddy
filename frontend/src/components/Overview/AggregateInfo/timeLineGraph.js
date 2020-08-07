@@ -59,9 +59,7 @@ class TimeLineGraph extends React.Component {
     this.data = [];
     for (let i = 0; i < this.months.length; i++) {
       if (monthMap.has(i)) {
-      console.log ("index")
         let transactions = monthMap.get(i);
-        console.log(transactions)
         this.data.push({
           name: this.months[i], Expense: transactions[0], Income: transactions[1]
         })
