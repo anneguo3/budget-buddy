@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine,
 } from 'recharts';
-
-import { initExpense, initIncome, resetCategories } from '../../../actions/categoryAction';
 import moment from "moment";
 
 
@@ -98,18 +96,9 @@ class CategoryBars extends React.Component {
 
 const mapStateToProps = (state) => {
       return {
-        reducer: state.reducer,
-        categoryReducer: state.categoryReducer
+        reducer: state.reducer
       };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    initExpense: (category) => dispatch(initExpense(category)),
-    initIncome: (category) => dispatch(initIncome(category)),
-    resetCategories: () => dispatch(resetCategories())
-  };
-};
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryBars);
+export default connect(mapStateToProps)(CategoryBars);
