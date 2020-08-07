@@ -23,16 +23,6 @@ class CategoryBars extends React.Component {
       this.transactions = this.props.reducer.transactions
     }
     
-    // this.props.resetCategories();
-
-    // for (let category of this.props.reducer.expenseCategories) {
-    //   this.props.initExpense(category);
-    //   console.log(this.props.categoryReducer)
-    // }
-    // for (let category of this.props.reducer.incomeCategories) {
-    //   this.props.initIncome(category);
-    // }
-    
     let categoryMap = new Map()
     
     this.transactions.map((item) => {

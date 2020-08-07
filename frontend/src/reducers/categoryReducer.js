@@ -8,7 +8,6 @@ export default function categoryReducer(state = initialState, action) {
             case 'INIT_EXPENSE':
                   let expenseExists = state.expenseCategories.indexOf(action.payload) > -1
                   if (!expenseExists) {
-                        console.log(action.payload)
                         return {
                               ...state,
                               expenseCategories: [...state.expenseCategories, action.payload]
