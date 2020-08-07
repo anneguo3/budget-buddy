@@ -16,7 +16,33 @@ class TextBox extends React.Component {
         };
     }
     render() {
+        const placeholder = <p>You have no data to display.</p>
+        const dataExists = (this.props.reducer.transactions.length > 0 && 
+            this.props.reducer.transactions !== null);  
 
+        let data = 
+            <div>
+                <Typography variant="body1">
+                    Here is a comparison of your overall spending and saving habits.
+                </Typography>
+                <div>
+                    <Typography variant="h6" className = "subtitle">
+                        Spending vs Saving
+                    </Typography>
+                    <AggregateInfo isMonth = {this.state.isMonth}/>
+                </div>
+                <div>
+                    <CategoriesBarChart isMonth = {this.state.isMonth}/>
+                </div>
+                <div>
+                    <Typography variant="h6" className = "subtitle">
+                        Your Budget Timeline
+                    </Typography>
+                    <TimeLineGraph  isMonth = {this.state.isMonth}/>
+                </div>
+            </div>
+            
+        let display = dataExists ? data : placeholder;
         return (
             <div>
                 <Card className="textbox">
@@ -24,24 +50,7 @@ class TextBox extends React.Component {
                         <Typography variant="h5">
                             Your Budget Overview
                         </Typography>
-                        <Typography variant="body1">
-                            Here is a comparison of your overall spending and saving habits.
-                        </Typography>
-                        <div>
-                            <Typography variant="h6" className = "subtitle">
-                                Spending vs Saving
-                            </Typography>
-                            <AggregateInfo isMonth = {this.state.isMonth}/>
-                        </div>
-                        <div>
-                            <CategoriesBarChart isMonth = {this.state.isMonth}/>
-                        </div>
-                        <div>
-                            <Typography variant="h6" className = "subtitle">
-                                Your Budget Timeline
-                            </Typography>
-                            <TimeLineGraph  isMonth = {this.state.isMonth}/>
-                        </div>
+                        {display}
                         
                     </CardContent>
                 </Card>
@@ -53,6 +62,7 @@ class TextBox extends React.Component {
 
 const mapStateToProps = (state) => {
     return { 
+        reducer: state.reducer,
         aggregateReducer: state.aggregateReducer
     };
 };

@@ -62,9 +62,7 @@ class AggregateInfo extends React.Component {
             
       }         
       
-      render() {                
-            const placeholder = <p>You have no data to display.</p>
-            const dataExists = (this.state.inflow !== 0 || this.state.outflow !== 0);  
+      render() {                 
             let monthOrYear = (this.state.isMonth) ? "month" : "year";
 
             let displaySaveGoal = (this.state.saveExists && this.state.isMonth) 
@@ -87,11 +85,9 @@ class AggregateInfo extends React.Component {
                         <PieChartIndex inflow={this.state.inflow} outflow={this.state.outflow}/>
                   </div>
 
-            let display = dataExists ? data : placeholder;
-
             return(
                   <div className="aggregateInfo">
-                        {display}
+                        {data}
                   </div>
             )
       } 
