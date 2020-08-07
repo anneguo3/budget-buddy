@@ -21,7 +21,7 @@ class CategoryBars extends React.Component {
       this.transactions = this.props.reducer.transactions
     }
     
-    let categoryMap = new Map()
+    let categoryMap = new Map();
     
     this.transactions.map((item) => {
       if (item.isMoneyIncrease) {
