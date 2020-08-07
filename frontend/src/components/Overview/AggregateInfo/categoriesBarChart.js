@@ -4,7 +4,7 @@ import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine,
 } from 'recharts';
 
-import { initExpense, initIncome, addToCat } from '../../../actions/categoryAction';
+import { initExpense, initIncome, resetCategories } from '../../../actions/categoryAction';
 import moment from "moment";
 
 
@@ -23,18 +23,21 @@ class CategoryBars extends React.Component {
       this.transactions = this.props.reducer.transactions
     }
     
-    for (let category of this.props.reducer.expenseCategories) {
-      this.props.initExpense(category);
-    }
-    for (let category of this.props.reducer.incomeCategories) {
-      this.props.initIncome(category);
-    }
+    // this.props.resetCategories();
+
+    // for (let category of this.props.reducer.expenseCategories) {
+    //   this.props.initExpense(category);
+    //   console.log(this.props.categoryReducer)
+    // }
+    // for (let category of this.props.reducer.incomeCategories) {
+    //   this.props.initIncome(category);
+    // }
     
     let categoryMap = new Map()
     
     this.transactions.map((item) => {
       if (item.isMoneyIncrease) {
-        for (let category of this.props.categoryReducer.incomeCategories) {
+        for (let category of this.props.reducer.incomeCategories) {
           if (item.category === category) {
             if (categoryMap.has(category)) {
               categoryMap.set(category, (Number(categoryMap.get(category)) + Number(item.amount)))
@@ -44,7 +47,7 @@ class CategoryBars extends React.Component {
           }
         }
       } else {
-        for (let category of this.props.categoryReducer.expenseCategories) {
+        for (let category of this.props.reducer.expenseCategories) {
           if (item.category === category) {
             if (categoryMap.has(category)) {
               categoryMap.set(category, (Number(categoryMap.get(category)) - Number(item.amount)))
@@ -56,6 +59,7 @@ class CategoryBars extends React.Component {
       }
     })
     this.data = [];
+    
 
     for (let [category, amount] of categoryMap) {
       if (amount < 0) {
@@ -73,7 +77,6 @@ class CategoryBars extends React.Component {
       data: this.data
     }
   }
-  
   render() {
     let data = this.state.data;
     return (
@@ -112,9 +115,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initExpense: (categories) => dispatch(initExpense(categories)),
-    initIncome: (categories) => dispatch(initIncome(categories)),
-    addToCat: (item) => dispatch(addToCat(item)),
+    initExpense: (category) => dispatch(initExpense(category)),
+    initIncome: (category) => dispatch(initIncome(category)),
+    resetCategories: () => dispatch(resetCategories())
   };
 };
 

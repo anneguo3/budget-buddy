@@ -8,7 +8,6 @@ export const initIncome = category => ({
       payload: category
 })
 
-export const addToCat = transaction => ({
-      type: 'ADD_TO_CATEG',
-      payload: transaction
+export const resetCategories = () => ({
+      type: 'RESET_CATEGORIES'
 })
