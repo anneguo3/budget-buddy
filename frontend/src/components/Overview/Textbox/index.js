@@ -19,6 +19,14 @@ class TextBox extends React.Component {
         const placeholder = <p>You have no data to display.</p>
         const dataExists = (this.props.reducer.transactions.length > 0 && 
             this.props.reducer.transactions !== null);  
+        let timeline = (!this.state.isMonth) ? 
+            <div>
+               <Typography variant="h6" className = "subtitle">
+                    Your Budget Timeline
+                </Typography>
+                <TimeLineGraph/>  
+            </div>
+            : null;
 
         let data = 
             <div>
@@ -35,10 +43,8 @@ class TextBox extends React.Component {
                     <CategoriesBarChart isMonth = {this.state.isMonth}/>
                 </div>
                 <div>
-                    <Typography variant="h6" className = "subtitle">
-                        Your Budget Timeline
-                    </Typography>
-                    <TimeLineGraph  isMonth = {this.state.isMonth}/>
+                    
+                   {timeline}
                 </div>
             </div>
             

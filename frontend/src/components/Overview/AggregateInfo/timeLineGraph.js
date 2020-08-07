@@ -1,44 +1,87 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import { connect } from "react-redux";
+import moment from 'moment';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 
-const data = [
-  {
-    name: 'January', Expense: 4000, Income: 2400, amt: 2400,
-  },
-  {
-    name: 'February', Expense: 3000, Income: 1398, amt: 2210,
-  },
-  {
-    name: 'March', Expense: 2000, Income: 2800, amt: 2290,
-  },
-  {
-    name: 'April', Expense: 2780, Income: 3908, amt: 2000,
-  },
-  {
-    name: 'May', Expense: 1890, Income: 4800, amt: 2181,
-  },
-  {
-    name: 'June', Expense: 2390, Income: 3800, amt: 2500,
-  },
-  {
-    name: 'July', Expense: 3490, Income: 4300, amt: 2100,
-  },
-];
 
-export default class TimeLineGraph extends PureComponent {
-  static jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
+
+class TimeLineGraph extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+
+    let monthMap = new Map();
+
+    this.props.reducer.transactions.map((item) => {
+      let currMonth = moment(item.date).month();
+      if (monthMap.has(currMonth)) {
+        let monthVals = monthMap.get(currMonth);
+        if (item.isMoneyIncrease) { 
+          let currIncome = Number(monthVals[1]) + Number(item.amount); // income in array[1]
+          monthVals[1] = currIncome;
+          monthMap.set(currMonth, monthVals);
+        } else {
+          let currExpense = Number(monthVals[0]) + Number(item.amount); // expense in array[0]
+          monthVals[0] = currExpense;
+          monthMap.set(currMonth, monthVals);
+        }
+
+      } else {
+        let value = []
+        if (item.isMoneyIncrease) {
+          value.push(0);
+          value.push(item.amount);
+          monthMap.set(currMonth, value); // set income
+        } else {
+          value.push(item.amount);
+          value.push(0);
+          monthMap.set(currMonth, value); // set expense
+        }
+      }
+    })
+
+    this.data = [];
+    for (let i = 0; i < this.months.length; i++) {
+      if (monthMap.has(i)) {
+      console.log ("index")
+        let transactions = monthMap.get(i);
+        console.log(transactions)
+        this.data.push({
+          name: this.months[i], Expense: transactions[0], Income: transactions[1]
+        })
+      }
+      
+    }
+    
+    this.state = {
+      data: this.data,
+    }
+  }
 
   render() {
     return (
       <div>
-        {/* TODO: Fill with relevant data */}
-        <p>Expenses were highest in January and income was highest in May.</p>
+        <p>Your year at a glance.</p>
         <LineChart
         width={500}
         height={300}
-        data={data}
+        data={this.state.data}
         margin={{
           top: 5, right: 30, left: 20, bottom: 5,
         }}
@@ -56,3 +99,12 @@ export default class TimeLineGraph extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    reducer: state.reducer
+  };
+};
+
+
+export default connect(mapStateToProps)(TimeLineGraph);
