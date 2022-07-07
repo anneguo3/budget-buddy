@@ -14,7 +14,7 @@
     "clean-css": "^4.2.3",
     "file-saver": "^2.0.2",
     "fontsource-roboto": "^2.2.6",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.21",
